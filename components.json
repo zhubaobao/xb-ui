@@ -1,0 +1,7 @@
+{
+  "curdTable": "./packages/curdTable/index.js",
+  "search": "./packages/search/index.js",
+  "table": "./packages/table/index.js",
+  "submit": "./packages/submit/index.js",
+  "pageCreate": "./packages/pageCreate/index.js"
+}

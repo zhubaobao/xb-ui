@@ -1,0 +1,95 @@
+
+import { isReactive, isRef, toRaw, unref } from 'vue';
+/**
+ * 判断是否
+ *
+ * @param {*} obj 对象
+ * @return {Boolean} 是否是对象 true 是
+ */
+export const isObject = (obj) => {
+  return Object.prototype.toString.call(obj) === '[object Object]'
+}
+/**
+ * 深层合并
+ *
+ * @param {Objec} source 原对象
+ * @param {Objec} target 合并对象
+ * @return {Objec}       返回一个新对象
+ */
+export const deepMerge = (source, target) => {
+  for (let key in target) {
+    if (target.hasOwnProperty(key)) {
+      const cur = target[key]
+
+      // 是否需要递归
+      const hasNeedDeep = isObject(cur) && source[key] && !isRef(cur) && !isReactive(cur);
+      source[key] = hasNeedDeep ? deepMerge(source[key], cur) : cur
+    }
+  }
+  return source
+}
+
+/**
+ * @description: 根据给定的时间（Date）和格式，返回对应格式的时间字符串
+ * @param date 当前时间（Date）
+ * @param fmt 所需格式
+ * @return 格式化后的时间字符串
+ */
+export function formatDate(date, fmt) {
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  const keys = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'ms+': date.getMilliseconds(),
+  };
+  for (const k in keys) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      const str = String(keys[k]);
+      fmt = fmt.replace(RegExp.$1, RegExp.$1.length === 1 ? str : padLeftZero(str));
+    }
+  }
+  return fmt;
+}
+
+/**
+ * 深拷贝
+ *
+ * @param {*} target 目标对象
+ * @return {*}       返回新对象
+ */
+export const deepCopy = (target, map = new Map()) => {
+  // 如果数据是 ref，获取原始数据
+  if (isRef(target)) {
+    target = unref(target);
+  }
+  // 如果数据是 reactive，获取原始数据
+  if (isReactive(target)) {
+    target = toRaw(target);
+  }
+  // 如果数据为原始数据类型、function、null，直接返回数据
+  if (typeof target !== 'object' || target === null) {
+    return target;
+  }
+  // 如果数据为日期对象，返回时间字符串
+  if (target instanceof Date) {
+    return formatDate(target, 'yyyy-MM-dd hh:mm:ss');
+  }
+  // 循环引用
+  const cloneTarget = map.get(target);
+  if (cloneTarget) {
+    return cloneTarget;
+  }
+  // 创建空对象，并存入 map
+  const clone = Array.isArray(target) ? [] : {};
+  map.set(target, clone);
+  // 递归拷贝对象
+  for (const key in target) {
+    clone[key] = deepCopy(target[key], map);
+  }
+  return clone;
+};
