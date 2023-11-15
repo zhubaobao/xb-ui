@@ -1,41 +1,27 @@
 import { ref } from 'vue';
-import { deepCopy } from 'main/utils'
 import { ElMessage } from 'element-plus'
 const useSubmit = (props, ctx, config) => {
   // 表单
-  const formRef = ref(null);
-
-  // 初始化 data 数据
-  const initFormData = {};
-  config.formItems.forEach((item) => {
-    if (item.type !== 'text') {
-      initFormData[item.propName] = item.defaultValue || '';
-    }
-  });
+  const xbFormRef = ref(null);
 
   // 弹窗是否显示
-  const drawerShow = ref(false);
+  const popupShow = ref(false);
   // 加载
   const submitStatus = ref(false);
-  // formData
-  const formData = ref(deepCopy(initFormData));
-  // from 表单值变化
-  const handleEventChange = (data) => {
-    formData.value = { ...formData.value, ...data };
-  };
+
   // 提交保存
   const handleSubmit = () => {
-    formRef.value.validate(async (valied) => {
+    xbFormRef.value.formRef.validate(async (valied) => {
       if (valied) {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
         submitStatus.value = true;
-        const params = paramsFormat(formData.value);
+        const params = paramsFormat(xbFormRef.value.formData);
         if (!requestApi) {
           submitCb && (
             new Promise((resolve) => {
               submitCb(resolve, params)
             }).then(res => {
-              drawerShow.value = false;
+              popupShow.value = false;
               submitStatus.value = false;
               ctx.emit("submit", props.type);
             })
@@ -45,7 +31,7 @@ const useSubmit = (props, ctx, config) => {
             let res = await requestApi(params);
             res = responseFormat(res)
             if (res.code === 1) {
-              drawerShow.value = false;
+              popupShow.value = false;
               ctx.emit("submit", props.type);
               ElMessage.success(res.msg || '操作成功')
             } else {
@@ -63,25 +49,25 @@ const useSubmit = (props, ctx, config) => {
   };
   // 关闭弹窗
   const handleCancel = () => {
-    drawerShow.value = false;
-    formData.value = deepCopy(initFormData);
+    popupShow.value = false;
+    // 清空
+    xbFormRef.value.formDataInit();
   };
   const handleOpen = () => {
-    const format = config.formDataFormat;
+    const { formDataFormat: format, popupOpenCb } = config;
     if (format) {
       new Promise((resolve) => {
-        format(resolve, formData.value)
+        format(resolve, xbFormRef.value.formData, props.type)
       }).then(res => {
-        res && (formData.value = res)
+        res && (xbFormRef.value.formData = res)
       })
     }
+    popupOpenCb && popupOpenCb(props.type, xbFormRef.value.formData)
   }
   return {
-    drawerShow,
+    popupShow,
     submitStatus,
-    formData,
-    formRef,
-    handleEventChange,
+    xbFormRef,
     handleSubmit,
     handleCancel,
     handleOpen

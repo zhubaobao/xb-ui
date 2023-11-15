@@ -1,5 +1,4 @@
 <template>
-  <span v-if="d">{{ a.b.c }}</span>
   <xb-curd-table
     ref="curdTable"
     :tableConfig="tableConfig"
@@ -22,6 +21,9 @@
       }}</el-tag>
     </template>
     <!-- 自定义表单 -->
+    <template #timeXbS>
+      <span>111</span>
+    </template>
   </xb-curd-table>
 </template>
 

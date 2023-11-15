@@ -1,5 +1,5 @@
 <template>
-  <xb-page-create />
+  <xb-codeGenerator></xb-codeGenerator>
 </template>
 <script setup>
 </script>

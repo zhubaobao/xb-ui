@@ -1,0 +1,32 @@
+{
+  "name": "@xb-ui/docs",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "clipboard-copy": "^4.0.1",
+    "element-plus": "^2.4.2",
+    "markdown-it": "^13.0.2",
+    "normalize.css": "^8.0.1",
+    "nprogress": "^0.2.0",
+    "prism-theme-vars": "^0.2.4",
+    "sass": "^1.69.5",
+    "type-fest": "^4.6.0",
+    "vitepress": "^1.0.0-rc.25"
+  },
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "@iconify-json/ri": "^1.1.12",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "escape-html": "^1.0.3",
+    "fast-glob": "^3.3.2",
+    "prismjs": "^1.29.0",
+    "unocss": "0.33.5",
+    "unplugin-icons": "^0.17.3",
+    "unplugin-vue-components": "^0.25.2"
+  }
+}

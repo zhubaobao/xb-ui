@@ -4,14 +4,16 @@ import CurdTable from '../packages/curdTable/index.js';
 import Search from '../packages/search/index.js';
 import Table from '../packages/table/index.js';
 import Submit from '../packages/submit/index.js';
-import PageCreate from '../packages/pageCreate/index.js';
+import Form from '../packages/form/index.js';
+import CodeGenerator from '../packages/codeGenerator/index.js';
 
 const components = [
   CurdTable,
   Search,
   Table,
   Submit,
-  PageCreate
+  Form,
+  CodeGenerator
 ];
 
 const install = function(Vue, opts = {}) {
@@ -33,5 +35,6 @@ export default {
   Search,
   Table,
   Submit,
-  PageCreate
+  Form,
+  CodeGenerator
 };

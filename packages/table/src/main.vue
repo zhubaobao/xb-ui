@@ -55,7 +55,10 @@
   </el-header>
   <el-main class="xb-table__main">
     <!-- 列表数据 -->
-    <div class="xb-table__content">
+    <div
+      class="xb-table__content"
+      :class="{ 'xb-table__content-no-footer': !config.footerConfig.show }"
+    >
       <el-table
         ref="table"
         v-loading="tableInfo.loading"
@@ -66,6 +69,7 @@
         <!-- 列表序号、选择框 -->
         <el-table-column
           v-if="btnConfig.hasSelection"
+          :selectable="config.selectable"
           type="selection"
           width="45"
         />
@@ -93,14 +97,14 @@
                 <el-input
                   v-model="scope.row[item.prop]"
                   placeholder="请输入排序"
-                  @focus="handleSortFocus(scope.row, item)"
-                  @blur="handleSortBlur(scope.row, item)"
+                  @focus="handleSortFocus(scope.row, item.sortConfig)"
+                  @blur="handleSortBlur(scope.row, item.sortConfig)"
                 ></el-input>
               </template>
 
               <!-- 正常渲染数据列 -->
               <template v-else>
-                {{ scope.row[item.prop] }}{{ item.showHeader }}
+                {{ scope.row[item.prop] }}
               </template>
             </template>
           </el-table-column>
@@ -152,7 +156,7 @@
       </el-table>
     </div>
     <!-- 列表底部 -->
-    <div class="xb-table__footer">
+    <div class="xb-table__footer" v-if="config.footerConfig.show">
       <!-- 分页 -->
       <div class="pagination">
         <el-pagination
@@ -303,5 +307,8 @@ export default defineComponent({
     padding: 5px 0;
     color: var(--el-color-primary);
   }
+}
+.xb-table__content-no-footer {
+  height: 100%;
 }
 </style>

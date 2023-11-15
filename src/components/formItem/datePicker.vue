@@ -5,6 +5,7 @@
     :valueFormat="valueFormat"
     :disabled="disabled"
     @change="handleValueChange"
+    style="width: 100%"
   >
   </el-date-picker>
 </template>
@@ -28,21 +29,25 @@ export default defineComponent({
     // 初始化值
     const key = props.configData.propName;
     const isRang = key.includes("-");
-    let initSearchVal = "";
+    const searchVal = ref(isRang ? ["", ""] : "");
+
     // 处理时间范围，后台需要2个字段的情况
     if (isRang) {
-      initSearchVal = [];
       key.split("-").forEach((item, index) => {
-        initSearchVal[index] = props.formData[item];
+        searchVal.value[index] = props.formData[item];
         watch(
           () => props.formData[item],
           (val) => {
+            // 解决清空时searchVal 变成 null
+            if (!Array.isArray(searchVal.value)) {
+              searchVal.value = ["", ""];
+            }
             searchVal.value[index] = val;
           }
         );
       });
     } else {
-      initSearchVal = props.formData[key];
+      searchVal.value = props.formData[key];
       // 监听值的变化
       watch(
         () => props.formData[key],
@@ -56,7 +61,7 @@ export default defineComponent({
       // 处理时间范围，后台需要2个字段的情况
       if (isRang) {
         key.split("-").forEach((key, index) => {
-          data[key] = val[index] || "";
+          data[key] = Array.isArray(val) ? val[index] : "";
         });
       } else {
         data = { [key]: val };
@@ -64,7 +69,6 @@ export default defineComponent({
       ctx.emit("eventChange", data);
     };
 
-    const searchVal = ref(initSearchVal);
     let valueFormat = "YYYY-MM-DD HH:mm:ss";
     if (props.propAttrs && props.propAttrs.valueFormat) {
       valueFormat = props.propAttrs.valueFormat;

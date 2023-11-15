@@ -6,14 +6,9 @@
       :key="index"
     >
       <div class="xb-upload-item__loading" v-if="!fileList[index]">
-        <el-progress
-          class="xb-upload-item__progress"
-          :percentage="50"
-          :stroke-width="15"
-          :show-text="false"
-          striped
-          striped-flow
-        />
+        <el-icon class="xb-upload-item_loading-icon"
+          ><component :is="'xb-icon-loading'"
+        /></el-icon>
       </div>
       <template v-else>
         <el-image
@@ -23,18 +18,18 @@
         ></el-image>
         <label class="xb-upload-list__item-status-label">
           <el-icon class="xb-icon--upload-success"
-            ><component :is="'el-icon-check'" /></el-icon
+            ><component :is="'xb-icon-check'" /></el-icon
         ></label>
         <div class="xb-upload__operation-mask">
           <el-icon
             class="xb-upload__operation-preview"
             @click="handlePreviewShow(index)"
-            ><component :is="'el-icon-zoom-in'"
+            ><component :is="'xb-icon-zoom-in'"
           /></el-icon>
           <el-icon
             class="xb-upload__operation-delete"
             @click="handleFileDelete(index)"
-            ><component :is="'el-icon-delete'"
+            ><component :is="'xb-icon-delete'"
           /></el-icon>
         </div>
       </template>
@@ -50,8 +45,19 @@
 </template>
 <script>
 import { defineComponent, reactive } from "vue";
+// icons
+import XbIconLoading from "main/icons/loading";
+import XbIconDelete from "main/icons/delete";
+import XbIconCheck from "main/icons/check";
+import XbIconZoomIn from "main/icons/zoomIn";
 export default defineComponent({
   name: "XbFileList",
+  components: {
+    XbIconLoading,
+    XbIconDelete,
+    XbIconCheck,
+    XbIconZoomIn,
+  },
   props: {
     fileList: {
       type: Array,
@@ -109,6 +115,18 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.xb-upload-item_loading-icon {
+  font-size: 30px;
+  animation: load 2s linear infinite;
+}
+@keyframes load {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .xb-upload-item__progress {
   width: 90%;

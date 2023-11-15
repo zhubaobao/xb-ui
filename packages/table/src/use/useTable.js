@@ -15,9 +15,9 @@ const useCureTable = (props, ctx, config) => {
   })
   // 表单数据
   const tableInfo = reactive({
-    loading: false,
-    dataList: [],
-    total: 0
+    loading: config.tableDataLoading,
+    dataList: config.tableDataList,
+    total: 0,
   });
   // 初始化的值
   // table 请求参数
@@ -66,10 +66,15 @@ const useCureTable = (props, ctx, config) => {
         cancelButtonText: '取消',
       }
     );
-    const { deleteIdKey, deleteItemIdKey, requestApi, responseFormat } = config.deleteConfig;
+    const { deleteIdKey, deleteItemIdKey, requestApi, responseFormat, paramsFormat } = config.deleteConfig;
     const ids = data.map((item) => item[deleteItemIdKey])
+    if (!ids.length) {
+      ElMessage.error('请至少选择一条要删除的内容')
+      return false
+    }
     try {
-      let res = await requestApi({ [deleteIdKey]: ids })
+      let params = paramsFormat ? paramsFormat(ids) : { [deleteIdKey]: ids }
+      let res = await requestApi(params)
       // 返回值格式
       res = responseFormat(res)
       if (res && res.code === 1) {

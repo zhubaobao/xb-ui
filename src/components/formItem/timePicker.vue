@@ -4,6 +4,7 @@
     v-bind="configData.propAttrs"
     :disabled="disabled"
     @change="handleValueChange"
+    style="width: 100%"
   >
   </el-time-picker>
 </template>

@@ -14,6 +14,7 @@ const useUpload = (props, ctx, config) => {
     return newVal
   }
   searchVal.value = dealVal(initValue)
+  console.log(searchVal.value, 'initValue')
   // 当前文件
   const file = ref({})
   // 预览文件列表
@@ -64,8 +65,8 @@ const useUpload = (props, ctx, config) => {
     () => props.formData[props.configData.propName],
     (val) => {
       const newVal = dealVal(val);
-      searchVal.value = newVal;
-      previewList.value = newVal;
+      searchVal.value = [...newVal];
+      previewList.value = [...newVal];
     }
   );
   return {

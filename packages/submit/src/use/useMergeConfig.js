@@ -6,7 +6,8 @@ const useMergeConfig = (props) => {
   // 默认配置
   const defaultConfig = {
     popupType: 'drawer',
-    drawerAttrs: {
+    popupAttrs: {
+      alignCenter: true
     },
     formAttrs: {
       labelWidth: "100px",
@@ -33,7 +34,10 @@ const useMergeConfig = (props) => {
         return val
       }
     },
-    formItems: []
+    formItems: [],
+    layout: {
+      span: 24
+    }
   }
   // 表格参数，用于合并默认参数和用户自定义参数
   const config = deepMerge(deepMerge(defaultConfig, formConfig), props.formConfig);

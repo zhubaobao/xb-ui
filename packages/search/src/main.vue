@@ -3,51 +3,34 @@
     class="xb-search"
     v-if="searchConfig && searchConfig.formItems.length > 0"
   >
-    <div class="xb-search-area">
-      <el-form
-        ref="searchForm"
-        v-bind="searchConfig.formAttrs"
-        label-width="100px"
-        class="xb-search-form"
-        :model="formData"
+    <xb-form :config="config" ref="xbFormRef" style="flex: 1">
+      <template
+        v-for="(item, key, index) in slots"
+        :key="index"
+        #[`${key}`]="slotScope"
       >
-        <div class="xb-search-form-item">
-          <el-form-item
-            v-for="item in config.formItems"
-            :key="item.propName"
-            :label="item.label + '：'"
-            :prop="item.propName"
-            v-bind="item.formItemPropAttrs"
-          >
-            <xb-form-item
-              :formItem="item"
-              :formData="formData"
-              @eventChange="handleEventChange"
-            >
-            </xb-form-item>
-          </el-form-item>
-        </div>
-        <div class="xb-btn-list">
-          <el-button type="primary" @click="handleSearch">
-            <template #icon>
-              <el-icon><component :is="'xb-icon-search'" /></el-icon>
-            </template>
-            搜索
-          </el-button>
-          <el-button type="primary" @click="handleRefresh">
-            <template #icon>
-              <el-icon><component :is="'xb-icon-refresh'" /></el-icon>
-            </template>
-            重置</el-button
-          >
-        </div>
-      </el-form>
+        <slot :name="key" v-bind="slotScope"></slot>
+      </template>
+    </xb-form>
+    <div class="xb-btn-list">
+      <el-button type="primary" @click="handleSearch">
+        <template #icon>
+          <el-icon><component :is="'xb-icon-search'" /></el-icon>
+        </template>
+        搜索
+      </el-button>
+      <el-button type="primary" @click="handleRefresh">
+        <template #icon>
+          <el-icon><component :is="'xb-icon-refresh'" /></el-icon>
+        </template>
+        重置</el-button
+      >
     </div>
   </div>
 </template>
 <script >
+import XbForm from "../../form/src/main.vue";
 import { defineComponent } from "vue";
-import XbFormItem from "main/components/formItem";
 import useSearch from "./use/useSearch";
 import useMergeConfig from "./use/useMergeConfig";
 // icons
@@ -56,9 +39,9 @@ import XbIconSearch from "main/icons/search";
 export default defineComponent({
   name: "XbSearch",
   components: {
-    XbFormItem,
     XbIconRefresh,
     XbIconSearch,
+    XbForm,
   },
   props: {
     searchConfig: {
@@ -69,12 +52,15 @@ export default defineComponent({
   emits: ["change"],
   setup(props, ctx) {
     const { config } = useMergeConfig(props);
-    const { formData, handleEventChange, handleSearch, handleRefresh } =
-      useSearch(props, ctx, config);
+    const { handleSearch, handleRefresh, xbFormRef } = useSearch(
+      props,
+      ctx,
+      config
+    );
     return {
+      slots: ctx.slots,
       config,
-      formData,
-      handleEventChange,
+      xbFormRef,
       handleSearch,
       handleRefresh,
     };
@@ -86,14 +72,12 @@ export default defineComponent({
   margin-bottom: 10px;
   background: #fff;
   padding: 20px 20px 0 20px;
-}
-.xb-search-form {
   display: flex;
   justify-content: space-between;
 }
-.xb-search-form-item {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 1;
+
+.xb-btn-list {
+  flex-shrink: 0;
+  margin-left: 80px;
 }
 </style>

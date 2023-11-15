@@ -7,24 +7,31 @@ title: Submit
 
 | 属性          | 说明                                      | Type   | 默认值   |
 | ------------ | ----------------------------------------- | ------ | ------- |
-| formConfig   | 表单配置, formConfig                 | object | -      |
-
-## searchConfig
-
-| 属性               | 说明                                      | Type   | 默认值   |
-| ----------------- | ----------------------------------------- | ------ | ------- |
-| searchDataFormat  | 格式化搜索参数                              | function | -      |
-| refreshDataFormat | 格式化重制参数                              | function | -      |
-| formAttrs         | 表单样式, 详见[el-form](https://element-plus.org/zh-CN/component/form.html#form-attributes)                                          | function | -      |
-| formItems         | 表单子项, 详见formItems                    | array | -      |
+| popupType    | 窗口类型，drawer(抽屉)/dialog(弹窗)          | string | drawer  |
+| popupAttrs   | 窗口样式，详见[el-drawer](https://element-plus.org/zh-CN/component/drawer.html#%E5%B1%9E%E6%80%A7)/[el-dialog](https://element-plus.org/zh-CN/component/dialog.html#api)         | string | drawer  |
+| formAttrs         | 表单样式, 详见[el-form](https://element-plus.org/zh-CN/component/form.html#form-attributes)                                           | function | { <br>  &nbsp;&nbsp;&nbsp;labelWidth: "100px"<br> }    |
+| add          | 添加功能配置，详见[add配置](#add配置)            | object | -  |
+| edit          | 添加功能配置，详见[edit配置](#edit配置)            | object | -  |
+| formItems         | 表单子项配置，详见[xb-form](form.md)         | array | -      |
 
 
-## formItems
 
-| 属性               | 说明                                      | Type   | 默认值   |
-| ----------------- | ----------------------------------------- | ------ | ------- |
-| type              | 类型                                       | string | -      |
-| label             | 标签文本                                    | function | -      |
-| propName          | 表单提交key值                               | function | -      |
-| propAttrs         | 表单的属性配置，详见[element-plus](https://element-plus.org/zh-CN/component/input.html)对应的组件配置  | function | -      |
+## add配置
 
+| 属性           | 说明                                      | Type   | 默认值   |
+| ------------  | ----------------------------------------- | ------ | ------- |
+| title         | 添加弹窗标题                                 | string | 添加    |
+| rules         | 表单验证规则，合并 formAttrs 中 rules 配置     | object | -      |
+| paramsFormat  | 格式化请求参数                               | function | -      |
+| responseFormat| 格式化请求返回的数据                           | function | -     |
+
+
+## edit配置
+
+| 属性           | 说明                                      | Type   | 默认值   |
+| ------------  | ----------------------------------------- | ------ | ------- |
+| title         | 编辑弹窗标题                                | string | 修改    |
+| rules         | 表单验证规则，合并 formAttrs 中 rules 配置     | object | -      |
+| idKey         | 编辑 id 的 key 值                          | string | id     |
+| paramsFormat  | 格式化请求参数                               | function | -      |
+| responseFormat| 格式化请求返回的数据                           | function | -     |

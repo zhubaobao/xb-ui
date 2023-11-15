@@ -2,6 +2,7 @@ const useSearch = () => {
   const searchConfig = {
     formAttrs: {},
     formItems: [
+
       {
         type: "XbSelect",
         label: "联动效果",
@@ -78,7 +79,7 @@ const useSearch = () => {
         },
       },
       {
-        type: "XbTimePicker",
+        type: "template",
         label: "时间",
         propName: "time",
         propAttrs: {},

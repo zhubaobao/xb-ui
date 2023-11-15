@@ -37,9 +37,11 @@ const Files = [
     </template>
 
     <script>
-      export default {
-        name: 'Xb${ComponentName}'
-      };
+    import { defineComponent } from "vue";
+      export default defineComponent({
+        name: 'Xb${ComponentName}',
+        setup() {}
+      });
     </script>`
   }
 ];

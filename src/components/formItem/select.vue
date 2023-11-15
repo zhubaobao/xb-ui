@@ -6,6 +6,7 @@
     @change="handleValueChange"
     :data="options"
     :render-after-expand="false"
+    style="width: 100%"
   />
 
   <el-select
@@ -15,6 +16,7 @@
     v-bind="configData.propAttrs"
     clearable
     :disabled="disabled"
+    style="width: 100%"
   >
     <!-- <RecycleScroller
       class="virtualScroller"
@@ -46,7 +48,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, toRefs, watch } from "vue";
+import { defineComponent, ref, watch } from "vue";
 // import { RecycleScroller } from "vue-virtual-scroller";
 // import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import useLink from "./use/useLink";
@@ -74,6 +76,7 @@ export default defineComponent({
       responseFormat = (val) => {
         return val;
       },
+      valChangeCb,
       requestParams = {},
     } = props.configData;
     const searchVal = ref(props.formData[props.configData.propName]);
@@ -85,6 +88,7 @@ export default defineComponent({
       }
     );
     const handleValueChange = (val) => {
+      valChangeCb && valChangeCb(val);
       ctx.emit("eventChange", { [propName]: val });
     };
 
@@ -112,9 +116,19 @@ export default defineComponent({
         _requestParams.value = { ..._requestParams.value, [key]: val };
         getOptionsData();
       } else {
-        options.value = cb(val, key);
+        new Promise((resolve) => {
+          cb(val, key, resolve);
+        }).then((res) => {
+          options.value = res;
+        });
       }
     };
+    // 是否默认选择一个值
+    if (props.configData.isChooseFirstVal) {
+      watch(options, (val) => {
+        if (Array.isArray(val) && val.length > 0) handleValueChange(val[0].id);
+      });
+    }
     const { disabled } = useLink(props, { linkOptionsCb });
 
     return {

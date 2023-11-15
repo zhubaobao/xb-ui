@@ -5,6 +5,8 @@ const useMergeConfig = (props) => {
   const { tableConfig = {} } = inject('globalConfig')
   // 默认配置
   const defaultConfig = {
+    tableDataList: [],
+    tableDataLoading: false,
     propAttrs: {
       height: "100%",
     },
@@ -12,6 +14,7 @@ const useMergeConfig = (props) => {
       return val
     },
     hasSelection: true,
+    selectable: () => true,
     headerConfig: {
       show: true,
       hasAdd: true,
@@ -34,6 +37,9 @@ const useMergeConfig = (props) => {
       hasEdit: true,
       hasDetails: false,
       width: 100
+    },
+    footerConfig: {
+      show: true
     },
     deleteConfig: {
       deleteItemIdKey: 'id',

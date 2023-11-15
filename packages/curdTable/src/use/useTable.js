@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 const useTable = (props) => {
   // 表单类型 add-添加 edit-修噶
   const formType = ref('add')
@@ -19,31 +19,37 @@ const useTable = (props) => {
   // 添加
   const handleAdd = () => {
     formType.value = 'add'
-    formRef.value && (formRef.value.drawerShow = true)
+    formRef.value && (formRef.value.popupShow = true)
+    props.tableConfig.addCb && props.tableConfig.addCb()
   }
   // 编辑
   const handleEdit = async (data) => {
     if (formRef.value) {
-      let { config, formData } = formRef.value
-      formRef.value.drawerShow = true;
+      let { config } = formRef.value
+      formRef.value.popupShow = true;
       formType.value = 'edit'
       // 处理编辑的数据
-      const format = props.tableConfig.formDataFormat
-      if (format) {
-        new Promise((resolve) => {
-          format(resolve, data, formData)
-        }).then(res => {
-          res && (formData = res)
-        })
-      } else {
-        // 遍历赋值
-        for (let key in formData) {
-          formData[key] = data[key]
+      nextTick(() => {
+        const { formDataFormat: format, editCb } = props.tableConfig
+        let formData = formRef.value.xbFormRef.formData;
+        if (format) {
+          new Promise((resolve) => {
+            format(resolve, data, formData)
+          }).then(res => {
+            res && (formData = res)
+          })
+        } else {
+          // 遍历赋值
+          for (let key in formData) {
+            formData[key] = data[key]
+          }
+          // 赋值 id
+          const idKey = config.edit.idKey
+          idKey && (formData[idKey] = data[idKey])
         }
-        // 赋值 id
-        const idKey = config.edit.idKey
-        idKey && (formData[idKey] = data[idKey])
-      }
+        editCb && editCb(data)
+      })
+
     }
   }
   return {
