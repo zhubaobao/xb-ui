@@ -93,3 +93,59 @@ export const deepCopy = (target, map = new Map()) => {
   }
   return clone;
 };
+
+/**
+ * 获取插槽内容配置信息
+ * @param {*} currentInstance 当前实例
+ * @param {*} slotNames slot key 值
+ * @param {*} slotConfig slot配置信息
+ * @param {*} prefix 前缀
+ * @param {*} suffix 后缀
+ * @returns 
+ */
+
+export const getSlots = (currentInstance, slotNames, slotConfig,  prefix = '', suffix ='') => {
+  if (!slotConfig) return [];
+  // slot 数量
+  let count = 0;
+  // 结果集合
+  let reslut = [];
+  // 过滤slotNames 
+  let _slotNames = [];
+  for (let key in slotConfig) {
+    const val = slotConfig[key];
+    if(!slotNames.includes(key)) continue;
+    if (val == 'xbTemplate' ) {
+      _slotNames.push(key);
+    } else {
+      reslut.push({
+        name: key,
+        con: val
+      })
+    };
+    count++;
+  }
+  /// 迭代获取符合条件的slots 
+  let parent = currentInstance.parent;
+  while (parent) {
+    _slotNames.forEach(slotName => {
+      const slot = parent.slots[prefix + slotName + suffix];
+      if (slot) {
+        reslut.push(
+          {
+            name: slotName,
+            slot: slot
+          }
+        )
+        // 把找到的插槽添加到当前组件中
+        currentInstance.slots[prefix + slotName + suffix] = slot
+      }
+    })
+    // 如果都找到就直接返回
+    if (count == reslut.length) break;
+    parent = parent.parent;
+  }
+  return reslut;
+}
+
+

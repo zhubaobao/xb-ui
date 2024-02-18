@@ -219,7 +219,6 @@ export default defineComponent({
   },
   emits: ["selectionChange", "add", "edit"],
   setup(props, ctx) {
-    console.log(ctx, "ctx");
     const { config } = useMergeConfig(props);
     // 表格选择
     const { selectedItems, handleSelectionChange } = useSelection();

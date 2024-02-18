@@ -1,18 +1,30 @@
 <template>
-  <component
-    :is="formItem.type"
-    :configData="formItem"
-    v-bind="$attrs"
-  ></component>
+  <div style="width: 100%">
+    <component
+      :is="formItem.type"
+      :configData="formItem"
+      :disabled="formItem.disabled"
+      v-bind="$attrs"
+    >
+    </component>
+    <template v-for="(item, index) in extraSlots" :key="index">
+      <slot v-if="item.slot" :name="`${formItem.propName}-extra${slotSuffix}`"></slot>
+      <div class="xb-form-extra" v-else>{{ item.con }}</div>
+    </template>
+   
+  </div>
 </template>
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
+import { getSlots } from "main/utils";
+// component
 import XbInput from "./input";
 import XbSelect from "./select";
 import XbSwitch from "./switch";
 import XbTimePicker from "./timePicker";
 import XbTimeSelect from "./timeSelect";
 import XbDatePicker from "./datePicker";
+import XbRadio from "./radio";
 import XbUpload from "./upload";
 export default defineComponent({
   name: "XbFormItem",
@@ -24,14 +36,45 @@ export default defineComponent({
     XbTimeSelect,
     XbDatePicker,
     XbUpload,
+    XbRadio,
   },
   props: {
     formItem: {
       type: Object,
       default: () => ({}),
     },
+    slotSuffix: {
+      type: String,
+      default: 'XbS'
+    }
   },
-  setup(props) {},
+  setup(props) {
+    const { slotSuffix, formItem } = props;
+    const {  propName, extra } = formItem;
+    // 获取当前实例
+    const currentInstance = getCurrentInstance();
+    // 获取插槽内容
+    const  extraSlots = getSlots(
+        currentInstance,
+        ['extra'],
+        extra ?{ extra: extra } : null,
+        `${propName}-`,
+        slotSuffix
+      );
+    return {
+      extraSlots,
+    };
+  },
 });
 </script>
+<style lang="less" scoped>
+.xb-form-extra {
+  font-size: 12.5px;
+  width: 100%;
+  padding-top: 6px;
+  min-height: 20px;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 1.5;
+}
+</style>
 

@@ -116,14 +116,11 @@ const activeId = ref("");
 const drawingList = ref([]);
 const activeArray = ref([1, 2, 3]);
 const handleMaterialMoveEnd = (obj) => {
-  console.log(obj.from, obj.to);
   if (obj.from !== obj.to) {
     drawingList.value.push(tempActiveData);
-    console.log(drawingList.value, "22");
   }
 };
 const handleCloneM = (origin) => {
-  console.log(origin, "origin");
   tempActiveData = origin;
 };
 </script>

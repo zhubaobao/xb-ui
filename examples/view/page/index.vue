@@ -24,6 +24,15 @@
     <template #timeXbS>
       <span>111</span>
     </template>
+
+    <template #input-input-appendXbF>
+      <span>3333</span>
+    </template>
+
+    <template #ani-extraXbF>
+      <span><el-button text>22</el-button></span>
+    </template>
+
   </xb-curd-table>
 </template>
 

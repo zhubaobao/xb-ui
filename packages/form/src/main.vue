@@ -10,16 +10,20 @@
     @submit.prevent
     style="margin-left: -10px; margin-right: -10px"
   >
-    <template v-for="item in config.formItems" :key="item.propName">
+    <template v-for="item in formItems" :key="item.propName">
       <!-- text 可以用于布局/标题 -->
       <div
         v-if="item.type === 'text'"
-        class="el-col"
-        :class="getClassesFn(item.layout || config.layout || { span: 24 })"
-        style="padding-right: 10px; padding-left: 10px"
+        class="el-col xb-form-text"
+        :class="[
+          ...getClassesFn(item.layout || config.layout || { span: 24 }),
+          item.formItemClass,
+        ]"
+        :style="item.style"
       >
-        {{ item.label }}
+        <span> {{ item.label }}</span>
       </div>
+
       <el-form-item
         style="padding-right: 10px; padding-left: 10px"
         class="el-col"
@@ -29,14 +33,12 @@
         v-bind="item.formItemPropAttrs"
         v-else
       >
-        <template v-if="item.type === 'template'">
-          <slot :name="`${item.propName}XbS`" :formData="formData"></slot>
-          <slot :name="`${item.propName}XbF`" :formData="formData"></slot>
-        </template>
+        <slot v-if="item.type === 'template'" :name="`${item.propName}${slotSuffix}`" :formData="formData"></slot>
         <xb-form-item
           v-else
           :formItem="item"
           :formData="formData"
+          :slotSuffix="slotSuffix"
           @eventChange="handleEventChange"
         >
         </xb-form-item>
@@ -46,7 +48,8 @@
 </template>
 
     <script>
-import { nextTick, onMounted, ref } from "vue";
+import useInit from "./use/useInit";
+import useLink from "./use/useLink";
 import XbFormItem from "main/components/formItem";
 export default {
   name: "XbForm",
@@ -66,32 +69,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    slotSuffix: {
+      type: String,
+      default: 'XbF' // 默认是 form 提交
+    }
   },
-
   setup(props) {
-    const formRef = ref(null);
-    // 表单的值
-    const formData = ref({});
-    // 表单值初始化
-    const formDataInit = () => {
-      props.config.formItems.forEach((item) => {
-        if (item.type === "text") return;
-        // 处理时间范围，后台需要2个字段的情况
-        if (item.propName && item.propName.includes("-")) {
-          const defaultValue = item.defaultValue || [];
-          item.propName.split("-").forEach((key, index) => {
-            formData.value[key] = defaultValue[index] || "";
-          });
-        } else {
-          formData.value[item.propName] = item.defaultValue || "";
-        }
-      });
-    };
-    formDataInit();
-    // from 表单值变化
-    const handleEventChange = (data) => {
-      formData.value = { ...formData.value, ...data };
-    };
+    const { formData, handleEventChange, formRef, formDataInit } = useInit(props);
+    const { formItems } = useLink(props, formData);
+
     // 栅格化 class
     const getClassesFn = (layout = {}) => {
       const classes = [];
@@ -105,13 +91,22 @@ export default {
       });
       return classes;
     };
+
     return {
       formRef,
       formData,
-      handleEventChange,
       formDataInit,
+      handleEventChange,
       getClassesFn,
+      formItems,
     };
   },
 };
 </script>
+<style lang="less" scoped>
+.xb-form-text {
+  padding: 30px 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+</style>

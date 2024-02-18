@@ -1,12 +1,19 @@
 <template>
   <el-tree-select
+    :style="{
+      width: (configData.propAttrs && configData.propAttrs.width) || '100%',
+    }"
     v-if="configData.selectType === 'tree'"
     v-bind="configData.propAttrs"
     v-model="searchVal"
     @change="handleValueChange"
     :data="options"
     :render-after-expand="false"
-    style="width: 100%"
+    :placeholder="
+      configData.placeholder ||
+      (configData.propAttrs && configData.propAttrs.placeholder) ||
+      '请输入'
+    "
   />
 
   <el-select
@@ -15,7 +22,6 @@
     @change="handleValueChange"
     v-bind="configData.propAttrs"
     clearable
-    :disabled="disabled"
     style="width: 100%"
   >
     <!-- <RecycleScroller
@@ -67,7 +73,7 @@ export default defineComponent({
       default: () => {},
     },
   },
-  emits: ["eventChange"],
+  emits: ["eventChange", "visibilityChange"],
   setup(props, ctx) {
     const {
       defaultOptions = [],
@@ -104,10 +110,16 @@ export default defineComponent({
         options.value = res.data;
       }
     };
-
     if (requestApi) {
       getOptionsData();
     }
+    // 是否默认选择一个值
+    if (props.configData.isChooseFirstVal) {
+      watch(options, (val) => {
+        if (Array.isArray(val) && val.length > 0) handleValueChange(val[0].id);
+      });
+    }
+
     // 关联表单 key 和 val, cb 为改变值后触发的回调
     const linkOptionsCb = (val, key, cb) => {
       searchVal.value = "";
@@ -117,24 +129,16 @@ export default defineComponent({
         getOptionsData();
       } else {
         new Promise((resolve) => {
-          cb(val, key, resolve);
+          cb(val, key, resolve, props.formData);
         }).then((res) => {
           options.value = res;
         });
       }
     };
-    // 是否默认选择一个值
-    if (props.configData.isChooseFirstVal) {
-      watch(options, (val) => {
-        if (Array.isArray(val) && val.length > 0) handleValueChange(val[0].id);
-      });
-    }
-    const { disabled } = useLink(props, { linkOptionsCb });
-
+    useLink(props, linkOptionsCb);
     return {
       searchVal,
       options,
-      disabled,
       handleValueChange,
     };
   },

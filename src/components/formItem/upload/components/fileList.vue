@@ -1,50 +1,59 @@
 <template>
-  <div class="xb-upload-list" v-if="previewList.length">
-    <div
-      class="xb-upload-item__item-w"
-      v-for="(item, index) in previewList"
-      :key="index"
-    >
-      <div class="xb-upload-item__loading" v-if="!fileList[index]">
-        <el-icon class="xb-upload-item_loading-icon"
-          ><component :is="'xb-icon-loading'"
-        /></el-icon>
-      </div>
-      <template v-else>
-        <el-image
-          :src="fileList[index]"
-          class="xb-upload-item"
-          fit="contain"
-        ></el-image>
-        <label class="xb-upload-list__item-status-label">
-          <el-icon class="xb-icon--upload-success"
-            ><component :is="'xb-icon-check'" /></el-icon
-        ></label>
-        <div class="xb-upload__operation-mask">
-          <el-icon
-            class="xb-upload__operation-preview"
-            @click="handlePreviewShow(index)"
-            ><component :is="'xb-icon-zoom-in'"
-          /></el-icon>
-          <el-icon
-            class="xb-upload__operation-delete"
-            @click="handleFileDelete(index)"
-            ><component :is="'xb-icon-delete'"
+  <draggable
+    class="xb-upload-list"
+    item-key="id"
+    :list="previewList"
+    @end="handleDragEnd"
+    :disabled="disabled"
+  >
+    <template #item="{ index }">
+      <div class="xb-upload-item__item-w">
+        <div class="xb-upload-item__loading" v-if="!fileList[index]">
+          <el-icon class="xb-upload-item_loading-icon"
+            ><component :is="'xb-icon-loading'"
           /></el-icon>
         </div>
-      </template>
-    </div>
-    <!-- 图片预览 -->
-    <el-image-viewer
-      v-if="previewInfo.isShow"
-      @close="handlePreviewClose"
-      :url-list="fileList"
-      :initialIndex="previewInfo.initIndex"
-    />
-  </div>
+        <template v-else>
+          <el-image
+            :src="fileList[index]"
+            class="xb-upload-item"
+            fit="contain"
+          ></el-image>
+          <label class="xb-upload-list__item-status-label">
+            <el-icon class="xb-icon--upload-success"
+              ><component :is="'xb-icon-check'" /></el-icon
+          ></label>
+          <div
+            class="xb-upload__operation-mask"
+            :style="{ cursor: disabled ? 'default' : 'move' }"
+          >
+            <el-icon
+              class="xb-upload__operation-preview"
+              @click="handlePreviewShow(index)"
+              ><component :is="'xb-icon-zoom-in'"
+            /></el-icon>
+            <el-icon
+              class="xb-upload__operation-delete"
+              @click="handleFileDelete(index)"
+              ><component :is="'xb-icon-delete'"
+            /></el-icon>
+          </div>
+        </template>
+      </div>
+    </template>
+  </draggable>
+  <!-- 图片预览 -->
+  <el-image-viewer
+    v-if="previewInfo.isShow"
+    @close="handlePreviewClose"
+    :url-list="fileList"
+    :initialIndex="previewInfo.initIndex"
+  />
 </template>
 <script>
 import { defineComponent, reactive } from "vue";
+// component
+import draggable from "vuedraggable";
 // icons
 import XbIconLoading from "main/icons/loading";
 import XbIconDelete from "main/icons/delete";
@@ -57,6 +66,7 @@ export default defineComponent({
     XbIconDelete,
     XbIconCheck,
     XbIconZoomIn,
+    draggable,
   },
   props: {
     fileList: {
@@ -67,8 +77,12 @@ export default defineComponent({
       type: Array,
       default: () => [],
     },
+    disabled: {
+      type: Boolean,
+      default: true,
+    },
   },
-  emits: ["delete"],
+  emits: ["delete", "dragEnd"],
   setup(props, ctx) {
     // 图片预览窗口信息
     const previewInfo = reactive({
@@ -88,11 +102,17 @@ export default defineComponent({
     const handlePreviewClose = () => {
       previewInfo.isShow = false;
     };
+    // 拖拽结束
+    const handleDragEnd = (event) => {
+      ctx.emit("dragEnd", event);
+    };
+
     return {
       previewInfo,
       handlePreviewShow,
       handleFileDelete,
       handlePreviewClose,
+      handleDragEnd,
     };
   },
 });
@@ -131,10 +151,7 @@ export default defineComponent({
 .xb-upload-item__progress {
   width: 90%;
 }
-.xb-upload-list {
-  display: flex;
-  flex-wrap: wrap;
-}
+
 .xb-upload-list__item-status-label {
   right: -15px;
   top: -6px;
@@ -150,8 +167,9 @@ export default defineComponent({
   color: #fff;
 }
 .xb-upload-item__item-w {
-  width: 148px;
-  height: 148px;
+  width: 110px;
+  height: 110px;
+  float: left;
   margin-right: 10px;
   position: relative;
   overflow: hidden;

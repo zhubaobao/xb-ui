@@ -2,13 +2,11 @@
   <el-switch
     v-model="searchVal"
     v-bind="configData.propAttrs"
-    :disabled="disabled"
     @change="handleValueChange"
   >
   </el-switch>
 </template>
 <script>
-import useLink from "./use/useLink";
 import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "XbSwitch",
@@ -23,7 +21,7 @@ export default defineComponent({
     },
   },
   emits: ["eventChange"],
-  setup(props, context) {
+  setup(props, ctx) {
     const searchVal = ref(props.formData[props.configData.propName]);
     // 监听值的变化
     watch(
@@ -33,12 +31,10 @@ export default defineComponent({
       }
     );
     const handleValueChange = (val) => {
-      context.emit("eventChange", { [props.configData.propName]: val });
+      ctx.emit("eventChange", { [props.configData.propName]: val });
     };
-    const { disabled } = useLink(props);
     return {
       searchVal,
-      disabled,
       handleValueChange,
     };
   },

@@ -1,4 +1,11 @@
 const useForm = () => {
+  let count = 0;
+  const pics = [
+    "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
+    "https://static.yoshop.xany6.com/201906101321536e2883041.jpg",
+    "https://static.yoshop.xany6.com/10001/20210313/074646782cfec5e7d327148c3fe61dce.jpg",
+    "https://static.yoshop.xany6.com/20190610153602a29925572.png"
+  ]
   const formConfig = {
     popupType: 'dialog',
     formAttrs: {
@@ -13,7 +20,10 @@ const useForm = () => {
         label: "input",
         propName: "input",
         propAttrs: {
-
+          placeholder: '222'
+        },
+        slots: {
+          append: 'xbTemplate'
         }
       },
       {
@@ -37,11 +47,41 @@ const useForm = () => {
         propAttrs: {
           placeholder: "请选择动效",
         },
+        extra: "xbTemplate"
       },
       {
         type: "XbUpload",
         label: '图片',
-        proName: 'pic'
+        proName: 'pic',
+        limit: 10,
+        uploadType: 'library',
+        requestApi() {
+          return new Promise(resolve => {
+            resolve({
+              code: 1,
+              src: pics[count]
+            })
+            count++;
+            if(count > 3) {
+              count = 0
+            }
+          })
+        },
+        libConfig: {
+          requestApi() {
+            return new Promise(resolve => {
+              resolve({
+                code: 1,
+                data: {
+                  list: new Array(15).fill({
+                    image: "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
+                    name: "白.jpg"
+                  })
+                }
+              })
+            })
+          }
+        }
       },
       {
         type: "XbSelect",
@@ -91,14 +131,6 @@ const useForm = () => {
       {
         type: "text",
         label: "标题",
-      },
-      {
-        type: "XbSwitch",
-        label: "是否启用",
-        propName: "status",
-        propAttrs: {
-          size: "large",
-        },
       },
       {
         type: "XbTimePicker",

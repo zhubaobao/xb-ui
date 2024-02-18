@@ -3,14 +3,12 @@
     v-model="searchVal"
     v-bind="configData.propAttrs"
     :valueFormat="valueFormat"
-    :disabled="disabled"
     @change="handleValueChange"
     style="width: 100%"
   >
   </el-date-picker>
 </template>
 <script>
-import useLink from "./use/useLink";
 import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "XbDatePicker",
@@ -73,11 +71,8 @@ export default defineComponent({
     if (props.propAttrs && props.propAttrs.valueFormat) {
       valueFormat = props.propAttrs.valueFormat;
     }
-
-    const { disabled } = useLink(props);
     return {
       searchVal,
-      disabled,
       valueFormat,
       handleValueChange,
     };

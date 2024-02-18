@@ -1,9 +1,16 @@
 import { ElMessage } from 'element-plus';
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 
 const useUpload = (props, ctx, config) => {
+  // 当前文件
+  const file = ref({})
+  // 预览文件列表
+  const previewList = ref([]);
+  // 裁剪dom
+  const cropRef = ref(null);
   // 初始化值
   const searchVal = ref([]);
+  // 初始化值
   let initValue = props.formData[props.configData.propName]
   // 值处理
   const dealVal = (oldVal) => {
@@ -11,17 +18,11 @@ const useUpload = (props, ctx, config) => {
     if (config.valueType === 'string') {
       newVal = oldVal ? oldVal.split(config.separator) : []
     }
+    previewList.value = [...newVal];
     return newVal
   }
   searchVal.value = dealVal(initValue)
-  console.log(searchVal.value, 'initValue')
-  // 当前文件
-  const file = ref({})
-  // 预览文件列表
-  const previewList = ref([]);
 
-  // 裁剪dom
-  const cropRef = ref(null);
 
   // 上传请求
   const upLoadRequest = async (val) => {
@@ -37,7 +38,6 @@ const useUpload = (props, ctx, config) => {
     }
     if (!requestApi) return false
     let res = await requestApi(params);
-
     res = responseFormat(res)
     if (res.code === 1) {
       searchVal.value.push(res.src);
@@ -61,17 +61,23 @@ const useUpload = (props, ctx, config) => {
     searchVal.value.splice(index, 1);
     previewList.value.splice(index, 1);
   }
-  watch(
-    () => props.formData[props.configData.propName],
-    (val) => {
-      const newVal = dealVal(val);
-      searchVal.value = [...newVal];
-      previewList.value = [...newVal];
-    }
-  );
+  // 拖拽结束
+  const handleDragEnd = (event) => {
+    const { newIndex, oldIndex } = event;
+    if (newIndex == oldIndex) return false;
+    const moveVal = searchVal.value.splice(oldIndex, 1)[0];
+    searchVal.value.splice(newIndex, 0, moveVal);
+  }
+  // 图库文件选择确认
+  const handleLibSubmit = (value) => {
+    previewList.value.push(...value);
+    searchVal.value.push(...value);
+  }
   return {
     handleRequest,
     handleFileDelete,
+    handleDragEnd,
+    handleLibSubmit,
     searchVal,
     previewList,
   }

@@ -14,6 +14,7 @@
     <xb-form
       :config="config"
       :rules="rules"
+      slotSuffix="XbF"
       :submitStatus="submitStatus"
       ref="xbFormRef"
     >
@@ -48,7 +49,7 @@
   </component>
 </template>
 <script>
-import { computed, defineComponent } from "vue";
+import {  defineComponent } from "vue";
 import XbFormItem from "main/components/formItem";
 import useMergeConfig from "./use/useMergeConfig";
 import useSubmit from "./use/useSubmit";
@@ -122,8 +123,6 @@ export default defineComponent({
   padding: 13px 15px;
   background-color: #fff;
   box-sizing: border-box;
-}
-.xb-drawer-form__footer {
   display: flex;
   justify-content: flex-end;
   align-items: center;

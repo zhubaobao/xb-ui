@@ -3,7 +3,7 @@
     class="xb-search"
     v-if="searchConfig && searchConfig.formItems.length > 0"
   >
-    <xb-form :config="config" ref="xbFormRef" style="flex: 1">
+    <xb-form :config="config" ref="xbFormRef" slotSuffix="XbS" style="flex: 1">
       <template
         v-for="(item, key, index) in slots"
         :key="index"
