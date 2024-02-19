@@ -8,5 +8,3 @@ $ yarn add xb-admin-ui
 
 
 
-- 修改 defaultValue || '' 的判读;
-- 联动效果，传 val key, 改成 传 val key formData 解决一个元素关联多个;

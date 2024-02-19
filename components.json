@@ -4,5 +4,6 @@
   "table": "./packages/table/index.js",
   "submit": "./packages/submit/index.js",
   "form": "./packages/form/index.js",
-  "codeGenerator": "./packages/codeGenerator/index.js"
+  "codeGenerator": "./packages/codeGenerator/index.js",
+  "formItem": "./packages/formItem/index.js"
 }

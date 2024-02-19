@@ -15,6 +15,8 @@ export const tableApi = (params) => {
             name: "道此有面",
           },
         ],
+        startTime: "2024-02-02 00:00:00",
+        endTime: "2024-03-01 00:00:00",
         status: "available",
       },
       {

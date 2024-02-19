@@ -50,7 +50,6 @@
 </template>
 <script>
 import {  defineComponent } from "vue";
-import XbFormItem from "main/components/formItem";
 import useMergeConfig from "./use/useMergeConfig";
 import useSubmit from "./use/useSubmit";
 // icons
@@ -62,7 +61,6 @@ import XbForm from "../../form/src/main.vue";
 export default defineComponent({
   name: "XbSubmit",
   components: {
-    XbFormItem,
     XbIconLoading,
     XbIconCheck,
     XbIconClose,

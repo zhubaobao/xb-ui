@@ -68,16 +68,17 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
+    modelValue: {
+    },
     formData: {
       type: Object,
-      default: () => {},
-    },
+      default: () => ({})
+    }
   },
-  emits: ["eventChange", "visibilityChange"],
+  emits: ["update:modelValue"],
   setup(props, ctx) {
     const {
       defaultOptions = [],
-      propName,
       requestApi,
       responseFormat = (val) => {
         return val;
@@ -85,17 +86,17 @@ export default defineComponent({
       valChangeCb,
       requestParams = {},
     } = props.configData;
-    const searchVal = ref(props.formData[props.configData.propName]);
+    const searchVal = ref(props.modelValue);
     // 监听值的变化
     watch(
-      () => props.formData[props.configData.propName],
+      () => props.modelValue,
       (val) => {
         searchVal.value = val;
       }
     );
     const handleValueChange = (val) => {
       valChangeCb && valChangeCb(val);
-      ctx.emit("eventChange", { [propName]: val });
+      ctx.emit("update:modelValue", val);
     };
 
     // 列表值

@@ -59,6 +59,12 @@ const useLink = (props, formData) => {
   const formItems = computed(() => {
     return props.config.formItems
       .map(item => {
+        // 处理 时间范围 为2字段的
+        if (item.propName && item.propName.includes("-")) {
+          const keys = item.propName.split("-");
+          item.startPropName = keys[0];
+          item.endPropName = keys[1];
+        }
         item.disabled = disabledProp.value[item.propName] || false;
         return item;
       })

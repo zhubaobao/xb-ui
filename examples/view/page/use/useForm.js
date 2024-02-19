@@ -10,7 +10,8 @@ const useForm = () => {
     popupType: 'dialog',
     formAttrs: {
       rules: {
-        ani: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }]
+        ani: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
+        sort: [{ required: true, message: 'wwww', trigger: 'blur' }],
       },
       "label-position": "left"
     },
@@ -52,7 +53,7 @@ const useForm = () => {
       {
         type: "XbUpload",
         label: '图片',
-        proName: 'pic',
+        propName: 'pic',
         limit: 10,
         uploadType: 'library',
         requestApi() {
@@ -133,10 +134,12 @@ const useForm = () => {
         label: "标题",
       },
       {
-        type: "XbTimePicker",
+        type: "XbDatePicker",
         label: "时间",
-        propName: "time",
-        propAttrs: {},
+        propName: "startTime-endTime",
+        propAttrs: {
+          type: 'daterange'
+        },
       },
       {
         type: "XbTimePicker",
@@ -149,6 +152,21 @@ const useForm = () => {
           placeholder: "Select time",
         },
       },
+      {
+        type: 'XbSwitch',
+        label: "是否显示排序",
+        propName: "isSort",
+        defaultValue: false,
+      },
+      {
+        type: "XbInput",
+        label: "排序",
+        propName: "sort",
+        linkShowProps: ['isSort'],
+        linkShowCb(val) {
+          return val
+        }
+      }
     ],
   };
   return {

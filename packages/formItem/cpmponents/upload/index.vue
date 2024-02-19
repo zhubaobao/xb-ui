@@ -49,7 +49,7 @@
     <xb-file-lib 
       v-if="config.uploadType == 'library'" 
       ref="fileLibRef" 
-      :config="config.libConfig"
+      :config="config.libConfig || {}"
       :limit="config.limit - searchVal.length"
       @submit="handleLibSubmit"
     ></xb-file-lib>
@@ -80,12 +80,12 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    formData: {
-      type: Object,
-      default: () => {},
+    modelValue: {
+      type: [String, Array],
+      default: ''
     },
   },
-  emits: ["eventChange"],
+  emits: ["update:modelValue"],
   setup(props, ctx) {
     const { config } = useMergeConfig(props);
     const {

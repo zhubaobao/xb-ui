@@ -13,7 +13,8 @@
   </el-radio-group>
 </template>
 <script>
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent } from "vue";
+import useCommon from './use/useCommon';
 export default defineComponent({
   name: "XbRadio",
   props: {
@@ -21,26 +22,13 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    formData: {
-      type: Object,
-      default: () => {},
+    modelValue: {
+      type: [String, Number]
     },
   },
-  emits: ["eventChange"],
+  emits: ["update:modelValue"],
   setup(props, ctx) {
-    // key
-    const propName = props.configData.propName;
-    const searchVal = ref(props.formData[propName]);
-    // 监听值的变化
-    watch(
-      () => props.formData[propName],
-      (val) => {
-        searchVal.value = val;
-      }
-    );
-    const handleValueChange = (val) => {
-      ctx.emit("eventChange", { [propName]: val });
-    };
+    const { searchVal, handleValueChange } = useCommon(props, ctx);
     return {
       searchVal,
       handleValueChange,

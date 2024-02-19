@@ -1,5 +1,6 @@
 <template>
   <el-input
+  style="box-sizing: border-box; "
     :style="{
       width: (configData.propAttrs && configData.propAttrs.width) || '100%',
     }"
@@ -29,7 +30,8 @@
 </template>
 <script>
 import { getSlots } from "main/utils";
-import { defineComponent, ref, watch, getCurrentInstance } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
+import useCommon from './use/useCommon';
 export default defineComponent({
   name: "XbInput",
   props: {
@@ -37,23 +39,21 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    formData: {
-      type: Object,
-      default: () => {},
+    modelValue: {
+      type: String,
+      default: ''
     },
     slotSuffix: {
       type: String,
       default: 'XbF'
     }
   },
-  emits: ["eventChange"],
+  emits: ["update:modelValue"],
   setup(props, ctx) {
     // 获取当前实例
     const currentInstance = getCurrentInstance();
-
     const { configData,slotSuffix  }  = props;
     const { propName, slots } = configData;
-
     // 获取插槽内容
     let inputSlots = getSlots(
       currentInstance,
@@ -62,18 +62,9 @@ export default defineComponent({
       `${propName}-input-`,
       slotSuffix
     );
-    // 值
-    const searchVal = ref(props.formData[propName]);
-    // 监听值的变化
-    watch(
-      () => props.formData[propName],
-      (val) => {
-        searchVal.value = val;
-      }
-    );
-    const handleValueChange = (val) => {
-      ctx.emit("eventChange", { [propName]: val });
-    };
+    // 通用
+    const { searchVal, handleValueChange } = useCommon(props, ctx);
+   
     return {
       searchVal,
       handleValueChange,

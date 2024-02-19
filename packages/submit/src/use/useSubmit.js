@@ -11,11 +11,19 @@ const useSubmit = (props, ctx, config) => {
 
   // 提交保存
   const handleSubmit = () => {
-    xbFormRef.value.formRef.validate(async (valied) => {
+  
+    const { formData, formRef, showProp } = xbFormRef.value
+    formRef.validate(async (valied) => {
       if (valied) {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
         submitStatus.value = true;
-        const params = paramsFormat(xbFormRef.value.formData);
+        let finalData = {...formData};
+        for (let k in showProp) {
+          !showProp[k] && finalData.hasOwnProperty(k)
+            ? delete finalData[k]
+            : "";
+        }
+        const params = paramsFormat(finalData);
         if (!requestApi) {
           submitCb && (
             new Promise((resolve) => {

@@ -6,6 +6,7 @@ import Table from '../packages/table/index.js';
 import Submit from '../packages/submit/index.js';
 import Form from '../packages/form/index.js';
 import CodeGenerator from '../packages/codeGenerator/index.js';
+import FormItem from '../packages/formItem/index.js';
 
 const components = [
   CurdTable,
@@ -13,7 +14,8 @@ const components = [
   Table,
   Submit,
   Form,
-  CodeGenerator
+  CodeGenerator,
+  FormItem
 ];
 
 const install = function(Vue, opts = {}) {
@@ -29,12 +31,13 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '0.0.1',
+  version: '0.0.2',
   install,
   CurdTable,
   Search,
   Table,
   Submit,
   Form,
-  CodeGenerator
+  CodeGenerator,
+  FormItem
 };

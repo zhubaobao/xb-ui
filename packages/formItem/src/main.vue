@@ -11,21 +11,20 @@
       <slot v-if="item.slot" :name="`${formItem.propName}-extra${slotSuffix}`"></slot>
       <div class="xb-form-extra" v-else>{{ item.con }}</div>
     </template>
-   
   </div>
 </template>
 <script>
 import { defineComponent, getCurrentInstance } from "vue";
 import { getSlots } from "main/utils";
 // component
-import XbInput from "./input";
-import XbSelect from "./select";
-import XbSwitch from "./switch";
-import XbTimePicker from "./timePicker";
-import XbTimeSelect from "./timeSelect";
-import XbDatePicker from "./datePicker";
-import XbRadio from "./radio";
-import XbUpload from "./upload";
+import XbInput from "../cpmponents/input";
+import XbSelect from "../cpmponents/select";
+import XbSwitch from "../cpmponents/switch";
+import XbTimePicker from "../cpmponents/timePicker";
+import XbTimeSelect from "../cpmponents/timeSelect";
+import XbDatePicker from "../cpmponents/datePicker";
+import XbRadio from "../cpmponents/radio";
+import XbUpload from "../cpmponents/upload";
 export default defineComponent({
   name: "XbFormItem",
   components: {

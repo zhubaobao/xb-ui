@@ -1,9 +1,17 @@
 import { ref } from "vue";
-const useSearch = (props, ctx, config) => {
+const useSearch = (_, ctx) => {
   const xbFormRef = ref(null);
   // 搜索
   const handleSearch = () => {
-    ctx.emit('change', xbFormRef.value.formData)
+    const { formData, showProp } = xbFormRef.value
+    let finalData = { ...formData };
+    for (let k in showProp) {
+      !showProp[k] && finalData.hasOwnProperty(k)
+        ? delete finalData[k]
+        : "";
+    }
+    console.log(finalData, 'finalDatafinalDatafinalData')
+    ctx.emit('change', finalData)
   };
   // 重置
   const handleRefresh = () => {

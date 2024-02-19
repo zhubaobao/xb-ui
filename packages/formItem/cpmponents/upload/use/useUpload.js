@@ -10,8 +10,7 @@ const useUpload = (props, ctx, config) => {
   const cropRef = ref(null);
   // 初始化值
   const searchVal = ref([]);
-  // 初始化值
-  let initValue = props.formData[props.configData.propName]
+  
   // 值处理
   const dealVal = (oldVal) => {
     let newVal = ''
@@ -21,9 +20,7 @@ const useUpload = (props, ctx, config) => {
     previewList.value = [...newVal];
     return newVal
   }
-  searchVal.value = dealVal(initValue)
-
-
+  searchVal.value = dealVal(props.modelValue);
   // 上传请求
   const upLoadRequest = async (val) => {
     previewList.value.push(val);
@@ -42,7 +39,7 @@ const useUpload = (props, ctx, config) => {
     if (res.code === 1) {
       searchVal.value.push(res.src);
       const val = config.valueType === 'string' ? searchVal.value.join(config.separator) : searchVal.value;
-      ctx.emit("eventChange", { [props.configData.propName]: val });
+      ctx.emit("update:modelValue", val);
     } else {
       ElMessage.error(res.msg || '上传失败')
     }

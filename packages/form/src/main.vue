@@ -34,14 +34,26 @@
         v-else
       >
         <slot v-if="item.type === 'template'" :name="`${item.propName}${slotSuffix}`" :formData="formData"></slot>
-        <xb-form-item
-          v-else
-          :formItem="item"
-          :formData="formData"
-          :slotSuffix="slotSuffix"
-          @eventChange="handleEventChange"
-        >
-        </xb-form-item>
+        <template v-else>
+          <!-- 时间范围，formData 2 字段接受 -->
+          <xb-form-item
+            v-if="item.startPropName && item.endPropName"
+            :formItem="item"
+            :formData="formData"
+            v-model:startValue="formData[item.startPropName]"
+            v-model:endValue="formData[item.endPropName]"
+            :slotSuffix="slotSuffix"
+          >
+          </xb-form-item>
+          <xb-form-item
+            v-else
+            :formItem="item"
+            :formData="formData"
+            v-model="formData[item.propName]"
+            :slotSuffix="slotSuffix"
+          >
+          </xb-form-item>
+        </template>
       </el-form-item>
     </template>
   </el-form>
@@ -50,7 +62,7 @@
     <script>
 import useInit from "./use/useInit";
 import useLink from "./use/useLink";
-import XbFormItem from "main/components/formItem";
+import XbFormItem from "packages/formItem/src/main.vue";
 export default {
   name: "XbForm",
   components: {
@@ -76,7 +88,7 @@ export default {
   },
   setup(props) {
     const { formData, handleEventChange, formRef, formDataInit } = useInit(props);
-    const { formItems } = useLink(props, formData);
+    const { formItems, showProp } = useLink(props, formData);
 
     // 栅格化 class
     const getClassesFn = (layout = {}) => {
@@ -99,6 +111,7 @@ export default {
       handleEventChange,
       getClassesFn,
       formItems,
+      showProp
     };
   },
 };

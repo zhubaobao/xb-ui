@@ -60,83 +60,18 @@ const useSearch = () => {
         },
       },
       {
-        type: "XbSelect",
-        label: "状态",
-        propName: "status",
-        defaultOptions: [],
-        propAttrs: {
-          placeholder: "请选择状态",
-        },
-        linkOptionsProps: ["ani"],
-        linkOptionsCb(val, key, resolve) {
-          if (val == 2) {
-            resolve(
-              [
-                {
-                  id: "pending",
-                  name: "pending",
-                },
-              ]
-            )
-          } else if (val == 3) {
-            resolve([
-              {
-                id: "available",
-                name: "available",
-              },
-              {
-                id: "sold",
-                name: "sold",
-              },
-            ])
-          } else {
-            resolve([])
-          }
-        },
-        show: false,
-      },
-
-      {
-        type: "template",
-        label: "时间",
-        propName: "time",
-        propAttrs: {},
-      },
-      {
-        type: "XbTimePicker",
-        label: "时间",
-        propName: "time2",
-        propAttrs: {
-          start: "08:30",
-          step: "00:15",
-          end: "18:30",
-          placeholder: "Select time",
-        },
-      },
-      {
-        type: "XbDatePicker",
-        label: "日期区间",
-        propName: "startTime-endTime",
-        defaultValue: [],
-        propAttrs: {
-          type: "daterange",
-          startPlaceholder: '开始时间',
-          endPlaceholder: '结束时间'
-        }
-      },
-      {
-        type: "XbSwitch",
-        label: "是否显示地址",
-        propName: "showAddress",
-        defaultValue: true,
+        type: 'XbSwitch',
+        label: "是否显示排序",
+        propName: "isSort",
+        defaultValue: false,
       },
       {
         type: "XbInput",
-        label: "地址",
-        propName: "address",
-        linkShowProps: ["showAddress"],
-        linkShowCb: (val, key, formData) => {
-          return formData.showAddress
+        label: "排序",
+        propName: "sort",
+        linkShowProps: ['isSort'],
+        linkShowCb(val) {
+          return val
         }
       }
     ],

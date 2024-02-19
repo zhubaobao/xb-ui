@@ -93,7 +93,7 @@ export default defineComponent({
   },
   props: {
     config: {
-      type: String,
+      type: Object,
       default: () => ({}),
     },
     limit: {

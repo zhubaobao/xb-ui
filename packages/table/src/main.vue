@@ -97,8 +97,8 @@
                 <el-input
                   v-model="scope.row[item.prop]"
                   placeholder="请输入排序"
-                  @focus="handleSortFocus(scope.row, item.sortConfig)"
-                  @blur="handleSortBlur(scope.row, item.sortConfig)"
+                  @focus="handleSortFocus(scope.row, item.sortConfig || {})"
+                  @blur="handleSortBlur(scope.row, item.sortConfig || {})"
                 ></el-input>
               </template>
 
