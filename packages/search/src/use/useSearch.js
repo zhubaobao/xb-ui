@@ -10,7 +10,6 @@ const useSearch = (_, ctx) => {
         ? delete finalData[k]
         : "";
     }
-    console.log(finalData, 'finalDatafinalDatafinalData')
     ctx.emit('change', finalData)
   };
   // 重置

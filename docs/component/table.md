@@ -8,7 +8,7 @@ title: Table
 | 属性           | 说明                                                                     | Type   | 默认值   |
 | ------------  | -----------------------------------------------------------------------  | ------ | ------- |
 | name          | 页面的名称, 用于表格上部按钮添加，删除的名称                                   | string | -       |
-| requestParams | 表格请求额外请求参数, 如果key pageSize, page可以覆盖默认的 page,pageSize       | Object | -       | 
+| requestParams | 表格请求额外请求参数, 如果 key 为 pageSize, page，会覆盖默认的 page,pageSize       | Object | -       | 
 | tableConfig   | 表格配置, 详细 [tableConfig配置](#tableconfig)                                  | Object | -       |
 
 ## tableConfig
@@ -51,7 +51,7 @@ title: Table
 | hasDelete     | 是否显示删除按钮                              | boolean/ref | true       |
 | hasImport     | 是否显示导入按钮                              | boolean/ref | false      |
 | hasBack       | 是否显示返回按钮, 用于二级子页面返回主页面        | boolean/ref | false       |
-| backCb        | 返回按钮回调函数                              | function | -       |
+| backCb        | 返回按钮回调函数, 当hasBack为true时使用         | function | -       |
 
 ## importConfig 导入功能配置
 
@@ -77,8 +77,8 @@ title: Table
 
 | 属性            | 说明                                       | Type   | 默认值   |
 | --------------- | ----------------------------------------- | ------ | ------- |
-| deleteItemIdKey | 删除参数值在表格数据对应的key                  | string | -       |
-| deleteIdKey     | 删除参数的key                               | string | -       |
+| deleteItemIdKey | 删除参数值在表格数据对应的key                  | string | id      |
+| deleteIdKey     | 删除参数的key                               | string | ids       |
 | responseFormat  | 格式化返回值                                 | string | -       |
 | paramsFormat    | 格式化参数                                   | string | -       |
 

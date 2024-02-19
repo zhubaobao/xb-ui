@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 import { mdPlugin } from './config/plugins'
 export default defineConfig({
   title: 'xb-ui',
-  base: '../',
+  base: '/xb-ui/',
   description: '一个基于element-plus二次开发的组件库,适用于后台管理系统',
   head: [
     [

@@ -36,3 +36,8 @@
 //     ]
 //   }
 // })
+// import { defineConfig } from 'vite';
+// export default defineConfig({
+//     base: "./a", // index.html文件所在位置
+//     root: "./a", // js导入的资源路径，src
+// })
