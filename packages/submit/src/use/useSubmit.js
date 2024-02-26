@@ -5,7 +5,7 @@ const useSubmit = (props, ctx, config) => {
   const xbFormRef = ref(null);
 
   // 弹窗是否显示
-  const popupShow = ref(false);
+  const popupShow = ref(props.isPage);
   // 加载
   const submitStatus = ref(false);
 
@@ -40,7 +40,7 @@ const useSubmit = (props, ctx, config) => {
             let res = await requestApi(params);
             res = responseFormat(res)
             if (res.code === 1) {
-              popupShow.value = false;
+              popupShow.value = props.isPage;
               ctx.emit("submit", props.type);
               ElMessage.success(res.msg || '操作成功')
             } else {

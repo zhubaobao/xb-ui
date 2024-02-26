@@ -46,7 +46,7 @@ const useMergeConfig = (props) => {
   }
   // 表格参数，用于合并默认参数和用户自定义参数
   const isPage = props.formConfig.popupType == 'page';
-  const config = deepMerge(deepMerge({...defaultConfig, layout: { span: isPage ? 12 : 24 }}, formConfig), props.formConfig);
+  const config = deepMerge(deepMerge({...defaultConfig, layout: { span: isPage ? 13 : 24 }}, formConfig), props.formConfig);
   const rules = computed(() => ({ ...config.formAttrs.rules, ...config[props.type].rules }))
 
   return {

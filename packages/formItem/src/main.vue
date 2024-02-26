@@ -33,7 +33,7 @@
             v-if="formItem.type == 'template'"
             :name="`${formItem.propName}${slotSuffix}`"
             :formData="formData"
-          >111</slot>
+          ></slot>
         <!-- 动态组件表单内容 -->
         <component
           v-else
@@ -45,7 +45,6 @@
           v-model="formData[formItem.propName]"
           v-model:startValue="formData[formItem.startPropName]"
           v-model:endValue="formData[formItem.endPropName]"
-          
           :style="{
             width: (formItem.propAttrs && formItem.propAttrs.width) || '100%',
           }"

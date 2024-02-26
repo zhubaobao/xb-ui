@@ -68,6 +68,10 @@ export default defineComponent({
     XbFormPage,
   },
   props: {
+    isPage: {
+      type: Boolean,
+      default: false,
+    },
     name: {
       type: String,
       default: "",
