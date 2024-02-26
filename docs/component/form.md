@@ -12,6 +12,7 @@ title: CurdTable
 | label             | 标签文本                                    | string | -      |
 | propName          | 表单提交key值，接口接受如果为多个字段使用-隔开如：startTiem-endTime  | string | -      |
 | propAttrs         | 表单的属性配置，详见[element-plus](https://element-plus.org/zh-CN/component/input.html)对应的组件配置  | object | -      |
+| formItemPropAttrs | elFromItem 的样式，详见[FormItem API](https://element-plus.org/zh-CN/component/form.html#formitem-api) | object | - |
 | disabled         | 是否禁用                                      | boolean | -  |
 | layout         |  栅格占据的列数, 覆盖 submit/search组件 的 layout<br>xs:	<768px<br> sm:	≥768px <br> md:	≥992px <br> lg:	≥1200px  <br> xl:	≥1920px   | object | { <br>&nbsp;&nbsp;span: 24, <br>} |
 | requestApi | 获取下拉菜单值接口/上传文件的接口，类型为XbSelect/Xbupload有效 | function | - |

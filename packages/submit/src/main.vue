@@ -24,6 +24,7 @@
       :submitStatus="submitStatus"
       ref="xbFormRef"
     >
+      <template #headContent><slot name="headContent"></slot></template>
     </xb-form>
     <div
       class="xb-drawer-form__footer"

@@ -30,11 +30,24 @@ const useForm = () => {
       }
     },
     tabs: [
-     
+      
       {
         name: "specification",
         label: "规格/库存",
         formItems: [
+          {
+            type: "XbInput",
+            label: "input",
+            disabled: true,
+            propName: "input",
+            propAttrs: {
+              placeholder: '222'
+            },
+            slots: {
+              append: '2333',
+              prepend: '444'
+            }
+          },
           {
             type: "XbRadio",
             label: "规格类型",
@@ -84,18 +97,6 @@ const useForm = () => {
             ]
           },
           {
-            type: "XbInput",
-            label: "input",
-            propName: "input",
-            propAttrs: {
-              placeholder: '222'
-            },
-            slots: {
-              append: '2333',
-              prepend: '444'
-            }
-          },
-          {
             type: "XbInputNumber",
             label: "inputNumber",
             propName: "inputNumber",
@@ -108,25 +109,7 @@ const useForm = () => {
               isRange: true
             }
           },
-          {
-            type: "XbFormJson",
-            label: "formJson",
-            propName: "formJson",
-            min: 2,
-            max: 4,
-            formItems: [
-              {
-                type: "XbInput",
-                label: "input",
-                propName: "a",
-              },
-              {
-                type: "XbInput",
-                label: "input2",
-                propName: "b",
-              }
-            ] 
-          },
+         
           {
             type: "XbSelect",
             label: "联动效果1",
@@ -274,7 +257,47 @@ const useForm = () => {
           }
         ]
       },
-     
+      {
+        label: "课程设置",
+        formItems: [
+          {
+            type: "XbFormJson",
+            formItemPropAttrs: {
+              labelWidth: '0px',
+            },
+            propName: "formJson",
+            min: 0,
+            max: 4,
+            formItems: [
+              {
+                type: "XbInput",
+                label: "招生对象",
+                propName: "obj"
+              },
+              {
+                type: "XbFormJson",
+                formItemPropAttrs: {
+                  labelWidth: '0px',
+                },
+                propName: "list",
+                formItems: [
+                  {
+                    type: "XbInput",
+                    label: "课程",
+                    propName: "calss",
+                  },
+                  {
+                    type: "XbInput",
+                    label: "课程",
+                    disabled: true,
+                    propName: "calss2",
+                  },
+                ]
+              },
+            ] 
+          },
+        ]
+      }
     ]
     // formItems: [
     //   {

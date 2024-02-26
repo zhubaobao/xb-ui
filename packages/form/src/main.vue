@@ -14,6 +14,7 @@
     <template v-if="Array.isArray(config.tabs) && config.tabs.length">
       <el-tabs v-model="curTabName" style="width: 100%">
         <el-tab-pane v-for="(tab, index) in tabs" :key="tab.name" :label="tab.label" :name="`tab${index}`">
+           <slot name="headContent"></slot>
           <xb-form-item
             v-for="item in tab.formItems || []" 
             :key="item.propName"
@@ -26,6 +27,7 @@
       </el-tabs>
     </template>
     <template  v-else>
+      <slot name="headContent"></slot>
       <xb-form-item
         v-for="item in formItems" 
         :key="item.propName"

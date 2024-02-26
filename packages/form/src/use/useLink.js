@@ -78,7 +78,7 @@ const useLink = (props, formData) => {
           item.startPropName = keys[0];
           item.endPropName = keys[1];
         }
-        item.disabled = disabledProp.value[item.propName] || false;
+        item.disabled = disabledProp.value[item.propName] || item.disabled || false;
         return item;
       })
       .filter(
@@ -98,6 +98,7 @@ const useLink = (props, formData) => {
         formItems: initFormItems(item.formItems)
       })
     })
+    // console.log(disabledProp.value, 'cloneTabscloneTabscloneTabs')
     return cloneTabs
   })
 

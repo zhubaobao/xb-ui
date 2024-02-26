@@ -124,7 +124,7 @@ export default defineComponent({
 }
 .xb-ans-item {
   margin-bottom: 20px;
-  &:deep .el-card__body {
+  &:deep(>.el-card__body) {
     display: flex;
     align-items: center;
   }
