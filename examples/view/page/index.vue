@@ -21,22 +21,22 @@
       }}</el-tag>
     </template>
     <!-- 自定义表单 -->
-    <template #detailsXbF="{formData}">
+    <!-- <template #detailsXbF="{formData}">
       <el-input v-model="formData.details"></el-input>
     </template>
 
      <template #XbInputXbF="{formData}">
       <el-input v-model="formData.XbInput"></el-input>
-    </template>
+    </template> -->
 
 
     <template #inputAppendXbF>
-      <span>3333</span>
+      <span>44444</span>
     </template>
 
-    <template #aniExtraXbF>
+    <!-- <template #aniextraXbF>
       <span><el-button text>22</el-button></span>
-    </template>
+    </template> -->
 
   </xb-curd-table>
 </template>

@@ -103,7 +103,10 @@ export const deepCopy = (target, map = new Map()) => {
  * @param {*} suffix 后缀
  * @returns 
  */
-
+const getFristUpperCase= (word) => {
+  return word.charAt(0).toUpperCase()
+  + word.slice(1)
+}
 export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffix ='') => {
   // slot 数量
   let count = 0;
@@ -142,8 +145,9 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
   let parent = currentInstance.parent;
   while (parent) {
     _slotNames.forEach(slotName => {
-      const key = prefix + (slotName == 'default' ? ''  : slotName) + suffix;
+      const key = prefix + (slotName == 'default' ? ''  : getFristUpperCase(slotName)) + suffix;
       const slot = parent.slots[key];
+      console.log(key, 'slots')
       if (slot) {
         reslut[slotName].push(
           {

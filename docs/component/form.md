@@ -62,6 +62,6 @@ title: CurdTable
 ## slots - 表单插槽
 | 属性      | 说明                                                         | Type   | 默认值   |
 | ---------| ------------------------------------------------------------ | ------ | ------- |
-| extra    | 表单组件下文字提示，值为xbTemplate时，为自定义, #propName-extraXbF | string | -       |
-| prepend  | 表单组件前缀内容，值为xbTemplate时，为自定义, #propName-prependXbF | string | -       |
-| append   | 表单组件后缀内容，值为xbTemplate时，为自定义, #propName-appendXbF  | string | -       |
+| extra    | 表单组件下文字提示，值为xbTemplate时，为自定义, #propNameExtraXbF | string | -       |
+| prepend  | 表单组件前缀内容，值为xbTemplate时，为自定义, #propNamePrependXbF | string | -       |
+| append   | 表单组件后缀内容，值为xbTemplate时，为自定义, #propNameAppendXbF  | string | -       |
