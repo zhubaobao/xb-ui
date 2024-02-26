@@ -7,6 +7,10 @@
       :previewList="previewList"
       :fileList="searchVal"
       :disabled="!config.hasDrag"
+      :size="{
+        width: configData.width || 110,
+        height: configData.height || 110
+      }"
     >
     </xb-file-list>
     <template v-if="previewList.length !== config.limit">
@@ -17,7 +21,7 @@
         v-if="config.uploadType == 'library'"
       >
         <div class="el-upload el-upload--text">
-          <div class="xb-upload__file-empty">
+          <div class="xb-upload__file-empty" :style="{width: (configData.width || 110 ) + 'px', height: (configData.height || 110 ) + 'px'}">
             <el-icon><component :is="'xb-icon-plus'" /></el-icon>
           </div>
         </div>
@@ -31,7 +35,7 @@
         :http-request="handleRequest"
       >
         <slot>
-          <div class="xb-upload__file-empty">
+          <div class="xb-upload__file-empty" :style="{width: (configData.width || 110 ) + 'px', height: (configData.height || 110 ) + 'px'}">
             <el-icon><component :is="'xb-icon-plus'" /></el-icon>
           </div>
         </slot>
@@ -135,8 +139,7 @@ export default defineComponent({
   }
 }
 .xb-upload__file-empty {
-  width: 110px;
-  height: 110px;
+
   display: flex;
   align-items: center;
   justify-content: center;

@@ -4,9 +4,6 @@
     v-bind="configData.propAttrs"
     @change="handleValueChange"
     style="box-sizing: border-box; "
-    :style="{
-      width: (configData.propAttrs && configData.propAttrs.width) || '100%',
-    }"
   >
   </el-time-select>
 </template>

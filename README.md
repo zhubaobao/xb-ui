@@ -6,5 +6,6 @@ $ npm i xb-admin-ui --save
 $ yarn add xb-admin-ui
 ```
 
-
+## 文档
+https://zhubaobao.github.io/xb-ui/component/curdTable.html
 

@@ -47,7 +47,20 @@ const useLink = (props, formData) => {
   }
   // 联动值初始化
   const watchInit = () => {
-    props.config.formItems.forEach((formItem) => {
+    let _formItems = [];
+    const { formItems = [], tabs = [] } = props.config;
+    if (formItems.length) {
+      _formItems = formItems
+    }
+    // 如果tabs 切换
+    if (tabs.length) {
+      const totalFormDatas = [];
+      tabs.forEach(item => {
+        totalFormDatas.push(...item.formItems)
+      })
+      _formItems = totalFormDatas
+    }
+    _formItems.forEach((formItem) => {
       // 显示隐藏
       visibilityControl(formItem);
       // 启用禁用
@@ -56,8 +69,8 @@ const useLink = (props, formData) => {
   };
   watchInit();
   // 表单
-  const formItems = computed(() => {
-    return props.config.formItems
+  const initFormItems = (formItems) => {
+    return formItems
       .map(item => {
         // 处理 时间范围 为2字段的
         if (item.propName && item.propName.includes("-")) {
@@ -71,10 +84,27 @@ const useLink = (props, formData) => {
       .filter(
         item => showProp.value[item.propName] !== false
       );
+  }
+  const formItems = computed(() => {
+    const { formItems = [] } = props.config;
+    return initFormItems(formItems);
   });
+  // tabs
+  const tabs = computed(() => {
+    const cloneTabs = []
+    props.config.tabs.forEach(item => {
+      cloneTabs.push({
+        ...item,
+        formItems: initFormItems(item.formItems)
+      })
+    })
+    return cloneTabs
+  })
+
   return {
     showProp,
-    formItems
+    formItems,
+    tabs,
   }
 }
 export default useLink;

@@ -13,6 +13,12 @@ const useMergeConfig = (props) => {
       labelWidth: "100px",
       rules: {}
     },
+    footerConfig: {
+      cancelBtnTitle: "取消",
+      cancelBtnShow: true,
+      submitBtnTitle: "提交",
+      submitBtnShow: true,
+    },
     add: {
       title: '添加',
       rules: {},
@@ -27,6 +33,7 @@ const useMergeConfig = (props) => {
       title: '修改',
       rules: {},
       idKey: 'id',
+      idValueKey: 'id',
       paramsFormat(val) {
         return val
       },
@@ -35,12 +42,11 @@ const useMergeConfig = (props) => {
       }
     },
     formItems: [],
-    layout: {
-      span: 24
-    }
+    
   }
   // 表格参数，用于合并默认参数和用户自定义参数
-  const config = deepMerge(deepMerge(defaultConfig, formConfig), props.formConfig);
+  const isPage = props.formConfig.popupType == 'page';
+  const config = deepMerge(deepMerge({...defaultConfig, layout: { span: isPage ? 12 : 24 }}, formConfig), props.formConfig);
   const rules = computed(() => ({ ...config.formAttrs.rules, ...config[props.type].rules }))
 
   return {

@@ -9,7 +9,13 @@
     :size="config.width || 600"
     :width="config.width || 800"
     :zIndex="999"
-    :is="config.popupType === 'drawer' ? 'ElDrawer' : 'ElDialog'"
+    :is="
+      config.popupType === 'drawer'
+        ? 'ElDrawer'
+        : config.popupType === 'page'
+        ? 'XbFormPage'
+        : 'ElDialog'
+    "
   >
     <xb-form
       :config="config"
@@ -18,38 +24,31 @@
       :submitStatus="submitStatus"
       ref="xbFormRef"
     >
-      <template
-        v-for="(item, key, index) in slots"
-        :key="index"
-        #[`${key}`]="slotScope"
-      >
-        <slot :name="key" v-bind="slotScope"></slot>
-      </template>
     </xb-form>
     <div
       class="xb-drawer-form__footer"
-      :class="{ 'xb-dialog-form__footer': config.popupType === 'dialog' }"
+      :class="{ 'xb-dialog-form__footer': config.popupType == 'dialog', 'xb-page-form__footer': config.popupType == 'page' }"
     >
-      <el-button type="primary" :disabled="submitStatus" @click="handleSubmit">
+      <el-button type="primary" :disabled="submitStatus" @click="handleSubmit" v-if="config.footerConfig.submitBtnShow">
         <template #icon>
           <el-icon v-if="submitStatus"
             ><component :is="'xb-icon-loading'"
           /></el-icon>
           <el-icon v-else><component :is="'xb-icon-check'" /></el-icon>
         </template>
-        提交
+        {{ config.footerConfig.submitBtnTitle }}
       </el-button>
-      <el-button :disabled="submitStatus" @click="handleCancel">
+      <el-button :disabled="submitStatus" @click="handleCancel" v-if="config.footerConfig.cancelBtnShow">
         <template #icon>
           <el-icon><component :is="'xb-icon-close'" /></el-icon>
         </template>
-        取消
+        {{ config.footerConfig.cancelBtnTitle }}
       </el-button>
     </div>
   </component>
 </template>
 <script>
-import {  defineComponent } from "vue";
+import { defineComponent } from "vue";
 import useMergeConfig from "./use/useMergeConfig";
 import useSubmit from "./use/useSubmit";
 // icons
@@ -58,6 +57,7 @@ import XbIconCheck from "main/icons/check";
 import XbIconClose from "main/icons/close";
 // 组件
 import XbForm from "../../form/src/main.vue";
+import XbFormPage from "../../formPage/src/main.vue";
 export default defineComponent({
   name: "XbSubmit",
   components: {
@@ -65,6 +65,7 @@ export default defineComponent({
     XbIconCheck,
     XbIconClose,
     XbForm,
+    XbFormPage,
   },
   props: {
     name: {
@@ -85,7 +86,7 @@ export default defineComponent({
       default: () => ({}),
     },
   },
-  emits: ["submit"],
+  emits: ["submit", "cancel"],
   setup(props, ctx) {
     const { config, rules } = useMergeConfig(props);
     const {
@@ -118,12 +119,14 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   border-top: 1px solid #e6e6e6;
-  padding: 13px 15px;
+  padding: 0 15px;
+  height: 60px;
   background-color: #fff;
   box-sizing: border-box;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  z-index: 99;
 }
 .xb-dialog-form__footer {
   flex-direction: row-reverse;
@@ -132,10 +135,13 @@ export default defineComponent({
     margin-left: 12px;
   }
 }
+.xb-page-form__footer{
+  justify-content: flex-start;
+}
 .xb-drawer-form {
   .el-drawer__body {
     margin-bottom: 60px;
-    padding: 0 20px 20px;
+    padding: 0 20px;
   }
   .el-dialog__body {
     padding: 0 20px 80px;

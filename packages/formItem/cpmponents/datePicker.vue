@@ -5,9 +5,6 @@
     :valueFormat="valueFormat"
     @change="handleValueChange"
     style="box-sizing: border-box; "
-    :style="{
-      width: (configData.propAttrs && configData.propAttrs.width) || '100%',
-    }"
   >
   </el-date-picker>
 </template>
@@ -21,16 +18,10 @@ export default defineComponent({
       default: () => ({}),
     },
     modelValue: {},
-    startValue: {
-      type: String,
-      default: ''
-    },
-    endValue: {
-      type: String,
-      default: ''
-    }
+    startValue: {},
+    endValue: {}
   },
-  emits: ["update:modelValue", "onUpdate:startValue", "onUpdate:endValue"],
+  emits: ["update:modelValue", "update:startValue", "update:endValue"],
   setup(props, ctx) {
     // 初始化值
     const key = props.configData.propName;
@@ -39,20 +30,6 @@ export default defineComponent({
 
     // 处理时间范围，后台需要2个字段的情况
     if (isRang) {
-
-      // key.split("-").forEach((item, index) => {
-      //   searchVal.value[index] = props.formData[item];
-      //   watch(
-      //     () => props.formData[item],
-      //     (val) => {
-      //       // 解决清空时searchVal 变成 null
-      //       if (!Array.isArray(searchVal.value)) {
-      //         searchVal.value = ["", ""];
-      //       }
-      //       searchVal.value[index] = val;
-      //     }
-      //   );
-      // });
       searchVal.value[0] = props.startValue;
       searchVal.value[1] =  props.endValue
        // 监听值的变化

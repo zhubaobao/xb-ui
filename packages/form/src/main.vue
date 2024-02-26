@@ -8,53 +8,31 @@
     :model="formData"
     :inline="false"
     @submit.prevent
-    style="margin-left: -10px; margin-right: -10px"
   >
-    <template v-for="item in formItems" :key="item.propName">
-      <!-- text 可以用于布局/标题 -->
-      <div
-        v-if="item.type === 'text'"
-        class="el-col xb-form-text"
-        :class="[
-          ...getClassesFn(item.layout || config.layout || { span: 24 }),
-          item.formItemClass,
-        ]"
-        :style="item.style"
-      >
-        <span> {{ item.label }}</span>
-      </div>
-
-      <el-form-item
-        style="padding-right: 10px; padding-left: 10px"
-        class="el-col"
-        :class="getClassesFn(item.layout || config.layout || { span: 24 })"
-        :label="item.label ? item.label + '：' : ''"
-        :prop="item.propName"
-        v-bind="item.formItemPropAttrs"
-        v-else
-      >
-        <slot v-if="item.type === 'template'" :name="`${item.propName}${slotSuffix}`" :formData="formData"></slot>
-        <template v-else>
-          <!-- 时间范围，formData 2 字段接受 -->
+    <!-- tab 切换 -->
+    <template v-if=" Array.isArray(config.tabs) && config.tabs.length">
+      <el-tabs v-model="curTabName" style="width: 100%">
+        <el-tab-pane v-for="(tab, index) in tabs" :key="tab.name" :label="tab.label" :name="`tab${index}`">
           <xb-form-item
-            v-if="item.startPropName && item.endPropName"
+            v-for="item in tab.formItems || []" 
+            :key="item.propName"
+            :layout="config.layout"
             :formItem="item"
             :formData="formData"
-            v-model:startValue="formData[item.startPropName]"
-            v-model:endValue="formData[item.endPropName]"
             :slotSuffix="slotSuffix"
-          >
-          </xb-form-item>
-          <xb-form-item
-            v-else
-            :formItem="item"
-            :formData="formData"
-            v-model="formData[item.propName]"
-            :slotSuffix="slotSuffix"
-          >
-          </xb-form-item>
-        </template>
-      </el-form-item>
+          ></xb-form-item>
+        </el-tab-pane>
+      </el-tabs>
+    </template>
+    <template  v-else>
+      <xb-form-item
+        v-for="item in formItems" 
+        :key="item.propName"
+        :layout="config.layout"
+        :formItem="item"
+        :formData="formData"
+        :slotSuffix="slotSuffix"
+      ></xb-form-item>
     </template>
   </el-form>
 </template>
@@ -83,35 +61,22 @@ export default {
     },
     slotSuffix: {
       type: String,
-      default: 'XbF' // 默认是 form 提交
-    }
+      default: "XbF", // 默认是 form 提交
+    },
   },
-  setup(props) {
-    const { formData, handleEventChange, formRef, formDataInit } = useInit(props);
-    const { formItems, showProp } = useLink(props, formData);
-
-    // 栅格化 class
-    const getClassesFn = (layout = {}) => {
-      const classes = [];
-      const sizes = ["span", "xs", "sm", "md", "lg", "xl"];
-      sizes.forEach((size) => {
-        if (size === "span") {
-          layout.span && classes.push(`el-col-${layout.span}`);
-        } else {
-          layout[size] && classes.push(`el-col-${size}-${layout[size]}`);
-        }
-      });
-      return classes;
-    };
+  setup(props, ctx) {
+    const { formData, formRef, formDataInit, curTabName, tabsFormItemKeys } = useInit(props, ctx);
+    const { formItems, showProp, tabs } = useLink(props, formData);
 
     return {
       formRef,
       formData,
       formDataInit,
-      handleEventChange,
-      getClassesFn,
       formItems,
-      showProp
+      tabs,
+      showProp,
+      curTabName,
+      tabsFormItemKeys
     };
   },
 };
@@ -121,5 +86,20 @@ export default {
   padding: 30px 10px;
   font-size: 14px;
   font-weight: bold;
+}
+.xb-submit-form{
+  height: 100%;
+  &:deep(.el-tabs){
+    height: 100%;
+  }
+  &:deep(.el-tabs__header){
+    margin: 0;
+  }
+  &:deep(.el-tabs__content){
+    padding: 20px 0;
+    height: calc(100% - 40px);
+    box-sizing: border-box;
+    overflow: scroll;
+  }
 }
 </style>

@@ -9,11 +9,12 @@ const useSubmit = (props, ctx, config) => {
   // 加载
   const submitStatus = ref(false);
 
+  
   // 提交保存
   const handleSubmit = () => {
-  
-    const { formData, formRef, showProp } = xbFormRef.value
-    formRef.validate(async (valied) => {
+    const { formData, formRef, showProp, tabsFormItemKeys } = xbFormRef.value;
+    
+    formRef.validate(async (valied, obj) => {
       if (valied) {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
         submitStatus.value = true;
@@ -52,11 +53,18 @@ const useSubmit = (props, ctx, config) => {
           submitStatus.value = false;
         }
 
+      } else {
+        if (!props.formConfig.tabs) return;
+        for(let key in obj) {
+          xbFormRef.value.curTabName = tabsFormItemKeys[key]
+          break;
+        }
       }
     });
   };
   // 关闭弹窗
   const handleCancel = () => {
+    ctx.emit('cancel')
     popupShow.value = false;
     // 清空
     xbFormRef.value.formDataInit();

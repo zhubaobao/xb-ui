@@ -98,51 +98,67 @@ export const deepCopy = (target, map = new Map()) => {
  * 获取插槽内容配置信息
  * @param {*} currentInstance 当前实例
  * @param {*} slotNames slot key 值
- * @param {*} slotConfig slot配置信息
+ * @param {*} config 配置信息
  * @param {*} prefix 前缀
  * @param {*} suffix 后缀
  * @returns 
  */
 
-export const getSlots = (currentInstance, slotNames, slotConfig,  prefix = '', suffix ='') => {
-  if (!slotConfig) return [];
+export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffix ='') => {
   // slot 数量
   let count = 0;
   // 结果集合
-  let reslut = [];
+  let reslut = {};
+  // 初始化集合
+  slotNames.forEach(item => {
+    reslut[item] = [];
+  })
   // 过滤slotNames 
   let _slotNames = [];
-  for (let key in slotConfig) {
-    const val = slotConfig[key];
-    if(!slotNames.includes(key)) continue;
-    if (val == 'xbTemplate' ) {
-      _slotNames.push(key);
-    } else {
-      reslut.push({
-        name: key,
-        con: val
-      })
-    };
+  // 自定义表单/表格
+  if(config.type == 'template' || config.contentType == 'template') {
+    _slotNames.push('default');
     count++;
   }
+  // 表单插槽
+  if(config.slots) {
+    for (let key in config.slots) {
+      const val = config.slots[key];
+      if(!reslut[key]) continue;
+      if (val == 'xbTemplate' ) {
+        _slotNames.push(key);
+        count++;
+      } else {
+        reslut[key].push({
+          name: key,
+          con: val
+        })
+      };
+     
+    }
+  }
+  if (count <= 0) return reslut;
   /// 迭代获取符合条件的slots 
   let parent = currentInstance.parent;
   while (parent) {
     _slotNames.forEach(slotName => {
-      const slot = parent.slots[prefix + slotName + suffix];
+      const key = prefix + (slotName == 'default' ? ''  : slotName) + suffix;
+      const slot = parent.slots[key];
       if (slot) {
-        reslut.push(
+        reslut[slotName].push(
           {
             name: slotName,
             slot: slot
           }
         )
+        count--;
         // 把找到的插槽添加到当前组件中
-        currentInstance.slots[prefix + slotName + suffix] = slot
+        currentInstance.slots[key] = slot;
       }
     })
     // 如果都找到就直接返回
-    if (count == reslut.length) break;
+    if (count <= 0) break;
+    // 如果没有找到就继续往上找
     parent = parent.parent;
   }
   return reslut;

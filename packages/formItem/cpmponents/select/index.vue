@@ -130,7 +130,7 @@ export default defineComponent({
         getOptionsData();
       } else {
         new Promise((resolve) => {
-          cb(val, key, resolve, props.formData);
+          cb(val, key, resolve, {...props.formData});
         }).then((res) => {
           options.value = res;
         });

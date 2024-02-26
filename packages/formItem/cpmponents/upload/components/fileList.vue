@@ -7,7 +7,7 @@
     :disabled="disabled"
   >
     <template #item="{ index }">
-      <div class="xb-upload-item__item-w">
+      <div class="xb-upload-item__item-w" :style="{width: size.width + 'px',height: size.height + 'px'}">
         <div class="xb-upload-item__loading" v-if="!fileList[index]">
           <el-icon class="xb-upload-item_loading-icon"
             ><component :is="'xb-icon-loading'"
@@ -81,6 +81,13 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    size: {
+      type: Object,
+      default: () => ({
+        width: 110,
+        height: 110
+      })
+    }
   },
   emits: ["delete", "dragEnd"],
   setup(props, ctx) {
@@ -167,8 +174,6 @@ export default defineComponent({
   color: #fff;
 }
 .xb-upload-item__item-w {
-  width: 110px;
-  height: 110px;
   float: left;
   margin-right: 10px;
   position: relative;

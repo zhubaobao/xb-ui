@@ -21,15 +21,20 @@
       }}</el-tag>
     </template>
     <!-- 自定义表单 -->
-    <template #timeXbS>
-      <span>111</span>
+    <template #detailsXbF="{formData}">
+      <el-input v-model="formData.details"></el-input>
     </template>
 
-    <template #input-input-appendXbF>
+     <template #XbInputXbF="{formData}">
+      <el-input v-model="formData.XbInput"></el-input>
+    </template>
+
+
+    <template #inputAppendXbF>
       <span>3333</span>
     </template>
 
-    <template #ani-extraXbF>
+    <template #aniExtraXbF>
       <span><el-button text>22</el-button></span>
     </template>
 
@@ -41,6 +46,7 @@ import useTable from "./use/useTable";
 import useSearch from "./use/useSearch";
 import useForm from "./use/useForm";
 import { ref } from "vue";
+  
 const c = ref(false);
 const a = {
   b: {

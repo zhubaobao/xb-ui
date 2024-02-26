@@ -1,28 +1,23 @@
 <template>
-  <el-input
-    style="box-sizing: border-box; "
-    class="xb-input"
+  <el-input-number
+     style="box-sizing: border-box; "
     v-model="searchVal"
     v-bind="configData.propAttrs"
     @change="handleValueChange"
-    
   >
-  </el-input>
+  </el-input-number>
 </template>
 <script>
 import { defineComponent } from "vue";
 import useCommon from './use/useCommon';
 export default defineComponent({
-  name: "XbInput",
+  name: "XbInputNumber",
   props: {
     configData: {
       type: Object,
       default: () => ({}),
     },
-    modelValue: {
-      type: [String, Number],
-      default: ''
-    }
+    modelValue: {}
   },
   emits: ["update:modelValue"],
   setup(props, ctx) {
@@ -30,9 +25,8 @@ export default defineComponent({
     const { searchVal, handleValueChange } = useCommon(props, ctx);
     return {
       searchVal,
-      handleValueChange
+      handleValueChange,
     };
   },
 });
 </script>
-

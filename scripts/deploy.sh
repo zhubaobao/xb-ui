@@ -25,5 +25,5 @@ git push -u git@github.com:zhubaobao/xb-ui.git master:docs-pages
 # 提交所有代码到github
 cd ../../../
 git add .
-git cm -m 'docs: 修改文档'
-git push
+git commit -m 'docs: 修改文档'
+git push -u origin master   

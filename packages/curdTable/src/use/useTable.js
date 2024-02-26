@@ -1,5 +1,7 @@
 import { nextTick, ref } from 'vue';
 const useTable = (props) => {
+  // 表单单独页面显隐
+  const fromPageShow = ref(false);
   // 表单类型 add-添加 edit-修噶
   const formType = ref('add')
   // 表格
@@ -14,13 +16,23 @@ const useTable = (props) => {
   };
   // 表单提交 - 刷新表格
   const handleFormSubmit = () => {
+    if (props.formConfig.popupType == 'page') {
+      fromPageShow.value = false;
+    }
     tableRef.value.getData();
+  }
+  // 表单页面取消
+  const handleCancel = () => {
+    fromPageShow.value = false;
   }
   // 添加
   const handleAdd = () => {
+    if (props.formConfig.popupType == 'page') {
+      fromPageShow.value = true;
+    }
     formType.value = 'add'
-    formRef.value && (formRef.value.popupShow = true)
-    props.tableConfig.addCb && props.tableConfig.addCb()
+    formRef.value && (formRef.value.popupShow = true);
+    props.tableConfig.addCb && props.tableConfig.addCb();
   }
   // 编辑
   const handleEdit = async (data) => {
@@ -45,7 +57,8 @@ const useTable = (props) => {
           }
           // 赋值 id
           const idKey = config.edit.idKey
-          idKey && (formData[idKey] = data[idKey])
+          const idValueKey = config.edit.idValueKey
+          idKey && (formData[idKey] = data[idValueKey])
         }
         editCb && editCb(data)
       })
@@ -57,10 +70,12 @@ const useTable = (props) => {
     tableRef,
     formRef,
     formType,
+    fromPageShow,
     handleSearchValChange,
     handleAdd,
     handleEdit,
-    handleFormSubmit
+    handleFormSubmit,
+    handleCancel
   }
 }
 export default useTable

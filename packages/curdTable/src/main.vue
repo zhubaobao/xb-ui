@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div style="height: 100%" v-show="!fromPageShow">
     <el-container class="xb-curd-table">
       <!-- 列表搜索 -->
       <xb-search
@@ -7,13 +7,6 @@
         :searchConfig="searchConfig"
         @change="handleSearchValChange"
       >
-        <template
-          v-for="(item, key, index) in searchSlots"
-          :key="index"
-          #[`${key}`]="slotScope"
-        >
-          <slot :name="key" v-bind="slotScope"></slot>
-        </template>
       </xb-search>
 
       <!-- 列表 -->
@@ -35,21 +28,28 @@
       </xb-table>
     </el-container>
   </div>
+
+  <!-- 编辑添加表单单独页面 -->
+  <!-- <template v-if="formConfig.popupType == 'page'">
+    <xb-form-page
+      v-if="fromPageShow"
+      :form-config="formConfig"
+      @submit="handleFormSubmit"
+      @cancel="handleCancel"
+      :type="formType"
+      :name="name"
+    >
+    </xb-form-page>
+  </template> -->
   <!-- 编辑添加表单 -->
   <xb-submit
     ref="formRef"
     :form-config="formConfig"
     @submit="handleFormSubmit"
+    @cancel="handleCancel"
     :type="formType"
     :name="name"
   >
-    <template
-      v-for="(item, key, index) in submitSlots"
-      :key="index"
-      #[`${key}`]="slotScope"
-    >
-      <slot :name="key" v-bind="slotScope"></slot>
-    </template>
   </xb-submit>
 </template>
 <script >
@@ -57,6 +57,7 @@ import { defineComponent } from "vue";
 import XbSearch from "../../search/src/main.vue";
 import XbSubmit from "../../submit/src/main.vue";
 import XbTable from "../../table/src/main.vue";
+import XbFormPage from "../../formPage/src/main.vue";
 import useSlots from "./use/useSlots";
 import useTable from "./use/useTable";
 export default defineComponent({
@@ -65,6 +66,7 @@ export default defineComponent({
     XbSearch,
     XbSubmit,
     XbTable,
+    XbFormPage,
   },
   props: {
     name: {
@@ -91,33 +93,33 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const { tableSlots, searchSlots, submitSlots } = useSlots(slots);
+    const { tableSlots } = useSlots(slots);
     const {
       requestParams,
       formRef,
       tableRef,
       formType,
+      fromPageShow,
       handleSearchValChange,
       handleFormSubmit,
       handleAdd,
       handleEdit,
+      handleCancel
     } = useTable(props);
-
-    // const { columnsHasTemplateList, columnsHasHeaderList } = useSlot(props);
 
     return {
       requestParams,
       tableRef,
       formRef,
       formType,
+      fromPageShow,
       handleFormSubmit,
       handleSearchValChange,
       handleAdd,
       handleEdit,
+      handleCancel,
       // slots
       tableSlots,
-      searchSlots,
-      submitSlots,
     };
   },
 });

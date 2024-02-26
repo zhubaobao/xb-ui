@@ -18,6 +18,16 @@ export const tableApi = (params) => {
         startTime: "2024-02-02 00:00:00",
         endTime: "2024-03-01 00:00:00",
         status: "available",
+        formJson: [
+          {
+            a: 1,
+            b: 2
+          },
+          {
+            a: 3,
+            b: 4
+          }
+        ]
       },
       {
         id: 4481681415729684,
