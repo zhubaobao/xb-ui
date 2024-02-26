@@ -4,13 +4,14 @@
     v-bind="config.formAttrs"
     :rules="rules"
     class="xb-submit-form el-row"
+    :class="{'xb-submit-form-page': Array.isArray(config.tabs) && config.tabs.length}"
     :disabled="submitStatus"
     :model="formData"
     :inline="false"
     @submit.prevent
   >
     <!-- tab 切换 -->
-    <template v-if=" Array.isArray(config.tabs) && config.tabs.length">
+    <template v-if="Array.isArray(config.tabs) && config.tabs.length">
       <el-tabs v-model="curTabName" style="width: 100%">
         <el-tab-pane v-for="(tab, index) in tabs" :key="tab.name" :label="tab.label" :name="`tab${index}`">
           <xb-form-item
@@ -88,7 +89,11 @@ export default {
   font-weight: bold;
 }
 .xb-submit-form{
-  height: 100%;
+  max-height: 100%;
+  overflow: auto;
+  &.xb-submit-form-page{
+    height: 100%;
+  }
   &:deep(.el-tabs){
     height: 100%;
   }
