@@ -55,6 +55,7 @@
 
 <script>
 import { defineComponent, ref, watch } from "vue";
+import { deepCopy } from "main/utils"
 // import { RecycleScroller } from "vue-virtual-scroller";
 // import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import useLink from "./use/useLink";
@@ -130,7 +131,7 @@ export default defineComponent({
         getOptionsData();
       } else {
         new Promise((resolve) => {
-          cb(val, key, resolve, {...props.formData});
+          cb(deepCopy(val), key, resolve, deepCopy(props.formData));
         }).then((res) => {
           options.value = res;
         });

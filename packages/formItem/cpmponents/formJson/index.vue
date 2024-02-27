@@ -82,10 +82,7 @@ export default defineComponent({
 
     const list = ref(props.modelValue);
     const addItem = () => {
-      list.value.push({
-        a: '',
-        b: ''
-      });
+      list.value.push(childVal);
     };
     // 初始化值
     for (let i = 0; i < config.min; i++) {

@@ -1,5 +1,8 @@
 import { ref, watch, computed } from "vue";
+import { deepCopy } from "main/utils";
 const useLink = (props, formData) => {
+
+
   // 需要显示的表单集合
   const showProp = ref({});
   // 控制显示隐藏
@@ -14,9 +17,7 @@ const useLink = (props, formData) => {
         watch(
           () => formData.value[item],
           (newVal) => {
-            showProp.value[propName] = linkShowCb(newVal, item, {
-              ...formData.value,
-            });
+            showProp.value[propName] = linkShowCb(deepCopy(newVal), item, deepCopy(formData.value));
           },
           {
             immediate: true,
@@ -35,9 +36,7 @@ const useLink = (props, formData) => {
         watch(
           () => formData.value[item],
           (newVal) => {
-            disabledProp.value[propName] = linkDisabledCb(newVal, item, {
-              ...formData.value,
-            });
+            disabledProp.value[propName] = linkDisabledCb(deepCopy(newVal), item, deepCopy(formData.value));
           },
           {
             immediate: true,
@@ -55,9 +54,8 @@ const useLink = (props, formData) => {
         watch(
           () => formData.value[item],
           (newVal) => {
-            formData.value[propName] = linkValueCb(newVal, item, {
-              ...formData.value,
-            });
+
+            formData.value[propName] = linkValueCb(deepCopy(newVal), item, deepCopy(formData.value));
           },
           {
             immediate: true,

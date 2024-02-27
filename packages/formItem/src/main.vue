@@ -133,7 +133,6 @@ export default defineComponent({
       `${propName}`,
       slotSuffix
     );
-    console.log(slotsMap, )
     // 栅格化 class
     const getClassesFn = (layout = {}) => {
       const classes = [];

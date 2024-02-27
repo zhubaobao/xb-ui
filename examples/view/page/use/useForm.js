@@ -36,32 +36,41 @@ const useForm = () => {
         label: "规格/库存",
         formItems: [
           {
-            type: "XbInput",
+            type: "XbFormJson",
             label: "input",
             propName: "input",
-            propAttrs: {
-              placeholder: '222'
-            },
-            slots: {
-              append: 'xbTemplate',
-              prepend: '444'
-            }
-          },
-          {
-            type: "XbInput",
-            label: "input",
-            propName: "input1",
-            
+            formItems: [
+              {
+                type: "XbInput",
+                label: "input",
+                propName: "input1",
+              }
+            ]
           },
           {
             type: "XbInput",
             label: "input",
             propName: "input2",
-            linkValueProps: ['input1', 'input'],
-            linkValueCb(newVal, key, formData) {
-              console.log(formData['input1'], formData['input2'])
-              return +formData['input1'] + (+formData['input'])
-            }
+          },
+          {
+            type: "XbInput",
+            label: "thing",
+            propName: "thing",
+          },
+          {
+            type: "XbSelect",
+            label: "select",
+            propName: "select",
+            defaultOptions: [
+              {
+                name: '22',
+                id: 1
+              },
+              {
+                name: '33',
+                id: 2
+              }
+            ]
           },
           // {
           //   type: "XbRadio",
