@@ -38,7 +38,6 @@ const useForm = () => {
           {
             type: "XbInput",
             label: "input",
-            disabled: true,
             propName: "input",
             propAttrs: {
               placeholder: '222'
@@ -46,6 +45,22 @@ const useForm = () => {
             slots: {
               append: 'xbTemplate',
               prepend: '444'
+            }
+          },
+          {
+            type: "XbInput",
+            label: "input",
+            propName: "input1",
+            
+          },
+          {
+            type: "XbInput",
+            label: "input",
+            propName: "input2",
+            linkValueProps: ['input1', 'input'],
+            linkValueCb(newVal, key, formData) {
+              console.log(formData['input1'], formData['input2'])
+              return +formData['input1'] + (+formData['input'])
             }
           },
           // {

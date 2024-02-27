@@ -30,6 +30,8 @@ title: CurdTable
 | linkDisabledCb   | 联动表单是否禁用回调, 需return布尔值<br>true 禁用 / false 不禁用<br> 参数值同 linkOptionsCb | function(val, key, formData) |- |
 | linkShowProps  |  联动表单的 propName 值，联动是否显隐时使用      | array | -  |
 | linkShowCb  |  联动表单是否显示回调, 需return布尔值<br>true 禁用 / false 不禁用<br> 参数值同 linkDisabledCb     | function(val, key, formData) | -  |
+| linkValueProps  |  联动表单的 propName 值，联动值的时候使用      | array | -  |
+| linkValueCb  |  联动表单值的回调, 需return新值 <br> 参数值同 linkDisabledCb     | function(val, key, formData) | -  |
 
 ## config - 类型为XbSelect相关
 | 属性               | 说明                                      | Type   | 默认值   |

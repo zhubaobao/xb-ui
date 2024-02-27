@@ -19,7 +19,8 @@ const useLink = (props, formData) => {
             });
           },
           {
-            immediate: true
+            immediate: true,
+            deep: true
           }
         );
       });
@@ -39,7 +40,28 @@ const useLink = (props, formData) => {
             });
           },
           {
-            immediate: true
+            immediate: true,
+            deep: true
+          }
+        );
+      });
+    }
+  }
+  // 值的联动
+  const valueControl = (formItem) => {
+    const { linkValueProps, linkValueCb, propName } = formItem;
+    if (Array.isArray(linkValueProps) && linkValueProps.length > 0 && linkValueCb) {
+      linkValueProps.forEach((item) => {
+        watch(
+          () => formData.value[item],
+          (newVal) => {
+            formData.value[propName] = linkValueCb(newVal, item, {
+              ...formData.value,
+            });
+          },
+          {
+            immediate: true,
+            deep: true
           }
         );
       });
@@ -65,6 +87,8 @@ const useLink = (props, formData) => {
       visibilityControl(formItem);
       // 启用禁用
       disbaledControl(formItem);
+      // 值的联动
+      valueControl(formItem)
     });
   };
   watchInit();
