@@ -147,7 +147,6 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
     _slotNames.forEach(slotName => {
       const key = prefix + (slotName == 'default' ? ''  : getFristUpperCase(slotName)) + suffix;
       const slot = parent.slots[key];
-      console.log(key, 'slots')
       if (slot) {
         reslut[slotName].push(
           {

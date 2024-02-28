@@ -17,6 +17,7 @@
         :name="name"
         @add="handleAdd"
         @edit="handleEdit"
+        @copy="handleCopy"
       >
         <template
           v-for="(item, key, index) in tableSlots"
@@ -28,20 +29,6 @@
       </xb-table>
     </el-container>
   </div>
-
-  <!-- 编辑添加表单单独页面 -->
-  <!-- <template v-if="formConfig.popupType == 'page'">
-    <xb-form-page
-      v-if="fromPageShow"
-      :form-config="formConfig"
-      @submit="handleFormSubmit"
-      @cancel="handleCancel"
-      :type="formType"
-      :name="name"
-    >
-    </xb-form-page>
-  </template> -->
-  <!-- 编辑添加表单 -->
   <xb-submit
     ref="formRef"
     :form-config="formConfig"
@@ -104,7 +91,8 @@ export default defineComponent({
       handleFormSubmit,
       handleAdd,
       handleEdit,
-      handleCancel
+      handleCancel,
+      handleCopy
     } = useTable(props);
 
     return {
@@ -118,6 +106,7 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleCancel,
+      handleCopy,
       // slots
       tableSlots,
     };

@@ -145,6 +145,14 @@
               v-if="btnConfig.hasOperationDelete"
               >删除
             </el-button>
+             <el-button
+              size="small"
+              class="xb-operations-btn"
+              text
+              @click="handleCopy(row)"
+              v-if="btnConfig.hasOperationCopy"
+              >复制
+            </el-button>
           </template>
         </el-table-column>
         <!-- 无数据提示 -->
@@ -217,7 +225,7 @@ export default defineComponent({
       default: "",
     },
   },
-  emits: ["selectionChange", "add", "edit"],
+  emits: ["selectionChange", "add", "edit", "copy"],
   setup(props, ctx) {
     const { config } = useMergeConfig(props);
     // 表格选择
@@ -231,6 +239,7 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDelete,
+      handleCopy,
       btnConfig,
     } = useTable(props, ctx, config);
     // 导入
@@ -253,6 +262,7 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleDelete,
+      handleCopy,
       btnConfig,
       // import
       httpRequest,

@@ -11,7 +11,8 @@ const useCureTable = (props, ctx, config) => {
     hasSelection,
     hasOperationDelete: operationConfig.hasDelete,
     hasEdit: operationConfig.hasEdit,
-    hasDetails: operationConfig.hasDetails
+    hasDetails: operationConfig.hasDetails,
+    hasOperationCopy: operationConfig.hasCopy
   })
   // 表单数据
   const tableInfo = reactive({
@@ -56,6 +57,10 @@ const useCureTable = (props, ctx, config) => {
   // 修改
   const handleEdit = (data) => {
     ctx.emit('edit', data)
+  }
+  // 复制
+  const handleCopy = (data) => {
+    ctx.emit('copy', data)
   }
   // 删除
   const handleDelete = async (data) => {
@@ -105,6 +110,7 @@ const useCureTable = (props, ctx, config) => {
     handleAdd,
     handleEdit,
     handleDelete,
+    handleCopy,
     btnConfig
   };
 };

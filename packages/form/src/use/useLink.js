@@ -31,7 +31,9 @@ const useLink = (props, formData) => {
   const disbaledControl = (formItem) => {
     const { linkDisabledProps, linkDisabledCb, propName } = formItem;
     // 改变禁用状态
+ 
     if (Array.isArray(linkDisabledProps) && linkDisabledProps.length > 0 && linkDisabledCb) {
+      
       linkDisabledProps.forEach((item) => {
         watch(
           () => formData.value[item],
@@ -46,6 +48,7 @@ const useLink = (props, formData) => {
       });
     }
   }
+ 
   // 值的联动
   const valueControl = (formItem) => {
     const { linkValueProps, linkValueCb, propName } = formItem;
@@ -65,6 +68,7 @@ const useLink = (props, formData) => {
       });
     }
   }
+
   // 联动值初始化
   const watchInit = () => {
     let _formItems = [];

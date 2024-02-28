@@ -36,6 +36,7 @@ const useMergeConfig = (props) => {
       hasDelete: true,
       hasEdit: true,
       hasDetails: false,
+      hasCopy: false,
       width: 100
     },
     footerConfig: {

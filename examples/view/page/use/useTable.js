@@ -4,6 +4,9 @@ const useTable = () => {
   const hasSelection = ref(true);
   const tableConfig = {
     requestApi: tableApi,
+    operationConfig: {
+      hasCopy: true
+    },
     columns: [
       {
         prop: "name",

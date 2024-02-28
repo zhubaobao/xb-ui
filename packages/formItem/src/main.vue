@@ -12,7 +12,7 @@
     <el-form-item
       style="padding-right: 10px; padding-left: 10px"
       :label="formItem.label ? formItem.label + '：' : ''"
-      :prop="formItem.propName"
+      :prop="formItemProp"
       v-bind="formItem.formItemPropAttrs"
       v-else
     >
@@ -119,6 +119,10 @@ export default defineComponent({
       type: Object,
       default: () => ({ span: 24 }),
     },
+    parentProp: {
+      type: String,
+      default: ''
+    }
   },
   setup(props) {
     const { slotSuffix, formItem } = props;
@@ -146,9 +150,13 @@ export default defineComponent({
       });
       return classes;
     };
+    // 初始化 表单 prop
+    const isRang = formItem.propName.includes('-');
+    const formItemProp = formItem.prop || props.parentProp + (isRang ? formItem.propName.split('-')[0] : formItem.propName);
     return {
       getClassesFn,
       slotsMap,
+      formItemProp
     };
   },
 });

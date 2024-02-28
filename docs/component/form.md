@@ -18,13 +18,15 @@ title: CurdTable
 | requestApi | 获取下拉菜单值接口/上传文件的接口，类型为XbSelect/Xbupload有效 | function | - |
 | responseFormat | 格式化获取下拉菜单值接口返回值/格式化上传文件返回值，类型为XbSelect/Xbupload有效 | function | - |
 | options       | options radio 子项， 类型为XbRadio, <br>格式为：<br>{ <br>&nbsp;&nbsp;id:"",<br>&nbsp;&nbsp;name: "" <br>} | - |
+| disabledControl | 控制显示隐藏， 类型为XbFormJson的子组件时有效 | function(index) |- |
 | slots | 插槽目前支持 extra, prepend, append, 详见slots(#) | Object | --- |
 
 
 ## config - 联动相关
+- 目前XbFormJson的子表单不支持联动 
 | 属性               | 说明                                      | Type   | 默认值   |
 | ----------------- | ----------------------------------------- | ------ | ------- |
-| linkOptionsProps  |  联动表单的 propName 值，类型为XbSelect有效                     | array | -  |
+| linkOptionsProps  |  联动表单的 propName 值，类型为XbSelect有效 | array | -  |
 | linkOptionsCb     |  联动表单值改变后回调, 需 resolve(newVal) 一个新值  <br> val 关联表单的值 <br> key 关联表单的key <br> resolve 用于返回一个新的值 <br> formData 当前表单所有值 <br>  (注：关联多个表单会执行多次,使用 formData 取值判断)| function(val, key, resolve, formData) | -  |
 | linkDisabledProps  |  联动表单的 propName 值，联动是否禁用时使用      | array | -  |
 | linkDisabledCb   | 联动表单是否禁用回调, 需return布尔值<br>true 禁用 / false 不禁用<br> 参数值同 linkOptionsCb | function(val, key, formData) |- |
@@ -59,6 +61,7 @@ title: CurdTable
 | ----------------- | ----------------------------------------- | ------  | -------   |
 | min               | 内容最小数量                                | number  | 0         |
 | max               | 内容最大数量                                | number  | Infinity  |
+| fixNum            | 固定前多少个内容不可删除, 注：小于等于min           | number  | -1        |
 | formItems         | 内容配置                                   | array   | []        |
 
 ## slots - 表单插槽

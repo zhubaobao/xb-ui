@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
+import { deepCopy } from "main/utils/index";
 const useSubmit = (props, ctx, config) => {
   // 表单
   const xbFormRef = ref(null);
@@ -18,7 +19,7 @@ const useSubmit = (props, ctx, config) => {
       if (valied) {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
         submitStatus.value = true;
-        let finalData = {...formData};
+        let finalData = deepCopy(formData);
         for (let k in showProp) {
           !showProp[k] && finalData.hasOwnProperty(k)
             ? delete finalData[k]

@@ -1,7 +1,6 @@
 import { getCurrentInstance } from "vue";
 const useForm = () => {
   const currentInstance = getCurrentInstance();
-
   let count = 0;
   const pics = [
     "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
@@ -30,7 +29,6 @@ const useForm = () => {
       }
     },
     tabs: [
-      
       {
         name: "specification",
         label: "规格/库存",
@@ -39,18 +37,23 @@ const useForm = () => {
             type: "XbFormJson",
             label: "input",
             propName: "input",
+            min: 1,
+            fixNum: 1,
             formItems: [
               {
                 type: "XbInput",
                 label: "input",
                 propName: "input1",
+                disabledControl(item, index) {
+                  return index == 0
+                }
               }
             ]
           },
           {
             type: "XbInput",
-            label: "input",
-            propName: "input2",
+            label: "name",
+            propName: "name",
           },
           {
             type: "XbInput",

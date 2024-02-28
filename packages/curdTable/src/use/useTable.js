@@ -1,4 +1,5 @@
 import { nextTick, ref } from 'vue';
+import { deepCopy } from 'main/utils'
 const useTable = (props) => {
   // 表单单独页面显隐
   const fromPageShow = ref(false);
@@ -35,35 +36,42 @@ const useTable = (props) => {
     props.tableConfig.addCb && props.tableConfig.addCb();
   }
   // 编辑
-  const handleEdit = async (data) => {
+  const handleEdit = async (data, type) => {
     if (formRef.value) {
       let { config } = formRef.value
+      if (props.formConfig.popupType == 'page') {
+        fromPageShow.value = true;
+      }
       formRef.value.popupShow = true;
-      formType.value = 'edit'
+      formType.value = type == 'copy' ? 'add' : 'edit'
       // 处理编辑的数据
       nextTick(() => {
-        const { formDataFormat: format, editCb } = props.tableConfig
+        const { formDataFormat: format } = props.tableConfig;
         let formData = formRef.value.xbFormRef.formData;
         if (format) {
           new Promise((resolve) => {
-            format(resolve, data, formData)
+            format(resolve, deepCopy(data), deepCopy(formData));
           }).then(res => {
-            res && (formData = res)
+            res && (formData = res);
           })
         } else {
           // 遍历赋值
           for (let key in formData) {
-            formData[key] = data[key]
+            formData[key] = data[key];
           }
           // 赋值 id
-          const idKey = config.edit.idKey
-          const idValueKey = config.edit.idValueKey
-          idKey && (formData[idKey] = data[idValueKey])
+          const idKey = config.edit.idKey;
+          const idValueKey = config.edit.idValueKey;
+          idKey && (formData[idKey] = type == 'copy' ? '' : data[idValueKey]);
         }
-        editCb && editCb(data)
+
       })
 
     }
+  }
+  // 复制
+  const handleCopy = async (data) => {
+    handleEdit(data, 'copy')
   }
   return {
     requestParams,
@@ -75,7 +83,8 @@ const useTable = (props) => {
     handleAdd,
     handleEdit,
     handleFormSubmit,
-    handleCancel
+    handleCancel,
+    handleCopy
   }
 }
 export default useTable
