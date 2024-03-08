@@ -78,6 +78,6 @@ export default defineComponent({
 
 .xb-btn-list {
   flex-shrink: 0;
-  margin-left: 80px;
+  margin-left: 20px;
 }
 </style>

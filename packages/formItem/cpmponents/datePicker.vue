@@ -4,12 +4,12 @@
     v-bind="configData.propAttrs"
     :valueFormat="valueFormat"
     @change="handleValueChange"
-    style="box-sizing: border-box; "
+    style="box-sizing: border-box"
   >
   </el-date-picker>
 </template>
 <script>
-import { defineComponent, ref, watch  } from "vue";
+import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "XbDatePicker",
   props: {
@@ -19,7 +19,7 @@ export default defineComponent({
     },
     modelValue: {},
     startValue: {},
-    endValue: {}
+    endValue: {},
   },
   emits: ["update:modelValue", "update:startValue", "update:endValue"],
   setup(props, ctx) {
@@ -31,15 +31,15 @@ export default defineComponent({
     // 处理时间范围，后台需要2个字段的情况
     if (isRang) {
       searchVal.value[0] = props.startValue;
-      searchVal.value[1] =  props.endValue
-       // 监听值的变化
+      searchVal.value[1] = props.endValue;
+      // 监听值的变化
       watch(
         () => props.startValue,
         (val) => {
           searchVal.value[0] = val;
         }
       );
-       // 监听值的变化
+      // 监听值的变化
       watch(
         () => props.endValue,
         (val) => {
@@ -63,19 +63,18 @@ export default defineComponent({
           ctx.emit("update:startValue", val[0]);
           ctx.emit("update:endValue", val[1]);
         }
-        
+
         // key.split("-").forEach((key, index) => {
         //   data[key] = Array.isArray(val) ? val[index] : "";
         // });
       } else {
         ctx.emit("update:modelValue", val);
       }
-     
     };
 
     let valueFormat = "YYYY-MM-DD HH:mm:ss";
-    if (props.propAttrs && props.propAttrs.valueFormat) {
-      valueFormat = props.propAttrs.valueFormat;
+    if (props.configData.propAttrs && props.configData.propAttrs.valueFormat) {
+      valueFormat = props.configData.propAttrs.valueFormat;
     }
     return {
       searchVal,

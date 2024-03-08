@@ -16,24 +16,29 @@
       v-bind="formItem.formItemPropAttrs"
       v-else
     >
-      <div class="xb-form-item-content" :class="{
-            'el-input-group--append': formItem.slots && formItem.slots.append,
-            'el-input-group--prepend': formItem.slots && formItem.slots.prepend,
-          }">
+      <div
+        class="xb-form-item-content"
+        :class="{
+          'el-input-group--append': formItem.slots && formItem.slots.append,
+          'el-input-group--prepend': formItem.slots && formItem.slots.prepend,
+        }"
+      >
         <!-- 前缀内容 -->
         <template v-for="(item, index) in slotsMap.prepend" :key="index">
           <div class="el-input-group__prepend">
-            <slot :name="`${formItem.propName}Prepend${slotSuffix}`">{{
-              item.con
-            }}</slot>
+            <slot
+              :name="`${formItem.propName}Prepend${slotSuffix}`"
+              :formData="formData"
+              >{{ item.con }}</slot
+            >
           </div>
         </template>
         <!--自定义内容 -->
-         <slot
-            v-if="formItem.type == 'template'"
-            :name="`${formItem.propName}${slotSuffix}`"
-            :formData="formData"
-          ></slot>
+        <slot
+          v-if="formItem.type == 'template'"
+          :name="`${formItem.propName}${slotSuffix}`"
+          :formData="formData"
+        ></slot>
         <!-- 动态组件表单内容 -->
         <component
           v-else
@@ -57,9 +62,11 @@
         <!-- 后缀内容 -->
         <template v-for="(item, index) in slotsMap.append" :key="index">
           <div class="el-input-group__append">
-            <slot :name="`${formItem.propName}Append${slotSuffix}`">{{
-              item.con
-            }}</slot>
+            <slot
+              :name="`${formItem.propName}Append${slotSuffix}`"
+              :formData="formData"
+              >{{ item.con }}</slot
+            >
           </div>
         </template>
       </div>
@@ -68,6 +75,7 @@
         <slot
           v-if="item.slot"
           :name="`${formItem.propName}Extra${slotSuffix}`"
+          :formData="formData"
         ></slot>
         <div class="xb-form-extra" v-else>{{ item.con }}</div>
       </template>
@@ -75,7 +83,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, getCurrentInstance } from "vue";
+import { defineComponent, getCurrentInstance, nextTick } from "vue";
 import { getSlots } from "main/utils";
 // component
 import XbInput from "../cpmponents/input";
@@ -121,8 +129,8 @@ export default defineComponent({
     },
     parentProp: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   setup(props) {
     const { slotSuffix, formItem } = props;
@@ -151,12 +159,15 @@ export default defineComponent({
       return classes;
     };
     // 初始化 表单 prop
-    const isRang = formItem.propName.includes('-');
-    const formItemProp = formItem.prop || props.parentProp + (isRang ? formItem.propName.split('-')[0] : formItem.propName);
+    const isRang = formItem.propName && formItem.propName.includes("-");
+    const formItemProp =
+      formItem.prop ||
+      props.parentProp +
+        (isRang ? formItem.propName.split("-")[0] : formItem.propName);
     return {
       getClassesFn,
       slotsMap,
-      formItemProp
+      formItemProp,
     };
   },
 });

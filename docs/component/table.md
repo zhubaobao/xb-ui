@@ -21,7 +21,7 @@ title: Table
 | requestApi      | 请求表格数据的方法, 返回值要求promise                                    | function  | -       |
 | paramsFormat    | 格式化请求参数                                                         | function(val) | -   |
 | responseFormat  | 格式化请求返回的表格数据                                                | function(val)   | -       |
-| formDataFormat  | 表单值格式化用于编辑/复制，支持接口, 通过 resolve(data) 返回新值     |  function() |
+| formDataFormat  | 表单值格式化用于编辑/复制，支持接口, 通过 resolve(newFormData) 返回新值     |  function(resolve, data, formData) |
 | selectable      | 用来决定这一行的 CheckBox 是否可以勾选                                   | function(row, index)  | -       |
 | columns         | 表格列配置, 详见 [columns配置](#columns-列)                                 | array | -       |
 | headerConfig    | 表格上方操作区域配置, 详见 [headerConfig配置](#headerconfig-表格上方操作区配置) | object  | -       |

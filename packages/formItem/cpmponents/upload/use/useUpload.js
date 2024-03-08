@@ -1,5 +1,6 @@
 import { ElMessage } from 'element-plus';
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { deepCopy } from "main/utils/index";
 
 const useUpload = (props, ctx, config) => {
   // 当前文件
@@ -10,17 +11,22 @@ const useUpload = (props, ctx, config) => {
   const cropRef = ref(null);
   // 初始化值
   const searchVal = ref([]);
-  
+
   // 值处理
   const dealVal = (oldVal) => {
-    let newVal = ''
-    if (config.valueType === 'string') {
-      newVal = oldVal ? oldVal.split(config.separator) : []
+
+    let newVal = oldVal || [];
+    const valueType = config.valueType;
+    if (valueType !== 'object') {
+      if (valueType === 'string') {
+        newVal = oldVal ? oldVal.split(config.separator) : []
+      }
+      newVal = newVal.map(item => ({ image: item }))
     }
-    previewList.value = [...newVal];
+
     return newVal
   }
-  searchVal.value = dealVal(props.modelValue);
+
   // 上传请求
   const upLoadRequest = async (val) => {
     previewList.value.push(val);
@@ -37,9 +43,17 @@ const useUpload = (props, ctx, config) => {
     let res = await requestApi(params);
     res = responseFormat(res)
     if (res.code === 1) {
-      searchVal.value.push(res.src);
-      const val = config.valueType === 'string' ? searchVal.value.join(config.separator) : searchVal.value;
-      ctx.emit("update:modelValue", val);
+      searchVal.value.push(res.data);
+
+      handleLibSubmit(searchVal.value);
+      // let val = searchVal.value;
+      // if (config.valueType != 'object') {
+      //   val = searchVal.value.map(item => item.image);
+      //   if (config.valueType === 'string') {
+      //     val = val.join(config.separator);
+      //   }
+      // }
+      // ctx.emit("update:modelValue", val);
     } else {
       ElMessage.error(res.msg || '上传失败')
     }
@@ -69,7 +83,23 @@ const useUpload = (props, ctx, config) => {
   const handleLibSubmit = (value) => {
     previewList.value.push(...value);
     searchVal.value.push(...value);
+    // 返回值
+    let val = searchVal.value;
+    if (config.valueType != 'object') {
+      val = searchVal.value.map(item => item.image);
+      if (config.valueType === 'string') {
+        val = val.join(config.separator);
+      }
+    }
+    console.log(val, 222)
+    ctx.emit("update:modelValue", val);
   }
+  watch(() => props.modelValue, (val) => {
+    console.log(props.modelValue, '222')
+    const initValue = dealVal(val);
+    searchVal.value = initValue;
+    previewList.value = deepCopy(initValue);
+  })
   return {
     handleRequest,
     handleFileDelete,

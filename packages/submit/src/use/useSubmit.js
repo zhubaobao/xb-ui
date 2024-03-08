@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { deepCopy } from "main/utils/index";
 const useSubmit = (props, ctx, config) => {
@@ -10,11 +10,10 @@ const useSubmit = (props, ctx, config) => {
   // 加载
   const submitStatus = ref(false);
 
-  
+
   // 提交保存
   const handleSubmit = () => {
     const { formData, formRef, showProp, tabsFormItemKeys } = xbFormRef.value;
-    
     formRef.validate(async (valied, obj) => {
       if (valied) {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
@@ -56,7 +55,7 @@ const useSubmit = (props, ctx, config) => {
 
       } else {
         if (!props.formConfig.tabs) return;
-        for(let key in obj) {
+        for (let key in obj) {
           xbFormRef.value.curTabName = tabsFormItemKeys[key]
           break;
         }
@@ -72,14 +71,20 @@ const useSubmit = (props, ctx, config) => {
   };
   const handleOpen = () => {
     const { formDataFormat: format, popupOpenCb } = config;
-    if (format) {
-      new Promise((resolve) => {
-        format(resolve, xbFormRef.value.formData, props.type)
-      }).then(res => {
-        res && (xbFormRef.value.formData = res)
-      })
-    }
-    popupOpenCb && popupOpenCb(props.type, xbFormRef.value.formData)
+
+    nextTick(() => {
+      if (format) {
+        new Promise((resolve) => {
+          console.log(xbFormRef.value, 'xbFormRef.valuexbFormRef.value')
+          format(resolve, deepCopy(xbFormRef.value.formData), props.type)
+        }).then(res => {
+          // res && (xbFormRef.value.formData = res)
+        })
+      }
+      popupOpenCb && popupOpenCb(props.type, deepCopy(xbFormRef.value.formData))
+    });
+
+
   }
   return {
     popupShow,

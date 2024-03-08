@@ -1,19 +1,11 @@
 <template>
   <el-tree-select
-    :style="{
-      width: (configData.propAttrs && configData.propAttrs.width) || '100%',
-    }"
     v-if="configData.selectType === 'tree'"
     v-bind="configData.propAttrs"
     v-model="searchVal"
     @change="handleValueChange"
     :data="options"
-    :render-after-expand="false"
-    :placeholder="
-      configData.placeholder ||
-      (configData.propAttrs && configData.propAttrs.placeholder) ||
-      '请输入'
-    "
+    :clearable="!(configData.propAttrs && configData.propAttrs.clearable === false)"
   />
 
   <el-select
@@ -21,8 +13,7 @@
     v-model="searchVal"
     @change="handleValueChange"
     v-bind="configData.propAttrs"
-    clearable
-    style="width: 100%"
+    :clearable="!(configData.propAttrs && configData.propAttrs.clearable === false)"
   >
     <!-- <RecycleScroller
       class="virtualScroller"
@@ -96,6 +87,7 @@ export default defineComponent({
       }
     );
     const handleValueChange = (val) => {
+      console.log(val, '3333')
       valChangeCb && valChangeCb(val);
       ctx.emit("update:modelValue", val);
     };

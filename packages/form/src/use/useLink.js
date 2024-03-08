@@ -1,8 +1,15 @@
 import { ref, watch, computed } from "vue";
 import { deepCopy } from "main/utils";
 const useLink = (props, formData) => {
-
-
+  // 获取监听的值
+  // const getWatchVal = (key) => {
+  
+  //   // console.log(formData.value, 223332)
+  //   // let val = formData.value;
+  //   // key.split('.').forEach(item => val = val[item]) 
+  //   // console.log(val, '222')
+  //   return formData[key]
+  // }
   // 需要显示的表单集合
   const showProp = ref({});
   // 控制显示隐藏
@@ -31,9 +38,7 @@ const useLink = (props, formData) => {
   const disbaledControl = (formItem) => {
     const { linkDisabledProps, linkDisabledCb, propName } = formItem;
     // 改变禁用状态
- 
     if (Array.isArray(linkDisabledProps) && linkDisabledProps.length > 0 && linkDisabledCb) {
-      
       linkDisabledProps.forEach((item) => {
         watch(
           () => formData.value[item],
@@ -124,7 +129,6 @@ const useLink = (props, formData) => {
         formItems: initFormItems(item.formItems)
       })
     })
-    // console.log(disabledProp.value, 'cloneTabscloneTabscloneTabs')
     return cloneTabs
   })
 

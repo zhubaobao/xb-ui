@@ -9,7 +9,7 @@
       :disabled="!config.hasDrag"
       :size="{
         width: configData.width || 110,
-        height: configData.height || 110
+        height: configData.height || 110,
       }"
     >
     </xb-file-list>
@@ -21,7 +21,13 @@
         v-if="config.uploadType == 'library'"
       >
         <div class="el-upload el-upload--text">
-          <div class="xb-upload__file-empty" :style="{width: (configData.width || 110 ) + 'px', height: (configData.height || 110 ) + 'px'}">
+          <div
+            class="xb-upload__file-empty"
+            :style="{
+              width: (configData.width || 110) + 'px',
+              height: (configData.height || 110) + 'px',
+            }"
+          >
             <el-icon><component :is="'xb-icon-plus'" /></el-icon>
           </div>
         </div>
@@ -35,7 +41,13 @@
         :http-request="handleRequest"
       >
         <slot>
-          <div class="xb-upload__file-empty" :style="{width: (configData.width || 110 ) + 'px', height: (configData.height || 110 ) + 'px'}">
+          <div
+            class="xb-upload__file-empty"
+            :style="{
+              width: (configData.width || 110) + 'px',
+              height: (configData.height || 110) + 'px',
+            }"
+          >
             <el-icon><component :is="'xb-icon-plus'" /></el-icon>
           </div>
         </slot>
@@ -50,9 +62,9 @@
       @confirm="handleCropConfirm"
     />
     <!-- 图库 -->
-    <xb-file-lib 
-      v-if="config.uploadType == 'library'" 
-      ref="fileLibRef" 
+    <xb-file-lib
+      v-if="config.uploadType == 'library'"
+      ref="fileLibRef"
       :config="config.libConfig || {}"
       :limit="config.limit - searchVal.length"
       @submit="handleLibSubmit"
@@ -85,8 +97,8 @@ export default defineComponent({
       default: () => ({}),
     },
     modelValue: {
-      type: [String, Array],
-      default: ''
+      type: [String, Array, Object],
+      default: "",
     },
   },
   emits: ["update:modelValue"],
@@ -113,7 +125,7 @@ export default defineComponent({
       // 图库
       handleChooseFile,
       fileLibRef,
-      handleLibSubmit
+      handleLibSubmit,
     };
   },
 });
@@ -139,7 +151,6 @@ export default defineComponent({
   }
 }
 .xb-upload__file-empty {
-
   display: flex;
   align-items: center;
   justify-content: center;

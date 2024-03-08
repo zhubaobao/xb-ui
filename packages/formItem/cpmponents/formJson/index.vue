@@ -51,7 +51,9 @@ import { deepMerge, deepCopy } from "main/utils/index";
 // icon
 import XbIconPlus from "main/icons/plus";
 import XbIconDelete from "main/icons/delete";
-// components
+
+// use
+
 
 export default defineComponent({
   name: "XbFormJson",
@@ -87,20 +89,32 @@ export default defineComponent({
       return deepCopy(config.formItems).map((item) => {
         item.disabled = item.disabledControl
           ? item.disabledControl(deepCopy(item), index)
-          : false;
+          : item.disabled;
         return item;
       });
     };
     // 初始化值
     const childVal = {};
     config.formItems.forEach((item) => {
-      childVal[item.propName] = item.defaultValue || "";
+      if (item.type === "text" || item.show === false) return;
+      // 处理时间范围，后台需要2个字段的情况
+      if (item.propName && item.propName.includes("-")) {
+        const defaultValue = item.defaultValue || [];
+        item.propName.split("-").forEach((key, index) => {
+          childVal[key] = 
+            defaultValue[index] === "undefined" ? "" : defaultValue[index];
+        });
+      } else {
+        childVal[item.propName] = 
+          item.defaultValue === "undefined" ? "" : item.defaultValue;
+      }
     });
 
     const list = ref(Array.isArray(props.modelValue) ? props.modelValue : []);
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
+
     };
     // 初始化值
     for (let i = 0; i < config.min - list.value.length; i++) {
@@ -113,6 +127,7 @@ export default defineComponent({
     watch(
       list,
       (val) => {
+        console.log(props.formData)
         cxt.emit("update:modelValue", val);
       },
       { deep: true }
@@ -124,6 +139,7 @@ export default defineComponent({
       },
       { deep: true }
     );
+   
     return {
       list,
       config,
@@ -148,6 +164,8 @@ export default defineComponent({
 }
 .xb-ans-item-con {
   flex: 1;
+  display: flex;
+  flex-wrap: wrap;
   &:deep .el-form-item {
     margin-bottom: 18px;
   }

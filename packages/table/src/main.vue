@@ -37,6 +37,7 @@
           action="#"
           :before-upload="handleBeforeUpload"
           :http-request="httpRequest"
+          append-to-body
           :show-file-list="false"
           :disabled="upLoading"
           v-if="btnConfig.hasImport"
@@ -117,8 +118,14 @@
           fixed="right"
           :width="config.operationConfig.width"
         >
-          <template #default="{ row }">
-            <slot name="tableOperations" :data="row" :refresh="getData"></slot>
+          <template #default="{ row, column, $index }">
+            <slot
+              name="tableOperations"
+              :data="row"
+              :column="column"
+              :index="$index"
+              :refresh="getData"
+            ></slot>
             <el-button
               size="small"
               class="xb-operations-btn"
@@ -145,7 +152,7 @@
               v-if="btnConfig.hasOperationDelete"
               >删除
             </el-button>
-             <el-button
+            <el-button
               size="small"
               class="xb-operations-btn"
               text

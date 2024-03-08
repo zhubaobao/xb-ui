@@ -15,7 +15,7 @@
         </div>
         <template v-else>
           <el-image
-            :src="fileList[index]"
+            :src="fileList[index].image"
             class="xb-upload-item"
             fit="contain"
           ></el-image>
@@ -46,12 +46,12 @@
   <el-image-viewer
     v-if="previewInfo.isShow"
     @close="handlePreviewClose"
-    :url-list="fileList"
+    :url-list="bigImageList"
     :initialIndex="previewInfo.initIndex"
   />
 </template>
 <script>
-import { defineComponent, reactive } from "vue";
+import { computed, defineComponent, reactive } from "vue";
 // component
 import draggable from "vuedraggable";
 // icons
@@ -91,6 +91,10 @@ export default defineComponent({
   },
   emits: ["delete", "dragEnd"],
   setup(props, ctx) {
+    // 查看大图图片列表
+    const bigImageList = computed(() => {
+      return props.fileList.map(item => item.image)
+    })
     // 图片预览窗口信息
     const previewInfo = reactive({
       isShow: false,
@@ -116,6 +120,7 @@ export default defineComponent({
 
     return {
       previewInfo,
+      bigImageList,
       handlePreviewShow,
       handleFileDelete,
       handlePreviewClose,

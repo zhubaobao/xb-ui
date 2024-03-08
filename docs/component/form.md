@@ -11,6 +11,7 @@ title: CurdTable
 | type              | 表单类型:   <br>XbSelect(下拉)<br>XbInput(输入框)<br>XbDatePicker(日期选择)<br>XbRadio(单选)<br>XbSwitch(开关)<br>XbUpload(图片上传) <br>XbFormJson(联合组件) <br>XbInputNumber(数字输入框)   | string | -      |
 | label             | 标签文本                                    | string | -      |
 | propName          | 表单提交key值，接口接受如果为多个字段使用-隔开如：startTiem-endTime  | string | -      |
+| defaultValue     | 默认值 | - | -|
 | propAttrs         | 表单的属性配置，详见[element-plus](https://element-plus.org/zh-CN/component/input.html)对应的组件配置  | object | -      |
 | formItemPropAttrs | elFromItem 的样式，详见[FormItem API](https://element-plus.org/zh-CN/component/form.html#formitem-api) | object | - |
 | disabled         | 是否禁用                                      | boolean | -  |
@@ -23,7 +24,6 @@ title: CurdTable
 
 
 ## config - 联动相关
-- 目前XbFormJson的子表单不支持联动 
 | 属性               | 说明                                      | Type   | 默认值   |
 | ----------------- | ----------------------------------------- | ------ | ------- |
 | linkOptionsProps  |  联动表单的 propName 值，类型为XbSelect有效 | array | -  |

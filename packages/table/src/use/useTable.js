@@ -20,6 +20,10 @@ const useCureTable = (props, ctx, config) => {
     dataList: config.tableDataList,
     total: 0,
   });
+  // watch(tableInfo, (val) => {
+  //   console.log(val)
+  // })
+  // console.log(tableInfo, '222')
   // 初始化的值
   // table 请求参数
   const requestParams = ref({ page: 1, pageSize: 20, ...props.requestParams })

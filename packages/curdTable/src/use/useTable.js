@@ -52,7 +52,20 @@ const useTable = (props) => {
           new Promise((resolve) => {
             format(resolve, deepCopy(data), deepCopy(formData));
           }).then(res => {
-            res && (formData = res);
+            // console.log(formRef.value.xbFormRef.formData, 'formRef.value.xbFormRef.formData')
+            // console.log(res, 'res')
+            // console.log(res.name, '222')
+            // res && (formRef.value.xbFormRef.formData = []);
+            // console.log(formRef.value.xbFormRef, 'formRef.value.xbFormRef')
+            for (let key in formData) {
+              formData[key] = res[key];
+            }
+            // 赋值 id
+            const idKey = config.edit.idKey;
+            const idValueKey = config.edit.idValueKey;
+            idKey && (formData[idKey] = type == 'copy' ? '' : res[idValueKey]);
+            console.log(formData, 'formData')
+
           })
         } else {
           // 遍历赋值
