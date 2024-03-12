@@ -8,6 +8,7 @@ import Form from '../packages/form/index.js';
 import CodeGenerator from '../packages/codeGenerator/index.js';
 import FormItem from '../packages/formItem/index.js';
 import FormPage from '../packages/formPage/index.js';
+import Upload from '../packages/upload/index.js';
 
 const components = [
   CurdTable,
@@ -17,7 +18,8 @@ const components = [
   Form,
   CodeGenerator,
   FormItem,
-  FormPage
+  FormPage,
+  Upload
 ];
 
 const install = function(Vue, opts = {}) {
@@ -42,5 +44,6 @@ export default {
   Form,
   CodeGenerator,
   FormItem,
-  FormPage
+  FormPage,
+  Upload
 };

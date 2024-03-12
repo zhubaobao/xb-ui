@@ -1,4 +1,5 @@
 <template>
+  <xb-upload></xb-upload>
   <xb-curd-table
     ref="curdTable"
     :tableConfig="tableConfig"
@@ -29,7 +30,6 @@
       <el-input v-model="formData.XbInput"></el-input>
     </template> -->
 
-
     <template #inputAppendXbF>
       <span>44444</span>
     </template>
@@ -37,7 +37,6 @@
     <!-- <template #aniextraXbF>
       <span><el-button text>22</el-button></span>
     </template> -->
-
   </xb-curd-table>
 </template>
 
@@ -46,7 +45,7 @@ import useTable from "./use/useTable";
 import useSearch from "./use/useSearch";
 import useForm from "./use/useForm";
 import { ref } from "vue";
-  
+
 const c = ref(false);
 const a = {
   b: {

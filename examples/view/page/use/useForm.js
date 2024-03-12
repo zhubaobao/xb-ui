@@ -18,7 +18,7 @@ const useForm = () => {
       "label-position": "left"
     },
     add: {
-      requestApi(val){
+      requestApi(val) {
         console.log(val)
         return new Promise(resolve => {
           resolve({
@@ -45,7 +45,7 @@ const useForm = () => {
               }
             })
             count++;
-            if(count > 3) {
+            if (count > 3) {
               count = 0
             }
           })
@@ -123,42 +123,42 @@ const useForm = () => {
     //       prepend: '444',
     //       extra: "xbTemplate"
     //     }
-        
+
     //   },
-      // {
-      //   type: "XbUpload",
-      //   label: '图片',
-      //   propName: 'pic',
-      //   limit: 10,
-      //   uploadType: 'library',
-      //   requestApi() {
-      //     return new Promise(resolve => {
-      //       resolve({
-      //         code: 1,
-      //         src: pics[count]
-      //       })
-      //       count++;
-      //       if(count > 3) {
-      //         count = 0
-      //       }
-      //     })
-      //   },
-      //   libConfig: {
-      //     requestApi() {
-      //       return new Promise(resolve => {
-      //         resolve({
-      //           code: 1,
-      //           data: {
-      //             list: new Array(15).fill({
-      //               image: "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
-      //               name: "白.jpg"
-      //             })
-      //           }
-      //         })
-      //       })
-      //     }
-      //   }
-      // },
+    // {
+    //   type: "XbUpload",
+    //   label: '图片',
+    //   propName: 'pic',
+    //   limit: 10,
+    //   uploadType: 'library',
+    //   requestApi() {
+    //     return new Promise(resolve => {
+    //       resolve({
+    //         code: 1,
+    //         src: pics[count]
+    //       })
+    //       count++;
+    //       if(count > 3) {
+    //         count = 0
+    //       }
+    //     })
+    //   },
+    //   libConfig: {
+    //     requestApi() {
+    //       return new Promise(resolve => {
+    //         resolve({
+    //           code: 1,
+    //           data: {
+    //             list: new Array(15).fill({
+    //               image: "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
+    //               name: "白.jpg"
+    //             })
+    //           }
+    //         })
+    //       })
+    //     }
+    //   }
+    // },
     //   {
     //     type: "XbSelect",
     //     label: "状态",

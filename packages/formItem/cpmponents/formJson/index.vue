@@ -54,7 +54,6 @@ import XbIconDelete from "main/icons/delete";
 
 // use
 
-
 export default defineComponent({
   name: "XbFormJson",
   components: {
@@ -101,11 +100,11 @@ export default defineComponent({
       if (item.propName && item.propName.includes("-")) {
         const defaultValue = item.defaultValue || [];
         item.propName.split("-").forEach((key, index) => {
-          childVal[key] = 
+          childVal[key] =
             defaultValue[index] === "undefined" ? "" : defaultValue[index];
         });
       } else {
-        childVal[item.propName] = 
+        childVal[item.propName] =
           item.defaultValue === "undefined" ? "" : item.defaultValue;
       }
     });
@@ -114,7 +113,6 @@ export default defineComponent({
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
-
     };
     // 初始化值
     for (let i = 0; i < config.min - list.value.length; i++) {
@@ -127,7 +125,6 @@ export default defineComponent({
     watch(
       list,
       (val) => {
-        console.log(props.formData)
         cxt.emit("update:modelValue", val);
       },
       { deep: true }
@@ -139,7 +136,7 @@ export default defineComponent({
       },
       { deep: true }
     );
-   
+
     return {
       list,
       config,

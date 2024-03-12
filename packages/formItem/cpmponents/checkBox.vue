@@ -1,23 +1,23 @@
 <template>
-  <el-radio-group
+  <el-checkbox-group
     v-model="searchVal"
     v-bind="configData.groupPropAttrs"
     @change="handleValueChange"
   >
-    <el-radio
+    <el-checkbox
       v-bind="configData.propAttrs"
       v-for="item in configData.options"
       :key="item.id"
       :label="item.id"
-      >{{ item.name }}</el-radio
+      >{{ item.name }}</el-checkbox
     >
-  </el-radio-group>
+  </el-checkbox-group>
 </template>
-<script>
+  <script>
 import { defineComponent } from "vue";
 import useCommon from "./use/useCommon";
 export default defineComponent({
-  name: "XbRadio",
+  name: "XbCheckbox",
   props: {
     configData: {
       type: Object,
@@ -35,3 +35,4 @@ export default defineComponent({
   },
 });
 </script>
+  

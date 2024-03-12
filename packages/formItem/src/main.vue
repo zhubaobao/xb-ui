@@ -83,9 +83,10 @@
   </div>
 </template>
 <script>
-import { defineComponent, getCurrentInstance, nextTick } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import { getSlots } from "main/utils";
 // component
+
 import XbInput from "../cpmponents/input";
 import XbSelect from "../cpmponents/select";
 import XbSwitch from "../cpmponents/switch";
@@ -93,9 +94,10 @@ import XbTimePicker from "../cpmponents/timePicker";
 import XbTimeSelect from "../cpmponents/timeSelect";
 import XbDatePicker from "../cpmponents/datePicker";
 import XbRadio from "../cpmponents/radio";
-import XbUpload from "../cpmponents/upload";
+import XbUpload from "packages/upload/src/main";
 import XbFormJson from "../cpmponents/formJson";
 import XbInputNumber from "../cpmponents/inputNumber";
+import XbCheckbox from "../cpmponents/checkbox";
 export default defineComponent({
   name: "XbFormItem",
   components: {
@@ -109,6 +111,7 @@ export default defineComponent({
     XbRadio,
     XbFormJson,
     XbInputNumber,
+    XbCheckbox,
   },
   props: {
     formItem: {
@@ -245,6 +248,7 @@ export default defineComponent({
 
   span {
     padding: 0 10px;
+    font-weight: bold;
   }
 }
 </style>

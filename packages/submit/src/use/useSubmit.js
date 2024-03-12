@@ -71,14 +71,13 @@ const useSubmit = (props, ctx, config) => {
   };
   const handleOpen = () => {
     const { formDataFormat: format, popupOpenCb } = config;
-
     nextTick(() => {
       if (format) {
         new Promise((resolve) => {
           console.log(xbFormRef.value, 'xbFormRef.valuexbFormRef.value')
           format(resolve, deepCopy(xbFormRef.value.formData), props.type)
         }).then(res => {
-          // res && (xbFormRef.value.formData = res)
+          res && (xbFormRef.value.formData = res)
         })
       }
       popupOpenCb && popupOpenCb(props.type, deepCopy(xbFormRef.value.formData))

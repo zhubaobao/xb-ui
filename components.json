@@ -6,5 +6,6 @@
   "form": "./packages/form/index.js",
   "codeGenerator": "./packages/codeGenerator/index.js",
   "formItem": "./packages/formItem/index.js",
-  "formPage": "./packages/formPage/index.js"
+  "formPage": "./packages/formPage/index.js",
+  "upload": "./packages/upload/index.js"
 }
