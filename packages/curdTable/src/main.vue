@@ -92,7 +92,7 @@ export default defineComponent({
       handleAdd,
       handleEdit,
       handleCancel,
-      handleCopy
+      handleCopy,
     } = useTable(props);
 
     return {

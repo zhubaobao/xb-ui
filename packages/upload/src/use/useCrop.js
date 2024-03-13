@@ -10,17 +10,22 @@ const useCrop = (props, ctx) => {
   const imgSrc = ref('');
   // 裁剪实例
   let crop = '';
+  // 原文件
+  let oldFile;
   // 确认
   const handleConfirm = () => {
     crop.getCroppedCanvas().toBlob((blob) => {
-      const { name, type } = props.file;
+      const { name, type } = oldFile;
       ctx.emit('confirm', new File([blob], name, { type }))
       cropperDialogIsShow.value = false
       imgSrc.value = ''
       crop = ''
     });
   }
-  watch(() => props.file, (val) => {
+
+  const handleStartCrop = (val) => {
+    oldFile = val;
+    cropperDialogIsShow.value = true;
     const reader = new FileReader();
     reader.readAsArrayBuffer(val);
     reader.onload = (e) => {
@@ -33,13 +38,17 @@ const useCrop = (props, ctx) => {
           preview: previewRef.value,
         });
       })
+
+
     };
-  })
+  }
+
   return {
     imgRef,
     previewRef,
-    cropperDialogIsShow,
+    handleStartCrop,
     handleConfirm,
+    cropperDialogIsShow,
     imgSrc
   }
 }

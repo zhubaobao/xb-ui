@@ -19,6 +19,7 @@ const useSubmit = (props, ctx, config) => {
         const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
         submitStatus.value = true;
         let finalData = deepCopy(formData);
+        // 过滤隐藏字段
         for (let k in showProp) {
           !showProp[k] && finalData.hasOwnProperty(k)
             ? delete finalData[k]

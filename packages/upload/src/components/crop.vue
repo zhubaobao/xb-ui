@@ -28,19 +28,20 @@ import useCrop from "../use/useCrop";
 
 export default defineComponent({
   name: "XbCrop",
-  props: {
-    file: {
-      type: Object,
-      default: () => ({}),
-    },
-  },
   emits: ["confirm"],
   setup(props, ctx) {
-    const { imgRef, previewRef, cropperDialogIsShow, handleConfirm, imgSrc } =
-      useCrop(props, ctx);
+    const {
+      imgRef,
+      previewRef,
+      handleStartCrop,
+      handleConfirm,
+      imgSrc,
+      cropperDialogIsShow,
+    } = useCrop(props, ctx);
     return {
       imgRef,
       previewRef,
+      handleStartCrop,
       cropperDialogIsShow,
       handleConfirm,
       imgSrc,

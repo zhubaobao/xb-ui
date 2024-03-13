@@ -5,7 +5,9 @@
     v-model="searchVal"
     @change="handleValueChange"
     :data="options"
-    :clearable="!(configData.propAttrs && configData.propAttrs.clearable === false)"
+    :clearable="
+      !(configData.propAttrs && configData.propAttrs.clearable === false)
+    "
   />
 
   <el-select
@@ -13,7 +15,9 @@
     v-model="searchVal"
     @change="handleValueChange"
     v-bind="configData.propAttrs"
-    :clearable="!(configData.propAttrs && configData.propAttrs.clearable === false)"
+    :clearable="
+      !(configData.propAttrs && configData.propAttrs.clearable === false)
+    "
   >
     <!-- <RecycleScroller
       class="virtualScroller"
@@ -45,8 +49,8 @@
 </template>
 
 <script>
-import { defineComponent, ref, watch } from "vue";
-import { deepCopy } from "main/utils"
+import { computed, defineComponent, ref, watch } from "vue";
+import { deepCopy } from "main/utils";
 // import { RecycleScroller } from "vue-virtual-scroller";
 // import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import useLink from "./use/useLink";
@@ -60,23 +64,24 @@ export default defineComponent({
       type: Object,
       default: () => ({}),
     },
-    modelValue: {
-    },
+    modelValue: {},
     formData: {
       type: Object,
-      default: () => ({})
-    }
+      default: () => ({}),
+    },
   },
   emits: ["update:modelValue"],
   setup(props, ctx) {
     const {
-      defaultOptions = [],
       requestApi,
+      selectType,
+      isChooseFirstVal,
       responseFormat = (val) => {
         return val;
       },
       valChangeCb,
       requestParams = {},
+      keysCustom,
     } = props.configData;
     const searchVal = ref(props.modelValue);
     // 监听值的变化
@@ -87,28 +92,60 @@ export default defineComponent({
       }
     );
     const handleValueChange = (val) => {
-      console.log(val, '3333')
       valChangeCb && valChangeCb(val);
       ctx.emit("update:modelValue", val);
     };
 
+    // options 数据处理
+    const defaultKeys = {
+      label: "name",
+      value: "id",
+      children: "children",
+    };
+    const dealOptions = (data) => {
+      const { label, value, children } = {
+        ...defaultKeys,
+        ...(keysCustom || {}),
+      };
+      if (!Array.isArray(data)) return [];
+      return data.map((item) => {
+        return selectType === "tree"
+          ? {
+              value: item[value],
+              label: item[label],
+              children: dealOptions(item[children]),
+            }
+          : {
+              id: item[value],
+              name: item[label],
+            };
+      });
+    };
+
     // 列表值
-    const options = ref(defaultOptions || []);
+    const optionsData = ref(props.configData.defaultOptions || []);
+    const options = computed(() => {
+      if (keysCustom) {
+        return dealOptions(optionsData.value);
+      } else {
+        return optionsData.value;
+      }
+    });
     // 参数
     const _requestParams = ref(requestParams);
     // 远程获取获取option的值
     const getOptionsData = async () => {
-      let res = await requestApi(_requestParams.value || {});
+      let res = await requestApi(_requestParams.value);
       res = responseFormat(res);
       if (res.code === 1) {
-        options.value = res.data;
+        optionsData.value = res.data;
       }
     };
     if (requestApi) {
       getOptionsData();
     }
     // 是否默认选择一个值
-    if (props.configData.isChooseFirstVal) {
+    if (isChooseFirstVal) {
       watch(options, (val) => {
         if (Array.isArray(val) && val.length > 0) handleValueChange(val[0].id);
       });
@@ -125,7 +162,7 @@ export default defineComponent({
         new Promise((resolve) => {
           cb(deepCopy(val), key, resolve, deepCopy(props.formData));
         }).then((res) => {
-          options.value = res;
+          optionsData.value = res;
         });
       }
     };

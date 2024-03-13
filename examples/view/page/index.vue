@@ -1,5 +1,4 @@
 <template>
-  <xb-upload></xb-upload>
   <xb-curd-table
     ref="curdTable"
     :tableConfig="tableConfig"

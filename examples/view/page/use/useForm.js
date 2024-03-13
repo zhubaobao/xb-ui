@@ -34,7 +34,8 @@ const useForm = () => {
         label: '图片',
         propName: 'pic',
         limit: 10,
-        valueType: "array",
+        valueType: "object",
+        hasCrop: true,
         requestApi() {
           return new Promise(resolve => {
             resolve({

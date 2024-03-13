@@ -1,4 +1,19 @@
+import { ref } from "vue";
 const useSearch = () => {
+  let option = ref([
+    {
+      id: 1,
+      name: "禁用姓名",
+    },
+    {
+      id: 2,
+      name: "改变状态的值1",
+    },
+    {
+      id: 3,
+      name: "改变状态的值2",
+    },
+  ]);
   const searchConfig = {
     formAttrs: {},
     formItems: [
@@ -6,20 +21,7 @@ const useSearch = () => {
         type: "XbSelect",
         label: "联动效果",
         propName: "ani",
-        defaultOptions: [
-          {
-            id: 1,
-            name: "禁用姓名",
-          },
-          {
-            id: 2,
-            name: "改变状态的值1",
-          },
-          {
-            id: 3,
-            name: "改变状态的值2",
-          },
-        ],
+        defaultOptions: option.value,
         propAttrs: {
           placeholder: "请选择动效",
         },

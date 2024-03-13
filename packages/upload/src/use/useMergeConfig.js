@@ -13,6 +13,10 @@ const useMergeConfig = (props) => {
     responseFormat(val) {
       return val
     },
+    keysCustom: {
+      url: 'image',
+      name: 'name'
+    },
     requestApi: null
   }
   // 表格参数，用于合并默认参数和用户自定义参数

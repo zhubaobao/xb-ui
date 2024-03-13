@@ -3,8 +3,6 @@ import { ref, watch } from 'vue'
 import { deepCopy } from "main/utils/index";
 
 const useUpload = (props, ctx, config) => {
-  // 当前文件
-  const file = ref({})
   // 预览文件列表
   const previewList = ref([]);
   // 裁剪dom
@@ -14,7 +12,6 @@ const useUpload = (props, ctx, config) => {
 
   // 值处理
   const dealVal = (oldVal) => {
-
     let newVal = oldVal || [];
     const valueType = config.valueType;
     if (valueType !== 'object') {
@@ -22,8 +19,14 @@ const useUpload = (props, ctx, config) => {
         newVal = oldVal ? oldVal.split(config.separator) : []
       }
       newVal = newVal.map(item => ({ image: item }))
+    } else {
+      const { url, name } = config.keysCustom;
+      newVal = newVal.map(item => {
+        item.image = item[url];
+        item.name = item[name];
+        return item;
+      })
     }
-
     return newVal
   }
 
@@ -43,30 +46,35 @@ const useUpload = (props, ctx, config) => {
     let res = await requestApi(params);
     res = responseFormat(res)
     if (res.code === 1) {
-      searchVal.value.push(res.data);
-
-      handleLibSubmit(searchVal.value);
-      // let val = searchVal.value;
-      // if (config.valueType != 'object') {
-      //   val = searchVal.value.map(item => item.image);
-      //   if (config.valueType === 'string') {
-      //     val = val.join(config.separator);
-      //   }
-      // }
-      // ctx.emit("update:modelValue", val);
+      const { url, name } = config.keysCustom;
+      let data = {};
+      if (typeof res.data == 'string') {
+        data = {
+          image: res.data,
+          name: ''
+        }
+      } else {
+        data = res.data;
+        data.image = data[url];
+        data.name = data[name];
+      }
+      handleLibSubmit(data);
     } else {
       ElMessage.error(res.msg || '上传失败')
     }
   };
   // 上传回调
   const handleRequest = (param) => {
-    file.value = param.file;
-    if (props.hasCrop) {
-      cropRef.value.cropperDialogIsShow = true;
+    if (config.hasCrop) {
+      cropRef.value.handleStartCrop(param.file);
     } else {
       upLoadRequest(param.file);
     }
   };
+  // 裁剪回调
+  const handleCropConfirm = (file) => {
+    upLoadRequest(file)
+  }
   // 删除文件
   const handleFileDelete = (index) => {
     searchVal.value.splice(index, 1);
@@ -93,8 +101,10 @@ const useUpload = (props, ctx, config) => {
     }
     ctx.emit("update:modelValue", val);
   }
+
   watch(() => props.modelValue, (val) => {
     const initValue = dealVal(val);
+    console.log(initValue, 'valvalvalval')
     searchVal.value = initValue;
     previewList.value = deepCopy(initValue);
   })
@@ -103,8 +113,10 @@ const useUpload = (props, ctx, config) => {
     handleFileDelete,
     handleDragEnd,
     handleLibSubmit,
+    handleCropConfirm,
     searchVal,
     previewList,
+    cropRef
   }
 }
 export default useUpload

@@ -16,24 +16,17 @@
               @click.stop="handleChooseClassify(data.id)"
             >
               <span>{{ data.name }}</span>
-              <!-- <el-dropdown
-                class="xb-lib__group-btn"
-                @command="handleCommand($event, data)"
-                v-if="data.group_id != -1"
-              >
-                <el-icon><component :is="'xb-icon-more-filled'" /></el-icon>
-                <template #dropdown>
-                  <el-dropdown-item command="edit">编辑</el-dropdown-item>
-                  <el-dropdown-item command="del">删除</el-dropdown-item>
-                </template>
-              </el-dropdown> -->
             </div>
           </template>
         </el-tree>
       </div>
       <div class="xb-lib__file-list">
         <div class="xb-lib__top-operate">
-          <el-input v-model="searchName" placeholder="搜索文件名称" class="xb-lib__search">
+          <el-input
+            v-model="searchName"
+            placeholder="搜索文件名称"
+            class="xb-lib__search"
+          >
             <template #append>
               <el-button @click="getFileList">
                 <template #icon>
@@ -59,26 +52,17 @@
               <div
                 class="xb-lib__file"
                 :style="{
-                  backgroundImage: `url('${item.image}')`,
+                  backgroundImage: `url('${item[keysCustom.url]}')`,
                 }"
               ></div>
-              <p class="xb-lib__file-name">{{ item.name }}</p>
+              <p class="xb-lib__file-name">
+                {{ item[keysCustom.name] }}
+              </p>
               <div class="xb-lib__select-mask">
                 <el-icon><component :is="'xb-icon-check'" /></el-icon>
               </div>
             </li>
           </ul>
-          <!-- <div class="xb-lib__footer-operate">
-            <el-pagination
-              background
-              small
-              layout="prev, pager, next"
-              :total="fileTotal"
-              :page-size="+requestParams.pageSize"
-              hide-on-single-page
-              @current-change="handlePageChange"
-            />
-          </div> -->
         </div>
       </div>
     </div>
@@ -99,7 +83,7 @@
   </el-dialog>
 </template>
 <script>
-import { defineComponent, reactive, ref } from "vue";
+import { defineComponent, reactive, ref, watch } from "vue";
 import { ElMessage } from "element-plus";
 // icons
 import XbIconCheck from "main/icons/check";
@@ -113,10 +97,14 @@ export default defineComponent({
     XbIconCheck,
     XbIconClose,
     XbIconSearch,
-    XbIconMoreFilled
+    XbIconMoreFilled,
   },
   props: {
     config: {
+      type: Object,
+      default: () => ({}),
+    },
+    keysCustom: {
       type: Object,
       default: () => ({}),
     },
@@ -127,11 +115,11 @@ export default defineComponent({
   },
   emits: ["cancel", "submit"],
   setup(props, ctx) {
-    const groupId = ref('-1');
-    const searchName = ref('');
+    const groupId = ref("-1");
+    const searchName = ref("");
     const fileInfo = reactive({
       list: [],
-      total: 0
+      total: 0,
     });
     const chooseFileIndex = ref(new Set());
     const page = ref(1);
@@ -142,16 +130,24 @@ export default defineComponent({
     });
     // 获取图库列表
     const getFileList = async () => {
-      const { paramsFormat, requestApi, responseFormat, hasGroup, GroupIdKey = 'groupId', hasSearch, searchIdKey = 'fileName' } = props.config;
+      const {
+        paramsFormat,
+        requestApi,
+        responseFormat,
+        hasGroup,
+        GroupIdKey = "groupId",
+        hasSearch,
+        searchIdKey = "fileName",
+      } = props.config;
       if (!requestApi) return false;
       let params = requestParams;
       // 是否有分页
       if (hasGroup) {
-        params = {...params, [GroupIdKey]: groupId.value};
+        params = { ...params, [GroupIdKey]: groupId.value };
       }
       // 是否需要搜索
       if (hasSearch) {
-        params = {...params, [searchIdKey]: searchName.value};
+        params = { ...params, [searchIdKey]: searchName.value };
       }
       // 是否需要格式化
       if (paramsFormat) {
@@ -171,7 +167,7 @@ export default defineComponent({
         ElMessage.error("获取失败");
       }
     };
-    getFileList();
+
     // 是否显示
     const libDialogShow = ref(false);
     // 取消
@@ -206,22 +202,28 @@ export default defineComponent({
     // 获取分类列表
     const classifyList = ref([]);
     const getClassifyList = async () => {
-      const { cRequestApi, cParamsFormat, cResponseFormat }  = props.config;
+      const { cRequestApi, cParamsFormat, cResponseFormat } = props.config;
       const params = cParamsFormat ? cParamsFormat() : {};
       let res = await cRequestApi(params);
       res = cResponseFormat(res);
       if (res.code == 1) {
-        classifyList.value = res.data.length ? [{name: '全部', id: -1}].concat(res.data) : [];
+        classifyList.value = res.data.length
+          ? [{ name: "全部", id: -1 }].concat(res.data)
+          : [];
       }
-    }
-    props.config.hasGroup && getClassifyList();
+    };
     // 选择分类
     const handleChooseClassify = (id) => {
       groupId.value = id;
       getFileList();
-    }
-   
- 
+    };
+    watch(libDialogShow, (val) => {
+      if (val) {
+        props.config.hasGroup && getClassifyList();
+        getFileList();
+      }
+    });
+
     return {
       searchName,
       groupId,
@@ -236,7 +238,7 @@ export default defineComponent({
       handleSubmit,
       classifyList,
       handleChooseClassify,
-      getFileList
+      getFileList,
     };
   },
 });
@@ -268,28 +270,27 @@ export default defineComponent({
   margin-right: 20px;
   width: 170px;
 }
-.xb-lib__group-btn{
+.xb-lib__group-btn {
   display: none;
 }
-.xb-lib__group-item{
+.xb-lib__group-item {
   display: flex;
   width: 100%;
   justify-content: space-between;
   align-items: center;
   padding-right: 10px;
-  &.active{
+  &.active {
     color: var(--el-color-primary);
   }
-  &:hover{
-    .xb-lib__group-btn{
-       display: block;
+  &:hover {
+    .xb-lib__group-btn {
+      display: block;
     }
   }
 }
 
 .xb-lib__file-list {
   flex: 1;
-
 }
 .xb-lib__file-list-body {
   height: 455px;
@@ -383,8 +384,8 @@ export default defineComponent({
     }
   }
 }
-.xb-lib__dialog{
-  &:deep(.el-dialog__body){
+.xb-lib__dialog {
+  &:deep(.el-dialog__body) {
     max-height: auto;
   }
 }

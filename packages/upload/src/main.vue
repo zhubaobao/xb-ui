@@ -55,17 +55,13 @@
     </template>
 
     <!-- 裁剪 -->
-    <xb-crop
-      ref="cropRef"
-      :file="file"
-      v-if="config.hasCrop"
-      @confirm="handleCropConfirm"
-    />
+    <xb-crop ref="cropRef" v-if="config.hasCrop" @confirm="handleCropConfirm" />
     <!-- 图库 -->
     <xb-file-lib
       v-if="config.uploadType == 'library'"
       ref="fileLibRef"
       :config="config.libConfig || {}"
+      :keysCustom="config.keysCustom"
       :limit="config.limit - searchVal.length"
       @submit="handleLibSubmit"
     ></xb-file-lib>
@@ -108,17 +104,17 @@ export default defineComponent({
       handleRequest,
       handleFileDelete,
       searchVal,
-      file,
       previewList,
       handleDragEnd,
       handleLibSubmit,
-    } = useUpload(props, ctx, config, props.configData);
+      handleCropConfirm,
+      cropRef,
+    } = useUpload(props, ctx, config);
     const { handleChooseFile, fileLibRef } = useFileLib();
     return {
       config,
       searchVal,
       previewList,
-      file,
       handleFileDelete,
       handleRequest,
       handleDragEnd,
@@ -126,6 +122,8 @@ export default defineComponent({
       handleChooseFile,
       fileLibRef,
       handleLibSubmit,
+      handleCropConfirm,
+      cropRef,
     };
   },
 });
