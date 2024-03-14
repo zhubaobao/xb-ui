@@ -9,6 +9,7 @@ const useInit = (props) => {
   const formData = ref({});
   // 表单值初始化
   const formDataInit = () => {
+    formData.value = {};
     let _formItems = [];
     const { formItems = [], tabs = [] } = props.config;
     if (formItems.length) {
@@ -33,11 +34,11 @@ const useInit = (props) => {
       if (item.propName && item.propName.includes("-")) {
         const defaultValue = item.defaultValue || [];
         item.propName.split("-").forEach((key, index) => {
-          formData.value[key] = 
+          formData.value[key] =
             defaultValue[index] === "undefined" ? "" : defaultValue[index];
         });
       } else {
-        formData.value[item.propName] = 
+        formData.value[item.propName] =
           item.defaultValue === "undefined" ? "" : item.defaultValue;
       }
     });

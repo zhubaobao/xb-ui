@@ -104,7 +104,6 @@ const useUpload = (props, ctx, config) => {
 
   watch(() => props.modelValue, (val) => {
     const initValue = dealVal(val);
-    console.log(initValue, 'valvalvalval')
     searchVal.value = initValue;
     previewList.value = deepCopy(initValue);
   })

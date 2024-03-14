@@ -10,50 +10,53 @@ const useSubmit = (props, ctx, config) => {
   // 加载
   const submitStatus = ref(false);
 
-
-  // 提交保存
+  // 保存
+  const handleSave = async (submitConfig) => {
+    const { formData, showProp } = xbFormRef.value;
+    const { paramsFormat, requestApi, responseFormat, submitCb } = submitConfig || config.save;
+    submitStatus.value = true;
+    let finalData = deepCopy(formData);
+    // 过滤隐藏字段
+    for (let k in showProp) {
+      !showProp[k] && finalData.hasOwnProperty(k)
+        ? delete finalData[k]
+        : "";
+    }
+    const params = paramsFormat(finalData);
+    if (!requestApi) {
+      submitCb && (
+        new Promise((resolve) => {
+          submitCb(resolve, params)
+        }).then(res => {
+          popupShow.value = false;
+          submitStatus.value = false;
+          ctx.emit("submit", props.type);
+        })
+      )
+    } else {
+      try {
+        let res = await requestApi(params);
+        res = responseFormat(res)
+        if (res.code === 1) {
+          popupShow.value = props.isPage;
+          ctx.emit("submit", props.type);
+          ElMessage.success(res.msg || '操作成功')
+        } else {
+          ElMessage.error(res.msg || '操作失败')
+        }
+      } catch (err) {
+        console.log(err);
+        ElMessage.error('操作失败')
+      }
+      submitStatus.value = false;
+    }
+  }
+  // 提交
   const handleSubmit = () => {
-    const { formData, formRef, showProp, tabsFormItemKeys } = xbFormRef.value;
+    const { formRef, tabsFormItemKeys } = xbFormRef.value;
     formRef.validate(async (valied, obj) => {
       if (valied) {
-        const { paramsFormat, requestApi, responseFormat, submitCb } = config[props.type];
-        submitStatus.value = true;
-        let finalData = deepCopy(formData);
-        // 过滤隐藏字段
-        for (let k in showProp) {
-          !showProp[k] && finalData.hasOwnProperty(k)
-            ? delete finalData[k]
-            : "";
-        }
-        const params = paramsFormat(finalData);
-        if (!requestApi) {
-          submitCb && (
-            new Promise((resolve) => {
-              submitCb(resolve, params)
-            }).then(res => {
-              popupShow.value = false;
-              submitStatus.value = false;
-              ctx.emit("submit", props.type);
-            })
-          )
-        } else {
-          try {
-            let res = await requestApi(params);
-            res = responseFormat(res)
-            if (res.code === 1) {
-              popupShow.value = props.isPage;
-              ctx.emit("submit", props.type);
-              ElMessage.success(res.msg || '操作成功')
-            } else {
-              ElMessage.error(res.msg || '操作失败')
-            }
-          } catch (err) {
-            console.log(err);
-            ElMessage.error('操作失败')
-          }
-          submitStatus.value = false;
-        }
-
+        handleSave(config[props.type]);
       } else {
         if (!props.formConfig.tabs) return;
         for (let key in obj) {
@@ -91,6 +94,7 @@ const useSubmit = (props, ctx, config) => {
     submitStatus,
     xbFormRef,
     handleSubmit,
+    handleSave,
     handleCancel,
     handleOpen
   }

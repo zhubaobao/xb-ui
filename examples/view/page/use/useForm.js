@@ -17,6 +17,20 @@ const useForm = () => {
       },
       "label-position": "left"
     },
+    footerConfig: {
+      saveBtnShow: true,
+    },
+    save: {
+      requestApi(val) {
+        console.log(val)
+        return new Promise(resolve => {
+          resolve({
+            code: 2,
+            msg: '3333'
+          })
+        })
+      }
+    },
     add: {
       requestApi(val) {
         console.log(val)
@@ -51,6 +65,18 @@ const useForm = () => {
             }
           })
         },
+      },
+      {
+        type: "XbInput",
+        label: "input",
+        propName: "XbInput",
+        propAttrs: {
+          placeholder: '222'
+        },
+        slots: {
+          append: '2333',
+          prepend: '444'
+        }
       },
     ]
     // formItems: [

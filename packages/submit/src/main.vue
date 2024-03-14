@@ -28,9 +28,33 @@
     </xb-form>
     <div
       class="xb-drawer-form__footer"
-      :class="{ 'xb-dialog-form__footer': config.popupType == 'dialog', 'xb-page-form__footer': config.popupType == 'page' }"
+      :class="{
+        'xb-dialog-form__footer': config.popupType == 'dialog',
+        'xb-page-form__footer': config.popupType == 'page',
+      }"
     >
-      <el-button type="primary" :disabled="submitStatus" @click="handleSubmit" v-if="config.footerConfig.submitBtnShow">
+      <!-- 保存 -->
+      <el-button
+        type="primary"
+        :disabled="submitStatus"
+        @click="handleSave()"
+        v-if="config.footerConfig.saveBtnShow"
+      >
+        <template #icon>
+          <el-icon v-if="submitStatus"
+            ><component :is="'xb-icon-loading'"
+          /></el-icon>
+          <el-icon v-else><component :is="'xb-icon-save'" /></el-icon>
+        </template>
+        {{ config.footerConfig.saveBtnTitle }}
+      </el-button>
+      <!-- 提交 -->
+      <el-button
+        type="primary"
+        :disabled="submitStatus"
+        @click="handleSubmit"
+        v-if="config.footerConfig.submitBtnShow"
+      >
         <template #icon>
           <el-icon v-if="submitStatus"
             ><component :is="'xb-icon-loading'"
@@ -39,7 +63,12 @@
         </template>
         {{ config.footerConfig.submitBtnTitle }}
       </el-button>
-      <el-button :disabled="submitStatus" @click="handleCancel" v-if="config.footerConfig.cancelBtnShow">
+      <!-- 取消 -->
+      <el-button
+        :disabled="submitStatus"
+        @click="handleCancel"
+        v-if="config.footerConfig.cancelBtnShow"
+      >
         <template #icon>
           <el-icon><component :is="'xb-icon-close'" /></el-icon>
         </template>
@@ -56,6 +85,7 @@ import useSubmit from "./use/useSubmit";
 import XbIconLoading from "main/icons/loading";
 import XbIconCheck from "main/icons/check";
 import XbIconClose from "main/icons/close";
+import XbIconSave from "main/icons/save";
 // 组件
 import XbForm from "../../form/src/main.vue";
 import XbFormPage from "../../formPage/src/main.vue";
@@ -64,6 +94,7 @@ export default defineComponent({
   components: {
     XbIconLoading,
     XbIconCheck,
+    XbIconSave,
     XbIconClose,
     XbForm,
     XbFormPage,
@@ -101,6 +132,7 @@ export default defineComponent({
       handleSubmit,
       handleCancel,
       handleOpen,
+      handleSave,
     } = useSubmit(props, ctx, config);
 
     return {
@@ -111,6 +143,7 @@ export default defineComponent({
       submitStatus,
       xbFormRef,
       handleSubmit,
+      handleSave,
       handleCancel,
       handleOpen,
     };
@@ -140,7 +173,7 @@ export default defineComponent({
     margin-left: 12px;
   }
 }
-.xb-page-form__footer{
+.xb-page-form__footer {
   justify-content: flex-start;
 }
 .xb-drawer-form {
