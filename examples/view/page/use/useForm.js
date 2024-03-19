@@ -18,7 +18,10 @@ const useForm = () => {
       "label-position": "left"
     },
     footerConfig: {
-      saveBtnShow: true,
+      saveBtnShow(val) {
+        console.log(val, 'saveBtnShow')
+        return true
+      },
     },
     save: {
       requestApi(val) {
@@ -77,6 +80,25 @@ const useForm = () => {
           append: '2333',
           prepend: '444'
         }
+      },
+      {
+        type: "XbFormJson",
+        label: "formJson",
+        propName: "formJson",
+        min: 2,
+        max: 4,
+        formItems: [
+          {
+            type: "XbInput",
+            label: "input",
+            propName: "a",
+          },
+          {
+            type: "XbInput",
+            label: "input2",
+            propName: "b",
+          }
+        ]
       },
     ]
     // formItems: [

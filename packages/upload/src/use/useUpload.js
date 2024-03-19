@@ -47,18 +47,9 @@ const useUpload = (props, ctx, config) => {
     res = responseFormat(res)
     if (res.code === 1) {
       const { url, name } = config.keysCustom;
-      let data = {};
-      if (typeof res.data == 'string') {
-        data = {
-          image: res.data,
-          name: ''
-        }
-      } else {
-        data = res.data;
-        data.image = data[url];
-        data.name = data[name];
-      }
-      handleLibSubmit(data);
+      let data = res.data;
+      const val = typeof res.data == 'string' ? { image: res.data } : res.data
+      handleLibSubmit([val]);
     } else {
       ElMessage.error(res.msg || '上传失败')
     }
@@ -89,8 +80,14 @@ const useUpload = (props, ctx, config) => {
   }
   // 图库文件选择确认
   const handleLibSubmit = (value) => {
-    previewList.value.push(...value);
-    searchVal.value.push(...value);
+    const { url, name } = config.keysCustom;
+    const _value = value.map(item => {
+      item.image = item[url];
+      item.name = item[name];
+      return item;
+    })
+    previewList.value.push(..._value);
+    searchVal.value.push(..._value);
     // 返回值
     let val = searchVal.value;
     if (config.valueType != 'object') {

@@ -186,7 +186,11 @@ export default defineComponent({
       if (chooseFileIndex.value.has(index)) {
         chooseFileIndex.value.delete(index);
       } else {
-        if (props.limit == chooseFileIndex.value.size) return false;
+        if (props.limit == 1) {
+          chooseFileIndex.value.clear();
+        } else {
+          if (props.limit == chooseFileIndex.value.size) return false;
+        }
         chooseFileIndex.value.add(index);
       }
     };
@@ -244,11 +248,14 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
-.xb-lib__dialog .el-dialog__body {
-  padding: 0 10px 80px;
-  max-height: auto;
-  overflow: auto;
+.xb-lib__dialog {
+  &:deep(.el-dialog__body) {
+    padding: 0 10px 80px;
+    max-height: auto;
+    overflow: auto;
+  }
 }
+
 .xb-lib__footer {
   position: absolute;
   left: 0;
@@ -382,11 +389,6 @@ export default defineComponent({
     .xb-lib__select-mask {
       display: flex;
     }
-  }
-}
-.xb-lib__dialog {
-  &:deep(.el-dialog__body) {
-    max-height: auto;
   }
 }
 </style>

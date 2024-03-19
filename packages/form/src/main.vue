@@ -4,7 +4,9 @@
     v-bind="config.formAttrs"
     :rules="rules"
     class="xb-submit-form el-row"
-    :class="{'xb-submit-form-page': Array.isArray(config.tabs) && config.tabs.length}"
+    :class="{
+      'xb-submit-form-page': Array.isArray(config.tabs) && config.tabs.length,
+    }"
     :disabled="submitStatus"
     :model="formData"
     :inline="false"
@@ -13,10 +15,15 @@
     <!-- tab 切换 -->
     <template v-if="Array.isArray(config.tabs) && config.tabs.length">
       <el-tabs v-model="curTabName" style="width: 100%">
-        <el-tab-pane v-for="(tab, index) in tabs" :key="tab.name" :label="tab.label" :name="`tab${index}`">
-           <slot name="headContent"></slot>
+        <el-tab-pane
+          v-for="(tab, index) in tabs"
+          :key="tab.name"
+          :label="tab.label"
+          :name="`tab${index}`"
+        >
+          <slot name="headContent"></slot>
           <xb-form-item
-            v-for="item in tab.formItems || []" 
+            v-for="item in tab.formItems || []"
             :key="item.propName"
             :layout="config.layout"
             :formItem="item"
@@ -26,10 +33,10 @@
         </el-tab-pane>
       </el-tabs>
     </template>
-    <template  v-else>
+    <template v-else>
       <slot name="headContent"></slot>
       <xb-form-item
-        v-for="item in formItems" 
+        v-for="item in formItems"
         :key="item.propName"
         :layout="config.layout"
         :formItem="item"
@@ -68,7 +75,8 @@ export default {
     },
   },
   setup(props, ctx) {
-    const { formData, formRef, formDataInit, curTabName, tabsFormItemKeys } = useInit(props, ctx);
+    const { formData, formRef, formDataInit, curTabName, tabsFormItemKeys } =
+      useInit(props, ctx);
     const { formItems, showProp, tabs } = useLink(props, formData);
 
     return {
@@ -79,7 +87,7 @@ export default {
       tabs,
       showProp,
       curTabName,
-      tabsFormItemKeys
+      tabsFormItemKeys,
     };
   },
 };
@@ -90,19 +98,19 @@ export default {
   font-size: 14px;
   font-weight: bold;
 }
-.xb-submit-form{
+.xb-submit-form {
   max-height: 100%;
   overflow: auto;
-  &.xb-submit-form-page{
+  &.xb-submit-form-page {
     height: 100%;
   }
-  &:deep(.el-tabs){
+  &:deep(.el-tabs) {
     height: 100%;
   }
-  &:deep(.el-tabs__header){
+  &:deep(.el-tabs__header) {
     margin: 0;
   }
-  &:deep(.el-tabs__content){
+  &:deep(.el-tabs__content) {
     padding: 20px 0;
     height: calc(100% - 40px);
     box-sizing: border-box;

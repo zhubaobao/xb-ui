@@ -37,6 +37,9 @@
     :type="formType"
     :name="name"
   >
+    <template #formBotton="slotScope">
+      <slot name="formBotton" v-bind="slotScope" :tableRef="tableRef"></slot>
+    </template>
   </xb-submit>
 </template>
 <script >

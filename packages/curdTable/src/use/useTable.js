@@ -52,11 +52,11 @@ const useTable = (props) => {
           data = await new Promise((resolve) => {
             format(resolve, deepCopy(data), deepCopy(formData));
           })
-
         }
         // 遍历赋值
         for (let key in formData) {
           formData[key] = data[key];
+
         }
         // 赋值 id
         const idKey = config.edit.idKey;

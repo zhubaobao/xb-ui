@@ -33,12 +33,19 @@
         'xb-page-form__footer': config.popupType == 'page',
       }"
     >
+      <slot
+        name="formBotton"
+        :xbFormRef="xbFormRef"
+        :changePopupStatus="changePopupStatus"
+        :changeSubmitStatus="changeSubmitStatus"
+        :submit="handleSubmit"
+      ></slot>
       <!-- 保存 -->
       <el-button
         type="primary"
         :disabled="submitStatus"
-        @click="handleSave()"
-        v-if="config.footerConfig.saveBtnShow"
+        @click="handleSave(config.save)"
+        v-if="hasBtnShow(config.footerConfig.saveBtnShow)"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -52,8 +59,8 @@
       <el-button
         type="primary"
         :disabled="submitStatus"
-        @click="handleSubmit"
-        v-if="config.footerConfig.submitBtnShow"
+        @click="handleSubmit(config[type])"
+        v-if="hasBtnShow(config.footerConfig.submitBtnShow)"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -67,7 +74,7 @@
       <el-button
         :disabled="submitStatus"
         @click="handleCancel"
-        v-if="config.footerConfig.cancelBtnShow"
+        v-if="hasBtnShow(config.footerConfig.cancelBtnShow)"
       >
         <template #icon>
           <el-icon><component :is="'xb-icon-close'" /></el-icon>
@@ -79,6 +86,12 @@
 </template>
 <script>
 import { defineComponent } from "vue";
+// 组件
+import XbForm from "../../form/src/main.vue";
+import XbFormPage from "../../formPage/src/main.vue";
+// tool
+import { hasBtnShow } from "main/utils";
+// use
 import useMergeConfig from "./use/useMergeConfig";
 import useSubmit from "./use/useSubmit";
 // icons
@@ -86,9 +99,7 @@ import XbIconLoading from "main/icons/loading";
 import XbIconCheck from "main/icons/check";
 import XbIconClose from "main/icons/close";
 import XbIconSave from "main/icons/save";
-// 组件
-import XbForm from "../../form/src/main.vue";
-import XbFormPage from "../../formPage/src/main.vue";
+
 export default defineComponent({
   name: "XbSubmit",
   components: {
@@ -133,6 +144,8 @@ export default defineComponent({
       handleCancel,
       handleOpen,
       handleSave,
+      changePopupStatus,
+      changeSubmitStatus,
     } = useSubmit(props, ctx, config);
 
     return {
@@ -146,6 +159,9 @@ export default defineComponent({
       handleSave,
       handleCancel,
       handleOpen,
+      changePopupStatus,
+      changeSubmitStatus,
+      hasBtnShow,
     };
   },
 });

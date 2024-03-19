@@ -103,11 +103,11 @@ export const deepCopy = (target, map = new Map()) => {
  * @param {*} suffix 后缀
  * @returns 
  */
-const getFristUpperCase= (word) => {
+const getFristUpperCase = (word) => {
   return word.charAt(0).toUpperCase()
-  + word.slice(1)
+    + word.slice(1)
 }
-export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffix ='') => {
+export const getSlots = (currentInstance, slotNames, config, prefix = '', suffix = '') => {
   // slot 数量
   let count = 0;
   // 结果集合
@@ -119,16 +119,16 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
   // 过滤slotNames 
   let _slotNames = [];
   // 自定义表单/表格
-  if(config.type == 'template' || config.contentType == 'template') {
+  if (config.type == 'template' || config.contentType == 'template') {
     _slotNames.push('default');
     count++;
   }
   // 表单插槽
-  if(config.slots) {
+  if (config.slots) {
     for (let key in config.slots) {
       const val = config.slots[key];
-      if(!reslut[key]) continue;
-      if (val == 'xbTemplate' ) {
+      if (!reslut[key]) continue;
+      if (val == 'xbTemplate') {
         _slotNames.push(key);
         count++;
       } else {
@@ -137,7 +137,7 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
           con: val
         })
       };
-     
+
     }
   }
   if (count <= 0) return reslut;
@@ -145,7 +145,7 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
   let parent = currentInstance.parent;
   while (parent) {
     _slotNames.forEach(slotName => {
-      const key = prefix + (slotName == 'default' ? ''  : getFristUpperCase(slotName)) + suffix;
+      const key = prefix + (slotName == 'default' ? '' : getFristUpperCase(slotName)) + suffix;
       const slot = parent.slots[key];
       if (slot) {
         reslut[slotName].push(
@@ -167,4 +167,16 @@ export const getSlots = (currentInstance, slotNames, config,  prefix = '', suffi
   return reslut;
 }
 
+/**
+ * 按钮是否显示
+ * @param {*} condition 条件
+ * @param {*} opts 其他配置信息
+ */
+export const hasBtnShow = (condition, opts) => {
+  if (typeof condition === 'function') {
+    return condition(opts)
+  } else {
+    return !!condition
+  }
+}
 

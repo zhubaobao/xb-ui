@@ -113,6 +113,14 @@ export default defineComponent({
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
+      console.log(props.formData, "formData", props.configData);
+      const un = watch(
+        () => props.formData,
+        () => {
+          console.log("11111");
+        }
+      );
+      console.log(un, "ununun");
     };
     // 初始化值
     for (let i = 0; i < config.min - list.value.length; i++) {

@@ -10,6 +10,7 @@ const useMergeConfig = (props) => {
       alignCenter: true
     },
     formAttrs: {
+      validateOnRuleChange: false,
       labelWidth: "100px",
       rules: {}
     },

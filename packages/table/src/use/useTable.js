@@ -1,29 +1,14 @@
 import { onMounted, reactive, ref, watch } from "vue";
 import { ElMessageBox, ElMessage } from 'element-plus'
 const useCureTable = (props, ctx, config) => {
-  const { headerConfig, hasSelection, operationConfig } = config
-  // 按钮显隐控制，为了实现响应式
-  const btnConfig = reactive({
-    hasHeaderDelete: headerConfig.hasDelete,
-    hasAdd: headerConfig.hasAdd,
-    hasBack: headerConfig.hasBack,
-    hasImport: headerConfig.hasImport,
-    hasSelection,
-    hasOperationDelete: operationConfig.hasDelete,
-    hasEdit: operationConfig.hasEdit,
-    hasDetails: operationConfig.hasDetails,
-    hasOperationCopy: operationConfig.hasCopy
-  })
+
   // 表单数据
   const tableInfo = reactive({
     loading: config.tableDataLoading,
     dataList: config.tableDataList,
     total: 0,
   });
-  // watch(tableInfo, (val) => {
-  //   console.log(val)
-  // })
-  // console.log(tableInfo, '222')
+
   // 初始化的值
   // table 请求参数
   const requestParams = ref({ page: 1, pageSize: 20, ...props.requestParams })
@@ -82,6 +67,7 @@ const useCureTable = (props, ctx, config) => {
       return false
     }
     try {
+      console.log()
       let params = paramsFormat ? paramsFormat(ids) : { [deleteIdKey]: ids }
       let res = await requestApi(params)
       // 返回值格式
@@ -115,7 +101,6 @@ const useCureTable = (props, ctx, config) => {
     handleEdit,
     handleDelete,
     handleCopy,
-    btnConfig
   };
 };
 export default useCureTable;

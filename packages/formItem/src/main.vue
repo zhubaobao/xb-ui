@@ -83,7 +83,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, getCurrentInstance } from "vue";
+import { defineComponent, getCurrentInstance, onMounted } from "vue";
 import { getSlots } from "main/utils";
 // component
 
@@ -148,6 +148,7 @@ export default defineComponent({
       `${propName}`,
       slotSuffix
     );
+
     // 栅格化 class
     const getClassesFn = (layout = {}) => {
       const classes = [];
