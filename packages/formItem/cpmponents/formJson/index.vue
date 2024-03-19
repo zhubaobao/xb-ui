@@ -46,7 +46,7 @@
   </el-card>
 </template>
 <script>
-import { defineComponent, ref, watch } from "vue";
+import { defineComponent, onMounted, ref, watch } from "vue";
 import { deepMerge, deepCopy } from "main/utils/index";
 // icon
 import XbIconPlus from "main/icons/plus";
@@ -113,14 +113,6 @@ export default defineComponent({
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
-      console.log(props.formData, "formData", props.configData);
-      const un = watch(
-        () => props.formData,
-        () => {
-          console.log("11111");
-        }
-      );
-      console.log(un, "ununun");
     };
     // 初始化值
     for (let i = 0; i < config.min - list.value.length; i++) {
@@ -133,10 +125,20 @@ export default defineComponent({
     watch(
       list,
       (val) => {
+        // if (!Array.isArray(val)) return false;
+        // val = val.map((item) => {
+        //   // 过滤无用的数据
+        //   const result = {};
+        //   config.formItems.forEach((info) => {
+        //     result[info.propName] = item[info.propName];
+        //   });
+        //   return result;
+        // });
         cxt.emit("update:modelValue", val);
       },
       { deep: true }
     );
+
     watch(
       () => props.modelValue,
       (val) => {
