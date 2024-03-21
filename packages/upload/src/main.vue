@@ -39,6 +39,7 @@
         class="xb-uploader"
         :show-file-list="false"
         :http-request="handleRequest"
+        v-bind="config.propAttrs"
       >
         <slot>
           <div

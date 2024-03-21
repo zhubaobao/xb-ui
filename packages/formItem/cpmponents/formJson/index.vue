@@ -51,7 +51,6 @@ import { deepMerge, deepCopy } from "main/utils/index";
 // icon
 import XbIconPlus from "main/icons/plus";
 import XbIconDelete from "main/icons/delete";
-
 // use
 
 export default defineComponent({
@@ -92,6 +91,8 @@ export default defineComponent({
         return item;
       });
     };
+    // 编辑时需要保留的 key 值
+    const keys = new Set(config.extraKeys || []);
     // 初始化值
     const childVal = {};
     config.formItems.forEach((item) => {
@@ -100,22 +101,24 @@ export default defineComponent({
       if (item.propName && item.propName.includes("-")) {
         const defaultValue = item.defaultValue || [];
         item.propName.split("-").forEach((key, index) => {
+          keys.add(key);
           childVal[key] =
             defaultValue[index] === "undefined" ? "" : defaultValue[index];
         });
       } else {
+        keys.add(item.propName);
         childVal[item.propName] =
           item.defaultValue === "undefined" ? "" : item.defaultValue;
       }
     });
 
-    const list = ref(Array.isArray(props.modelValue) ? props.modelValue : []);
+    const list = ref([]);
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
     };
     // 初始化值
-    for (let i = 0; i < config.min - list.value.length; i++) {
+    for (let i = 0; i < config.min; i++) {
       addItem();
     }
     // 删除
@@ -125,26 +128,17 @@ export default defineComponent({
     watch(
       list,
       (val) => {
-        // if (!Array.isArray(val)) return false;
-        // val = val.map((item) => {
-        //   // 过滤无用的数据
-        //   const result = {};
-        //   config.formItems.forEach((info) => {
-        //     result[info.propName] = item[info.propName];
-        //   });
-        //   return result;
-        // });
         cxt.emit("update:modelValue", val);
       },
       { deep: true }
     );
 
-    watch(
+    const modelValueUnwatch = watch(
       () => props.modelValue,
       (val) => {
         list.value = val || [];
-      },
-      { deep: true }
+        modelValueUnwatch();
+      }
     );
 
     return {

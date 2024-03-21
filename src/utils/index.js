@@ -180,3 +180,43 @@ export const hasBtnShow = (condition, opts) => {
   }
 }
 
+
+/*
+ 根据文件名称判断文件类型
+ * @param: path - 文件名称
+ * @param: 无后缀匹配 - false
+ * @param: 匹配图片 - image
+ * @param: 匹配 txt - txt
+ * @param: 匹配 表格 - excel
+ * @param: 匹配 文档 - word
+ * @param: 匹配 pdf - pdf
+ * @param: 匹配 ppt - ppt
+ * @param: 匹配 视频 - video
+ * @param: 匹配 音频 - radio
+ * @param: 其他匹配项 - other
+ */
+export const getFileType = (path) => {
+  // 后缀获取
+  let suffix = '';
+  try {
+    suffix = path.match(/\.[^\.]+$/)[0].replace(/\./, "");
+  } catch (err) {
+    suffix = '';
+  }
+  // fileName无后缀返回 false
+  if (!suffix) { return 'other'; }
+  suffix = suffix.toLocaleLowerCase();
+  // 图片格式
+  const imglist = ['png', 'jpg', 'jpeg', 'bmp', 'gif', 'webp', 'svg'];
+  if (imglist.includes(suffix)) {
+    return 'image';
+  }
+  // 匹配 视频
+  const videolist = ['mp4', 'm2v', 'mkv', 'rmvb', 'wmv', 'avi', 'flv', 'mov', 'm4v'];
+  if (videolist.includes(suffix)) {
+    return 'video';
+  }
+  // 其他 文件类型
+  return 'other';
+}
+

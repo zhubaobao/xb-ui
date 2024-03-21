@@ -3,13 +3,17 @@ const useForm = () => {
   const currentInstance = getCurrentInstance();
   let count = 0;
   const pics = [
+    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    // "https://media.w3.org/2010/05/sintel/trailer.mp4"
     "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
     "https://static.yoshop.xany6.com/201906101321536e2883041.jpg",
     "https://static.yoshop.xany6.com/10001/20210313/074646782cfec5e7d327148c3fe61dce.jpg",
     "https://static.yoshop.xany6.com/20190610153602a29925572.png"
   ]
   const formConfig = {
-    popupType: "page",
+    popupType: 'dialog',
     formAttrs: {
       rules: {
         XbInput: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],
@@ -17,12 +21,7 @@ const useForm = () => {
       },
       "label-position": "left"
     },
-    footerConfig: {
-      saveBtnShow(val) {
-        console.log(val, 'saveBtnShow')
-        return true
-      },
-    },
+
     save: {
       requestApi(val) {
         console.log(val)
@@ -47,6 +46,13 @@ const useForm = () => {
     },
     formItems: [
       {
+        type: 'XbSwitch',
+        label: "是否显示排序",
+        propName: "isSort",
+        defaultValue: false,
+      },
+
+      {
         type: "XbUpload",
         label: '图片',
         propName: 'pic',
@@ -70,14 +76,24 @@ const useForm = () => {
         },
       },
       {
+        type: "template",
+        label: "template",
+        propName: "model",
+      },
+      {
         type: "XbInput",
         label: "input",
         propName: "XbInput",
         propAttrs: {
           placeholder: '222'
         },
+        linkDisabledProps: ['isSort'],
+        linkDisabledCb(val) {
+          console.log(val, 22)
+          return val
+        },
         slots: {
-          append: '2333',
+          append: 'xbTemplate',
           prepend: '444'
         }
       },

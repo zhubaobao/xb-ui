@@ -46,8 +46,6 @@ const useUpload = (props, ctx, config) => {
     let res = await requestApi(params);
     res = responseFormat(res)
     if (res.code === 1) {
-      const { url, name } = config.keysCustom;
-      let data = res.data;
       const val = typeof res.data == 'string' ? { image: res.data } : res.data
       handleLibSubmit([val]);
     } else {

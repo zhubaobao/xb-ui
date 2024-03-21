@@ -2,6 +2,7 @@
   <component
     class="xb-drawer-form"
     v-bind="config.popupAttrs"
+    destroy-on-close
     v-model="popupShow"
     :title="config[type].title"
     @closed="handleCancel"

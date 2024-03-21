@@ -23,11 +23,9 @@
     <!-- 自定义表单 -->
     <!-- <template #detailsXbF="{formData}">
       <el-input v-model="formData.details"></el-input>
-    </template>
+    </template>-->
 
-     <template #XbInputXbF="{formData}">
-      <el-input v-model="formData.XbInput"></el-input>
-    </template> -->
+    <template #modelXbF> 1111 </template>
 
     <template #inputAppendXbF>
       <span>44444</span>

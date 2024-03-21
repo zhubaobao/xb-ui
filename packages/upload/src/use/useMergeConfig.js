@@ -17,6 +17,9 @@ const useMergeConfig = (props) => {
       url: 'image',
       name: 'name'
     },
+    propAttrs: {
+      accept: 'image/*'
+    },
     requestApi: null
   }
   // 表格参数，用于合并默认参数和用户自定义参数

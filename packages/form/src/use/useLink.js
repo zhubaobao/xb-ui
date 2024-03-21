@@ -1,15 +1,6 @@
 import { ref, watch, computed } from "vue";
 import { deepCopy } from "main/utils";
 const useLink = (props, formData) => {
-  // 获取监听的值
-  // const getWatchVal = (key) => {
-  
-  //   // console.log(formData.value, 223332)
-  //   // let val = formData.value;
-  //   // key.split('.').forEach(item => val = val[item]) 
-  //   // console.log(val, '222')
-  //   return formData[key]
-  // }
   // 需要显示的表单集合
   const showProp = ref({});
   // 控制显示隐藏
@@ -34,26 +25,8 @@ const useLink = (props, formData) => {
       });
     }
   }
-  const disabledProp = ref({});
-  const disbaledControl = (formItem) => {
-    const { linkDisabledProps, linkDisabledCb, propName } = formItem;
-    // 改变禁用状态
-    if (Array.isArray(linkDisabledProps) && linkDisabledProps.length > 0 && linkDisabledCb) {
-      linkDisabledProps.forEach((item) => {
-        watch(
-          () => formData.value[item],
-          (newVal) => {
-            disabledProp.value[propName] = linkDisabledCb(deepCopy(newVal), item, deepCopy(formData.value));
-          },
-          {
-            immediate: true,
-            deep: true
-          }
-        );
-      });
-    }
-  }
- 
+
+
   // 值的联动
   const valueControl = (formItem) => {
     const { linkValueProps, linkValueCb, propName } = formItem;
@@ -92,8 +65,6 @@ const useLink = (props, formData) => {
     _formItems.forEach((formItem) => {
       // 显示隐藏
       visibilityControl(formItem);
-      // 启用禁用
-      disbaledControl(formItem);
       // 值的联动
       valueControl(formItem)
     });
@@ -109,7 +80,6 @@ const useLink = (props, formData) => {
           item.startPropName = keys[0];
           item.endPropName = keys[1];
         }
-        item.disabled = disabledProp.value[item.propName] || item.disabled || false;
         return item;
       })
       .filter(

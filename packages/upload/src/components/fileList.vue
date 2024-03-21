@@ -7,17 +7,24 @@
     :disabled="disabled"
   >
     <template #item="{ index }">
-      <div class="xb-upload-item__item-w" :style="{width: size.width + 'px',height: size.height + 'px'}">
-        <div class="xb-upload-item__loading" v-if="!fileList[index]">
+      <div
+        class="xb-upload-item__item-w"
+        :style="{ width: size.width + 'px', height: size.height + 'px' }"
+      >
+        <div class="xb-upload-item__loading" v-if="!fileTypeList[index]">
           <el-icon class="xb-upload-item_loading-icon"
             ><component :is="'xb-icon-loading'"
           /></el-icon>
         </div>
         <template v-else>
           <el-image
-            :src="fileList[index].image"
+            :src="
+              fileTypeList[index].type == 'image'
+                ? fileTypeList[index].image
+                : file
+            "
             class="xb-upload-item"
-            fit="contain"
+            :fit="fileTypeList[index].type == 'image' ? 'contain' : 'none'"
           ></el-image>
           <label class="xb-upload-list__item-status-label">
             <el-icon class="xb-icon--upload-success"
@@ -29,7 +36,7 @@
           >
             <el-icon
               class="xb-upload__operation-preview"
-              @click="handlePreviewShow(index)"
+              @click="handlePreviewShow(fileTypeList[index])"
               ><component :is="'xb-icon-zoom-in'"
             /></el-icon>
             <el-icon
@@ -46,12 +53,20 @@
   <el-image-viewer
     v-if="previewInfo.isShow"
     @close="handlePreviewClose"
-    :url-list="bigImageList"
-    :initialIndex="previewInfo.initIndex"
+    :url-list="[previewInfo.url]"
   />
+  <!-- 视屏预览 -->
+  <div class="xb-file-preview-mask" v-if="videoPreview.isShow">
+    <div class="xb-file-preview__close-btn">
+      <el-icon><component :is="'xb-icon-close'" /></el-icon>
+    </div>
+    <video :src="videoPreview.url" controls></video>
+  </div>
 </template>
 <script>
 import { computed, defineComponent, reactive } from "vue";
+// tool
+import { getFileType } from "main/utils";
 // component
 import draggable from "vuedraggable";
 // icons
@@ -59,6 +74,8 @@ import XbIconLoading from "main/icons/loading";
 import XbIconDelete from "main/icons/delete";
 import XbIconCheck from "main/icons/check";
 import XbIconZoomIn from "main/icons/zoomIn";
+import XbIconClose from "main/icons/close";
+import file from "main/images/file.svg";
 export default defineComponent({
   name: "XbFileList",
   components: {
@@ -66,6 +83,7 @@ export default defineComponent({
     XbIconDelete,
     XbIconCheck,
     XbIconZoomIn,
+    XbIconClose,
     draggable,
   },
   props: {
@@ -85,27 +103,50 @@ export default defineComponent({
       type: Object,
       default: () => ({
         width: 110,
-        height: 110
-      })
-    }
+        height: 110,
+      }),
+    },
   },
   emits: ["delete", "dragEnd"],
   setup(props, ctx) {
+    // 包含文件类型的文件
+    const fileTypeList = computed(() => {
+      return props.fileList.map((item) => {
+        return {
+          type: getFileType(item.image),
+          ...item,
+        };
+      });
+    });
     // 查看大图图片列表
-    const bigImageList = computed(() => {
-      return props.fileList.map(item => item.image)
-    })
+    // const bigImageList = computed(() => {
+    //   return props.fileList.map((item) => item.image);
+    // });
     // 图片预览窗口信息
     const previewInfo = reactive({
       isShow: false,
       initIndex: 0,
+      url: "",
     });
-    // 图片预览
-    const handlePreviewShow = (index) => {
-      previewInfo.initIndex = index;
-      previewInfo.isShow = true;
+    // 视屏预览
+    const videoPreview = reactive({
+      isShow: false,
+      url: "",
+    });
+    // 文件预览
+    const handlePreviewShow = (info) => {
+      const { image, type } = info;
+      if (type === "image") {
+        previewInfo.url = image;
+        previewInfo.isShow = true;
+      } else if (type === "video") {
+        videoPreview.isShow = true;
+        videoPreview.url = image;
+      } else {
+        window.open(image, "_blank");
+      }
     };
-    // 文件删除
+    // 文件删
     const handleFileDelete = (index) => {
       ctx.emit("delete", index);
     };
@@ -119,17 +160,39 @@ export default defineComponent({
     };
 
     return {
+      fileTypeList,
       previewInfo,
-      bigImageList,
+      // bigImageList,
+      videoPreview,
       handlePreviewShow,
       handleFileDelete,
       handlePreviewClose,
       handleDragEnd,
+      file,
     };
   },
 });
 </script>
 <style lang="less" scoped>
+.xb-file-preview__close-btn {
+}
+.xb-file-preview-mask {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  video {
+    width: 50%;
+    height: 50%;
+    background: #000;
+  }
+}
 .xb-upload__tip {
   color: red;
   margin-bottom: 5px;

@@ -107,6 +107,7 @@ export default defineComponent({
         ...defaultKeys,
         ...(keysCustom || {}),
       };
+
       if (!Array.isArray(data)) return [];
       return data.map((item) => {
         return selectType === "tree"

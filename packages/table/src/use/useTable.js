@@ -67,7 +67,6 @@ const useCureTable = (props, ctx, config) => {
       return false
     }
     try {
-      console.log()
       let params = paramsFormat ? paramsFormat(ids) : { [deleteIdKey]: ids }
       let res = await requestApi(params)
       // 返回值格式

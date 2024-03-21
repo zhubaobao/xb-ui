@@ -1,10 +1,9 @@
-import { nextTick, ref } from 'vue';
+import { ref } from 'vue';
 import { ElMessage } from 'element-plus'
 import { deepCopy } from "main/utils/index";
 const useSubmit = (props, ctx, config) => {
   // 表单
   const xbFormRef = ref(null);
-
   // 弹窗是否显示
   const popupShow = ref(props.isPage);
   // 加载
@@ -90,23 +89,21 @@ const useSubmit = (props, ctx, config) => {
     ctx.emit('cancel')
     popupShow.value = false;
     // 清空
-    xbFormRef.value.formDataInit();
+    // xbFormRef.value.formDataInit();
   };
   // 宽口打开
   const handleOpen = () => {
-    const { formDataFormat: format, popupOpenCb } = config;
-    nextTick(() => {
-      if (format) {
-        new Promise((resolve) => {
-          format(resolve, deepCopy(xbFormRef.value.formData), props.type)
-        }).then(res => {
-          res && (xbFormRef.value.formData = res)
-        })
-      }
-      popupOpenCb && popupOpenCb(props.type, deepCopy(xbFormRef.value.formData))
-    });
-
-
+    // const { formDataFormat: format, popupOpenCb } = config;
+    // nextTick(() => {
+    //   if (format) {
+    //     new Promise((resolve) => {
+    //       format(resolve, deepCopy(xbFormRef.value.formData), props.type)
+    //     }).then(res => {
+    //       res && (xbFormRef.value.formData = res)
+    //     })
+    //   }
+    //   popupOpenCb && popupOpenCb(props.type, deepCopy(xbFormRef.value.formData))
+    // });
   }
   return {
     popupShow,

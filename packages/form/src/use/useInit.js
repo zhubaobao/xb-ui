@@ -9,7 +9,6 @@ const useInit = (props) => {
   const formData = ref({});
   // 表单值初始化
   const formDataInit = () => {
-    formData.value = {};
     let _formItems = [];
     const { formItems = [], tabs = [] } = props.config;
     if (formItems.length) {
@@ -43,9 +42,7 @@ const useInit = (props) => {
       }
     });
   };
-
   formDataInit();
-
   const curTabName = ref('tab0');
   return {
     formRef,

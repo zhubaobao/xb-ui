@@ -46,7 +46,7 @@
           :slotSuffix="slotSuffix"
           :configData="formItem"
           :formData="formData"
-          :disabled="formItem.disabled"
+          :disabled="disabled"
           v-model="formData[formItem.propName]"
           v-model:startValue="formData[formItem.startPropName]"
           v-model:endValue="formData[formItem.endPropName]"
@@ -83,10 +83,9 @@
   </div>
 </template>
 <script>
-import { defineComponent, getCurrentInstance, onMounted } from "vue";
+import { defineComponent, getCurrentInstance, ref } from "vue";
 import { getSlots } from "main/utils";
 // component
-
 import XbInput from "../cpmponents/input";
 import XbSelect from "../cpmponents/select";
 import XbSwitch from "../cpmponents/switch";
@@ -98,6 +97,9 @@ import XbUpload from "packages/upload/src/main";
 import XbFormJson from "../cpmponents/formJson";
 import XbInputNumber from "../cpmponents/inputNumber";
 import XbCheckbox from "../cpmponents/checkbox";
+// use
+import useLink from "./use/useLink";
+
 export default defineComponent({
   name: "XbFormItem",
   components: {
@@ -138,6 +140,7 @@ export default defineComponent({
   setup(props) {
     const { slotSuffix, formItem } = props;
     const { propName } = formItem;
+    const { disabled } = useLink(props);
     // 获取当前实例
     const currentInstance = getCurrentInstance();
     // 获取插槽内容
@@ -168,10 +171,12 @@ export default defineComponent({
       formItem.prop ||
       props.parentProp +
         (isRang ? formItem.propName.split("-")[0] : formItem.propName);
+
     return {
       getClassesFn,
       slotsMap,
       formItemProp,
+      disabled,
     };
   },
 });

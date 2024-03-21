@@ -53,7 +53,6 @@ const useMergeConfig = (props) => {
       }
     },
     formItems: [],
-
   }
   // 表格参数，用于合并默认参数和用户自定义参数
   const isPage = props.formConfig.popupType == 'page';
