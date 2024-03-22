@@ -52,12 +52,15 @@
   <!-- 图片预览 -->
   <el-image-viewer
     v-if="previewInfo.isShow"
-    @close="handlePreviewClose"
+    @close="handlePreviewClose('image')"
     :url-list="[previewInfo.url]"
   />
   <!-- 视屏预览 -->
   <div class="xb-file-preview-mask" v-if="videoPreview.isShow">
-    <div class="xb-file-preview__close-btn">
+    <div
+      class="xb-file-preview__close-btn el-image-viewer__btn el-image-viewer__close"
+      @click="handlePreviewClose('video')"
+    >
       <el-icon><component :is="'xb-icon-close'" /></el-icon>
     </div>
     <video :src="videoPreview.url" controls></video>
@@ -151,8 +154,12 @@ export default defineComponent({
       ctx.emit("delete", index);
     };
     // 关闭预览
-    const handlePreviewClose = () => {
-      previewInfo.isShow = false;
+    const handlePreviewClose = (type) => {
+      if (type === "image") {
+        previewInfo.isShow = false;
+      } else {
+        videoPreview.isShow = false;
+      }
     };
     // 拖拽结束
     const handleDragEnd = (event) => {
@@ -277,7 +284,7 @@ export default defineComponent({
   opacity: 0;
 }
 .xb-upload__operation-delete {
-  margin-left: 1rem;
+  margin-left: 10px;
   cursor: pointer;
 }
 .xb-upload__operation-preview {

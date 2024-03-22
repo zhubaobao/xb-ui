@@ -30,6 +30,8 @@ const useUpload = (props, ctx, config) => {
     return newVal
   }
 
+
+
   // 上传请求
   const upLoadRequest = async (val) => {
     previewList.value.push(val);
@@ -97,10 +99,17 @@ const useUpload = (props, ctx, config) => {
     ctx.emit("update:modelValue", val);
   }
 
-  watch(() => props.modelValue, (val) => {
+  // 初始化
+  const init = (val) => {
     const initValue = dealVal(val);
     searchVal.value = initValue;
     previewList.value = deepCopy(initValue);
+  }
+  init(props.modelValue)
+
+  const unWatch = watch(() => props.modelValue, (val) => {
+    init(val)
+    unWatch();
   })
   return {
     handleRequest,

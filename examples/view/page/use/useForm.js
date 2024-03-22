@@ -3,14 +3,14 @@ const useForm = () => {
   const currentInstance = getCurrentInstance();
   let count = 0;
   const pics = [
-    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
-    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
-    // "https://media.w3.org/2010/05/sintel/trailer.mp4",
-    // "https://media.w3.org/2010/05/sintel/trailer.mp4"
-    "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
-    "https://static.yoshop.xany6.com/201906101321536e2883041.jpg",
-    "https://static.yoshop.xany6.com/10001/20210313/074646782cfec5e7d327148c3fe61dce.jpg",
-    "https://static.yoshop.xany6.com/20190610153602a29925572.png"
+    "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    "https://media.w3.org/2010/05/sintel/trailer.mp4",
+    "https://media.w3.org/2010/05/sintel/trailer.mp4"
+    // "https://bianguo.com.cn/uploads/news/20230308/5cfa64e90ab305157e08405a40f88669.jpg",
+    // "https://static.yoshop.xany6.com/201906101321536e2883041.jpg",
+    // "https://static.yoshop.xany6.com/10001/20210313/074646782cfec5e7d327148c3fe61dce.jpg",
+    // "https://static.yoshop.xany6.com/20190610153602a29925572.png"
   ]
   const formConfig = {
     popupType: 'dialog',
