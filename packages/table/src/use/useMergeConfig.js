@@ -54,7 +54,6 @@ const useMergeConfig = (props) => {
       return val
     }
   }
-
   // 表格参数，用于合并默认参数和用户自定义参数
   const config = deepMerge(deepMerge(defaultConfig, tableConfig), props.tableConfig);
   return {

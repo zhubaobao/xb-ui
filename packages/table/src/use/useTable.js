@@ -1,17 +1,17 @@
-import { onMounted, reactive, ref, watch } from "vue";
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { isRef, onMounted, reactive, ref, watch } from "vue";
+import { ElMessageBox, ElMessage } from 'element-plus';
 const useCureTable = (props, ctx, config) => {
 
   // 表单数据
   const tableInfo = reactive({
     loading: config.tableDataLoading,
     dataList: config.tableDataList,
+    pageSize: 0,
     total: 0,
   });
-
   // 初始化的值
-  // table 请求参数
-  const requestParams = ref({ page: 1, pageSize: 20, ...props.requestParams })
+  // table 请求参数, 合并所有 requestParams 配置
+  const requestParams = ref({ page: 1, pageSize: 20, ...props.requestParams, ...config.requestParams });
   // 获取数据
   const getData = async () => {
     const { requestApi, responseFormat, paramsFormat } = config;
@@ -23,7 +23,8 @@ const useCureTable = (props, ctx, config) => {
       res = responseFormat(res)
       if (res.code === 1) {
         tableInfo.dataList = res.data.list;
-        tableInfo.total = res.data.total || res.data.list.length
+        tableInfo.total = res.data.total || res.data.list.length;
+        tableInfo.pageSize = res.data.pageSize || requestParams.pageSize;
       } else {
         ElMessage.error(res.msg || '加载失败')
       }

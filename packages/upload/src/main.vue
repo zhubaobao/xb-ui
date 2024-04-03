@@ -54,7 +54,6 @@
         </slot>
       </el-upload>
     </template>
-
     <!-- 裁剪 -->
     <xb-crop ref="cropRef" v-if="config.hasCrop" @confirm="handleCropConfirm" />
     <!-- 图库 -->
@@ -71,9 +70,9 @@
 <script>
 import { defineComponent } from "vue";
 // component
-import XbCrop from "./components/crop";
-import XbFileList from "./components/fileList";
-import XbFileLib from "./components/fileLib";
+import XbCrop from "./components/Crop";
+import XbFileList from "./components/FileList";
+import XbFileLib from "packages/fileLib/src/main";
 // use
 import useMergeConfig from "./use/useMergeConfig";
 import useUpload from "./use/useUpload";

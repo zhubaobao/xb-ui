@@ -3,7 +3,7 @@
     <div class="xb-form-page__main">
       <h2 class="xb-form-page__title">{{ title }}</h2>
       <div class="xb-form-page__form">
-         <slot></slot>
+        <slot></slot>
       </div>
     </div>
   </el-main>
@@ -20,19 +20,22 @@ export default defineComponent({
     },
     modelValue: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ["update:modelValue", "open", "closed"],
   setup(props, ctx) {
-    watch(() => props.modelValue, (val) => {
-      if (val) {
-        ctx.emit('open')
-      } else {
-        ctx.emit('closed')
+    watch(
+      () => props.modelValue,
+      (val) => {
+        if (val) {
+          ctx.emit("open");
+        } else {
+          ctx.emit("closed");
+        }
       }
-    })
-  }
+    );
+  },
 });
 </script>
 <style lang="less" scoped>
@@ -51,6 +54,7 @@ export default defineComponent({
   margin: 0;
   height: 65px;
   line-height: 65px;
+  font-size: 17px;
 }
 .xb-form-page__form {
   padding: 0 20px 60px;

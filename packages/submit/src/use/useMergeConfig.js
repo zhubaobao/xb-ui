@@ -7,7 +7,8 @@ const useMergeConfig = (props) => {
   const defaultConfig = {
     popupType: 'drawer',
     popupAttrs: {
-      alignCenter: true
+      alignCenter: true,
+      appendToBody: true,
     },
     formAttrs: {
       validateOnRuleChange: false,

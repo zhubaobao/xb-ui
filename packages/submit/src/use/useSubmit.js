@@ -76,11 +76,14 @@ const useSubmit = (props, ctx, config) => {
       if (valied) {
         handleSave(submitConfig);
       } else {
-        if (!props.formConfig.tabs) return;
-        for (let key in obj) {
-          xbFormRef.value.curTabName = tabsFormItemKeys[key]
-          break;
+        if (props.formConfig.tabs) {
+          for (let key in obj) {
+            xbFormRef.value.curTabName = tabsFormItemKeys[key]
+            break;
+          }
         }
+        const keys = Object.keys(obj);
+        keys.length && formRef.scrollToField(keys[0]);
       }
     });
   };

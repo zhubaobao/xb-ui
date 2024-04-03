@@ -182,7 +182,7 @@
           background
           layout="total, prev, pager, next, jumper"
           :total="tableInfo.total"
-          :page-size="+requestParams.pageSize"
+          :page-size="+tableInfo.pageSize"
           @current-change="handlePageChange"
         />
       </div>

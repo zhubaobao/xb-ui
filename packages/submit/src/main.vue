@@ -9,7 +9,6 @@
     @open="handleOpen"
     :size="config.width || 600"
     :width="config.width || 800"
-    :zIndex="999"
     :is="
       config.popupType === 'drawer'
         ? 'ElDrawer'

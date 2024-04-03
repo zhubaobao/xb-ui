@@ -13,7 +13,7 @@ const useForm = () => {
     // "https://static.yoshop.xany6.com/20190610153602a29925572.png"
   ]
   const formConfig = {
-    popupType: 'dialog',
+    popupType: 'page',
     formAttrs: {
       rules: {
         XbInput: [{ required: true, message: 'Please input Activity name', trigger: 'blur' }],

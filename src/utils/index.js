@@ -16,17 +16,19 @@ export const isObject = (obj) => {
  * @param {Objec} target 合并对象
  * @return {Objec}       返回一个新对象
  */
+
 export const deepMerge = (source, target) => {
+  const _source = source; // 浅拷贝
   for (let key in target) {
     if (target.hasOwnProperty(key)) {
       const cur = target[key]
 
       // 是否需要递归
-      const hasNeedDeep = isObject(cur) && source[key] && !isRef(cur) && !isReactive(cur);
-      source[key] = hasNeedDeep ? deepMerge(source[key], cur) : cur
+      const hasNeedDeep = isObject(cur) && _source[key] && !isRef(cur) && !isReactive(cur);
+      _source[key] = hasNeedDeep ? deepMerge(_source[key], cur) : cur
     }
   }
-  return source
+  return _source
 }
 
 /**

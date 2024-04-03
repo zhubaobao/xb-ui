@@ -1,5 +1,5 @@
 import { nextTick, ref } from 'vue';
-import { deepCopy } from 'main/utils'
+import { deepCopy } from 'main/utils';
 const useTable = (props) => {
   // 表单单独页面显隐
   const fromPageShow = ref(false);
@@ -10,10 +10,10 @@ const useTable = (props) => {
   // 表单
   const formRef = ref(null)
   // 表格接口参数
-  const requestParams = ref(props.tableConfig.requestParams);
+  const requestParams = ref({});
   // 筛选 - 搜索
   const handleSearchValChange = (val) => {
-    requestParams.value = { ...props.tableConfig.requestParams, ...val };
+    requestParams.value = val;
   };
   // 表单提交 - 刷新表格
   const handleFormSubmit = () => {

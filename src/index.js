@@ -9,6 +9,7 @@ import CodeGenerator from '../packages/codeGenerator/index.js';
 import FormItem from '../packages/formItem/index.js';
 import FormPage from '../packages/formPage/index.js';
 import Upload from '../packages/upload/index.js';
+import FileLib from '../packages/fileLib/index.js';
 
 const components = [
   CurdTable,
@@ -19,7 +20,8 @@ const components = [
   CodeGenerator,
   FormItem,
   FormPage,
-  Upload
+  Upload,
+  FileLib
 ];
 
 const install = function(Vue, opts = {}) {
@@ -35,7 +37,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '0.0.13',
+  version: '0.0.15',
   install,
   CurdTable,
   Search,
@@ -45,5 +47,6 @@ export default {
   CodeGenerator,
   FormItem,
   FormPage,
-  Upload
+  Upload,
+  FileLib
 };
