@@ -1,6 +1,7 @@
 const path = require('path');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const { VueLoaderPlugin } = require("vue-loader");
+const TerserPlugin = require('terser-webpack-plugin');
 
 const Components = require('../components.json');
 const config = require('./config');
@@ -26,7 +27,16 @@ const webpackConfig = {
   },
   stats: 'none',
   optimization: {
-    minimize: false
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+        terserOptions: {
+          output: {
+            comments: false
+          },
+        }
+      })
+    ]
   },
   module: {
     rules: [

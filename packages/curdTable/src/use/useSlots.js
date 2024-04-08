@@ -2,7 +2,6 @@ const useSlot = (slots) => {
   const tableSlots = {},
     searchSlots = {},
     submitSlots = {}
-
   for (let key in slots) {
     const val = slots[key]
     if (key.endsWith('XbS')) {

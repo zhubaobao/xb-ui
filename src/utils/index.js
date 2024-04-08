@@ -18,7 +18,7 @@ export const isObject = (obj) => {
  */
 
 export const deepMerge = (source, target) => {
-  const _source = source; // 浅拷贝
+  const _source = { ...source }; // 浅拷贝
   for (let key in target) {
     if (target.hasOwnProperty(key)) {
       const cur = target[key]

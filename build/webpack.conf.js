@@ -29,12 +29,14 @@ module.exports = {
     vue: config.vue
   },
   optimization: {
+    minimize: true,
     minimizer: [
       new TerserPlugin({
+        parallel: true,
         terserOptions: {
           output: {
             comments: false
-          }
+          },
         }
       })
     ]

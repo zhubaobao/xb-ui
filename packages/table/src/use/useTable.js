@@ -24,7 +24,7 @@ const useCureTable = (props, ctx, config) => {
       if (res.code === 1) {
         tableInfo.dataList = res.data.list;
         tableInfo.total = res.data.total || res.data.list.length;
-        tableInfo.pageSize = res.data.pageSize || requestParams.pageSize;
+        tableInfo.pageSize = res.data.pageSize || requestParams.value.pageSize;
       } else {
         ElMessage.error(res.msg || '加载失败')
       }
