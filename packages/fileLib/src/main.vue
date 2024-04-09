@@ -161,6 +161,7 @@ export default defineComponent({
     const { classifyList, getClassifyList } = useGroup(props);
     const {
       groupId,
+      chooseFileIndex,
       searchName,
       fileInfo,
       requestParams,
@@ -170,7 +171,6 @@ export default defineComponent({
       handleChooseClassify,
     } = useFile(props);
     const {
-      chooseFileIndex,
       libDialogShow,
       handleChooseFile,
       handleCancel,
@@ -178,7 +178,7 @@ export default defineComponent({
       upLoading,
       handleBeforeUpload,
       httpRequest,
-    } = useOperate(props, ctx, fileInfo, groupId, getFileList);
+    } = useOperate(props, ctx, fileInfo, groupId, getFileList, chooseFileIndex);
 
     watch(libDialogShow, (val) => {
       if (val) {

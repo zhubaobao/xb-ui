@@ -1,7 +1,6 @@
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
-const useOperate = (props, ctx, fileInfo, groupId, getFileList) => {
-	const chooseFileIndex = ref(new Set());
+const useOperate = (props, ctx, fileInfo, groupId, getFileList, chooseFileIndex) => {
 	// 是否显示
 	const libDialogShow = ref(false);
 	// 取消

@@ -70,6 +70,7 @@ const useUpload = (props, ctx, config) => {
   const handleFileDelete = (index) => {
     searchVal.value.splice(index, 1);
     previewList.value.splice(index, 1);
+    upDateVal();
   }
   // 拖拽结束
   const handleDragEnd = (event) => {
@@ -88,7 +89,10 @@ const useUpload = (props, ctx, config) => {
     })
     previewList.value.push(..._value);
     searchVal.value.push(..._value);
-    // 返回值
+    upDateVal()
+  }
+  // 更新值
+  const upDateVal = () => {
     let val = searchVal.value;
     if (config.valueType != 'object') {
       val = searchVal.value.map(item => item.image);
@@ -111,6 +115,7 @@ const useUpload = (props, ctx, config) => {
     init(val)
     unWatch();
   })
+
   return {
     handleRequest,
     handleFileDelete,

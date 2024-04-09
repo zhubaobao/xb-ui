@@ -1,6 +1,7 @@
 import { ref, reactive } from "vue";
 import { ElMessage } from "element-plus";
-const useList = (props) => {
+const useFile = (props) => {
+  const chooseFileIndex = ref(new Set());
   const groupId = ref("-1");
   const searchName = ref("");
   const fileInfo = reactive({
@@ -14,6 +15,7 @@ const useList = (props) => {
   });
   // 获取图库列表
   const getFileList = async () => {
+    chooseFileIndex.value.clear();
     const {
       paramsFormat,
       hasGroup,
@@ -75,7 +77,8 @@ const useList = (props) => {
     getFileList,
     handlePageChange,
     handleSearch,
-    handleChooseClassify
+    handleChooseClassify,
+    chooseFileIndex
   }
 }
-export default useList;
+export default useFile;
