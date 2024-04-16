@@ -50,6 +50,7 @@
             :http-request="httpRequest"
             :show-file-list="false"
             :disabled="upLoading"
+            v-bind="config.uploadPropAttrs"
           >
             <el-button
               :icon="upLoading ? 'el-icon-loading' : 'el-icon-upload-filled'"

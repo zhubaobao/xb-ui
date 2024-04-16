@@ -54,6 +54,7 @@ const useOperate = (props, ctx, fileInfo, groupId, getFileList, chooseFileIndex)
 		let res = await uRequestApi(params);
 		upLoading.value = false
 		uResponseFormat && (res = uResponseFormat(res));
+		ElMessage.closeAll();
 		if (res.code === 1) {
 			ElMessage.success('上传成功');
 			getFileList();
