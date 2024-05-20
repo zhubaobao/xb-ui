@@ -37,7 +37,7 @@ if (typeof window !== 'undefined' && window.Vue) {
 }
 
 export default {
-  version: '0.0.18',
+  version: '0.0.19',
   install,
   CurdTable,
   Search,

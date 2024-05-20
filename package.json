@@ -15,7 +15,8 @@
     "docs:deploy": "sh scripts/deploy.sh",
     "build:file": "node build/bin/build-entry.js",
     "clean": "rimraf lib && rimraf packages/*/lib && rimraf test/**/coverage",
-    "build": "npm run clean && npm run build:file &&  webpack --config build/webpack.es.js && webpack --config build/webpack.common.js"
+    "build": "npm run clean && npm run build:file &&  webpack --config build/webpack.es.js && webpack --config build/webpack.common.js",
+    "version": "node scripts/update-version.sh"
   },
   "peerDependencies": {
     "element-plus": "^2.3.6",

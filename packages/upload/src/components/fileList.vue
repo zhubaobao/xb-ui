@@ -121,6 +121,7 @@ export default defineComponent({
         };
       });
     });
+    console.log(fileTypeList, "fileTypeList");
     // 查看大图图片列表
     // const bigImageList = computed(() => {
     //   return props.fileList.map((item) => item.image);

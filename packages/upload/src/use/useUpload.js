@@ -30,8 +30,6 @@ const useUpload = (props, ctx, config) => {
     return newVal
   }
 
-
-
   // 上传请求
   const upLoadRequest = async (val) => {
     previewList.value.push(val);
@@ -49,7 +47,7 @@ const useUpload = (props, ctx, config) => {
     res = responseFormat(res)
     if (res.code === 1) {
       const val = typeof res.data == 'string' ? { image: res.data } : res.data
-      handleLibSubmit([val]);
+      handleLibSubmit([val], 'upload');
     } else {
       ElMessage.error(res.msg || '上传失败')
     }
@@ -80,14 +78,17 @@ const useUpload = (props, ctx, config) => {
     searchVal.value.splice(newIndex, 0, moveVal);
   }
   // 图库文件选择确认
-  const handleLibSubmit = (value) => {
+  const handleLibSubmit = (value, type) => {
     const { url, name } = config.keysCustom;
     const _value = value.map(item => {
       item.image = item[url];
       item.name = item[name];
       return item;
     })
-    previewList.value.push(..._value);
+    // 如果是上传预览已经添加过了，无需再次添加
+    if (type !== 'upload') {
+      previewList.value.push(..._value);
+    }
     searchVal.value.push(..._value);
     upDateVal()
   }

@@ -26,7 +26,8 @@ export default defineConfig({
           { text: 'table', link: '/component/table' },
           { text: 'form', link: '/component/form' },
           { text: 'search', link: '/component/search' },
-          { text: 'submit', link: '/component/submit' }
+          { text: 'submit', link: '/component/submit' },
+          { text: 'upload', link: '/component/upload' }
         ]
       }
     ]

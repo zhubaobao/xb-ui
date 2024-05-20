@@ -48,10 +48,11 @@ title: Table
 | 属性           | 说明                                       | Type   | 默认值   |
 | ------------  | -----------------------------------------  | ------ | ------- |
 | show          | 是否显示表格上方操作区域                       | boolean | true       |
-| hasAdd        | 是否显示添加按钮                              | boolean/ref | true      |
-| hasDelete     | 是否显示删除按钮                              | boolean/ref | true       |
-| hasImport     | 是否显示导入按钮                              | boolean/ref | false      |
-| hasBack       | 是否显示返回按钮, 用于二级子页面返回主页面        | boolean/ref | false       |
+| hasAdd        | 是否显示添加按钮                              | boolean/function | true      |
+| hasCopy       | 是否显示复制按钮                              | boolean/function | true      |
+| hasDelete     | 是否显示删除按钮                              | boolean/function | true       |
+| hasImport     | 是否显示导入按钮                              | boolean/function | false      |
+| hasBack       | 是否显示返回按钮, 用于二级子页面返回主页面        | boolean/function | false       |
 | backCb        | 返回按钮回调函数, 当hasBack为true时使用         | function | -       |
 
 ## importConfig 导入功能配置
@@ -70,8 +71,9 @@ title: Table
 | 属性           | 说明                                       | Type   | 默认值   |
 | ------------  | ----------------------------------------- | ------ | ------- |
 | show          | 是否显示表格操作列                           | boolean | true      |
-| hasDelete     | 是否显示删除按钮                             | boolean/ref | -       |
-| hasEdit       | 是否显示编辑按钮                             | string/ref | -       |
+| hasDelete     | 是否显示删除按钮                             | boolean/function | -       |
+| hasEdit       | 是否显示编辑按钮                             | boolean/function | -       |
+| hasCopy       | 是否显示复制按钮                           | boolean/function | -       |
 | width         | 操作列宽度                                  | string/ref | 100       |
 
 ## deleteConfig 删除功能配置
