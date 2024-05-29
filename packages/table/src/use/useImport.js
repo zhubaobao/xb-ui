@@ -3,14 +3,8 @@ import { ElMessage } from 'element-plus'
 const useImport = (config, refresh) => {
   // 上传加载
   const upLoading = ref(false)
-  // 格式样子
-  const handleBeforeUpload = (file) => {
-    const isFileType = config.importConfig.accept.includes(file.type);
-    if (!isFileType) {
-      ElMessage.error('上传文件格式错误！')
-    }
-    return isFileType
-  }
+
+
   // 批量发货 
   const httpRequest = async (data) => {
     const { requestApi, responseFormat, paramsFormat, fileKey } = config.importConfig;
@@ -35,7 +29,7 @@ const useImport = (config, refresh) => {
     }
   }
   return {
-    handleBeforeUpload,
+
     httpRequest,
     upLoading
   }

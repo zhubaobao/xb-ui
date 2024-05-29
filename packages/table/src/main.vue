@@ -39,11 +39,11 @@
         <el-upload
           class="xb-upload-btn"
           action="#"
-          :before-upload="handleBeforeUpload"
           :http-request="httpRequest"
           append-to-body
           :show-file-list="false"
           :disabled="upLoading"
+          v-bind="config.importConfig.propAttrs"
           v-if="hasBtnShow(config.headerConfig.hasImport)"
         >
           <el-button type="primary" :loading="upLoading">
@@ -51,7 +51,7 @@
               <el-icon
                 ><component :is="'xb-icon-download'"
               /></el-icon> </template
-            >导入{{ name }}</el-button
+            >{{ "导入" || config.importConfig.btnnName }}</el-button
           >
         </el-upload>
         <slot name="headerOperations" :refresh="getData"></slot>
