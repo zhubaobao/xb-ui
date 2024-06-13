@@ -136,8 +136,12 @@ export default defineComponent({
     const modelValueUnwatch = watch(
       () => props.modelValue,
       (val) => {
+        console.log(val, 22);
         list.value = val || [];
-        modelValueUnwatch();
+        // modelValueUnwatch();
+      },
+      {
+        immediate: true,
       }
     );
 
