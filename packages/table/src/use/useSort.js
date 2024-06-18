@@ -14,8 +14,9 @@ const useSort = (refresh) => {
 	}
 	// 修改排序 appendData为可选的附加参数
 	const handleSortBlur = async (row, { prop, paramsFormat, requestApi, responseFormat }) => {
+		console.log(row.__sort, row[prop || 'sort'])
 		// 如果值不变
-		if (row.__sort === row[prop] || row[prop || 'sort'] == '' || !requestApi) {
+		if (row.__sort === row[prop || 'sort'] || row[prop || 'sort'] == '' || !requestApi) {
 			row[prop || 'sort'] = row.__sort
 			delete row.__sort;
 			return;
