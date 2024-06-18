@@ -42,14 +42,18 @@ export default defineComponent({
       watch(
         () => props.startValue,
         (val) => {
-          val && (searchVal.value[0] = val);
+          if (Array.isArray(searchVal.value)) {
+            searchVal.value[0] = val;
+          }
         }
       );
       // 监听值的变化
       watch(
         () => props.endValue,
         (val) => {
-          val && (searchVal.value[1] = val);
+          if (Array.isArray(searchVal.value)) {
+            searchVal.value[1] = val;
+          }
         }
       );
     } else {

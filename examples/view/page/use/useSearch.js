@@ -23,10 +23,21 @@ const useSearch = () => {
         propName: "ani",
         defaultOptions: option.value,
         propAttrs: {
-          placeholder: "请选择动效",
+          type: "daterange",
+        },
+
+      },
+      {
+        type: "XbDatePicker",
+        label: "课程周期",
+        propName: "cycleStart-cycleEnd",
+        propAttrs: {
+          type: "daterange",
+          startPlaceholder: "开始时间",
+          endPlaceholder: "结束时间",
+          valueFormat: "YYYY-MM-DD"
         },
       },
-
       {
         type: "XbSelect",
         label: "联动效果",
