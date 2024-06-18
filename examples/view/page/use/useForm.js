@@ -51,6 +51,17 @@ const useForm = () => {
         propName: "isSort",
         defaultValue: false,
       },
+      {
+        type: "XbDatePicker",
+        label: "",
+        propName: "startTime-endTime",
+        propAttrs: {
+          type: "daterange",
+          startPlaceholder: "开始时间",
+          endPlaceholder: "结束时间",
+          valueFormat: "YYYY-MM-DD"
+        },
+      },
 
       {
         type: "XbUpload",

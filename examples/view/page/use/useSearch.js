@@ -26,6 +26,7 @@ const useSearch = () => {
           placeholder: "请选择动效",
         },
       },
+
       {
         type: "XbSelect",
         label: "联动效果",

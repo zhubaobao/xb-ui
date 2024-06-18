@@ -2,14 +2,14 @@
   <el-time-picker
     v-model="searchVal"
     v-bind="configData.propAttrs"
-     :valueFormat="valueFormat"
+    :valueFormat="valueFormat"
     @change="handleValueChange"
-    style="box-sizing: border-box; "
+    style="box-sizing: border-box"
   >
   </el-time-picker>
 </template>
 <script>
-import { defineComponent,ref, watch } from "vue";
+import { defineComponent, ref, watch } from "vue";
 export default defineComponent({
   name: "XbTimePicker",
   props: {
@@ -20,12 +20,12 @@ export default defineComponent({
     modelValue: {},
     startValue: {
       type: String,
-      default: ''
+      default: "",
     },
     endValue: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   emits: ["update:modelValue", "update:startValue", "update:endValue"],
   setup(props, ctx) {
@@ -37,19 +37,19 @@ export default defineComponent({
     // 处理时间范围，后台需要2个字段的情况
     if (isRang) {
       searchVal.value[0] = props.startValue;
-      searchVal.value[1] =  props.endValue
-       // 监听值的变化
+      searchVal.value[1] = props.endValue;
+      // 监听值的变化
       watch(
         () => props.startValue,
         (val) => {
-          searchVal.value[0] = val;
+          val && (searchVal.value[0] = val);
         }
       );
-       // 监听值的变化
+      // 监听值的变化
       watch(
         () => props.endValue,
         (val) => {
-          searchVal.value[1] = val;
+          val && (searchVal.value[1] = val);
         }
       );
     } else {
@@ -62,17 +62,16 @@ export default defineComponent({
         }
       );
     }
-     const handleValueChange = (val) => {
+    const handleValueChange = (val) => {
       // 处理时间范围，后台需要2个字段的情况
       if (isRang) {
-        if (Array.isArray(val)) {
-          ctx.emit("update:startValue", val[0]);
-          ctx.emit("update:endValue", val[1]);
-        }
+        val = Array.isArray(val) ? val : ["", ""];
+
+        ctx.emit("update:startValue", val[0]);
+        ctx.emit("update:endValue", val[1]);
       } else {
         ctx.emit("update:modelValue", val);
       }
-     
     };
     let valueFormat = "HH:mm:ss";
     if (props.propAttrs && props.propAttrs.valueFormat) {

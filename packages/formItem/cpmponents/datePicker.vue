@@ -36,14 +36,14 @@ export default defineComponent({
       watch(
         () => props.startValue,
         (val) => {
-          searchVal.value[0] = val;
+          val && (searchVal.value[0] = val);
         }
       );
       // 监听值的变化
       watch(
         () => props.endValue,
         (val) => {
-          searchVal.value[1] = val;
+          val && (searchVal.value[1] = val);
         }
       );
     } else {
@@ -59,14 +59,9 @@ export default defineComponent({
     const handleValueChange = (val) => {
       // 处理时间范围，后台需要2个字段的情况
       if (isRang) {
-        if (Array.isArray(val)) {
-          ctx.emit("update:startValue", val[0]);
-          ctx.emit("update:endValue", val[1]);
-        }
-
-        // key.split("-").forEach((key, index) => {
-        //   data[key] = Array.isArray(val) ? val[index] : "";
-        // });
+        val = Array.isArray(val) ? val : ["", ""];
+        ctx.emit("update:startValue", val[0]);
+        ctx.emit("update:endValue", val[1]);
       } else {
         ctx.emit("update:modelValue", val);
       }
