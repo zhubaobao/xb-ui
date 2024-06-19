@@ -9,9 +9,10 @@
     >
       <span> {{ formItem.label }}</span>
     </div>
+
     <el-form-item
       style="padding-right: 10px; padding-left: 10px"
-      :label="formItem.label ? formItem.label + '：' : ''"
+      :label="getLabel(formItem.label)"
       :prop="formItemProp"
       v-bind="formItem.formItemPropAttrs"
       v-else
@@ -54,8 +55,10 @@
             width: (formItem.propAttrs && formItem.propAttrs.width) || '100%',
           }"
           :placeholder="
-            formItem.placeholder ||
-            (formItem.propAttrs && formItem.propAttrs.placeholder)
+            getPlaceholder(
+              formItem.placeholder ||
+                (formItem.propAttrs && formItem.propAttrs.placeholder)
+            )
           "
         >
         </component>
@@ -151,7 +154,24 @@ export default defineComponent({
       `${propName}`,
       slotSuffix
     );
-
+    // 获取组件 label
+    const getLabel = (label) => {
+      if (label) {
+        return (
+          (typeof label === "function" ? label(props.formData) : label) + "："
+        );
+      }
+      return "";
+    };
+    // 获取组件 placeholder
+    const getPlaceholder = (placeholder) => {
+      if (placeholder) {
+        return typeof placeholder === "function"
+          ? placeholder(props.formData)
+          : placeholder;
+      }
+      return "";
+    };
     // 栅格化 class
     const getClassesFn = (layout = {}) => {
       const classes = [];
@@ -174,6 +194,8 @@ export default defineComponent({
 
     return {
       getClassesFn,
+      getLabel,
+      getPlaceholder,
       slotsMap,
       formItemProp,
       disabled,

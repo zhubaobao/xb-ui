@@ -19,7 +19,9 @@ const useSearch = () => {
     formItems: [
       {
         type: "XbSelect",
-        label: "联动效果",
+        label(data) {
+          return data.aniTwo
+        },
         propName: "ani",
         defaultOptions: option.value,
         propAttrs: {
