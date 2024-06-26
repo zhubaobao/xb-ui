@@ -45,7 +45,7 @@
         type="primary"
         :disabled="submitStatus"
         @click="handleSave(config.save)"
-        v-if="hasBtnShow(config.footerConfig.saveBtnShow)"
+        v-if="hasBtnShow(config.footerConfig.saveBtnShow, { type, formRef })"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -60,7 +60,7 @@
         type="primary"
         :disabled="submitStatus"
         @click="handleSubmit(config[type])"
-        v-if="hasBtnShow(config.footerConfig.submitBtnShow)"
+        v-if="hasBtnShow(config.footerConfig.submitBtnShow, { type, formRef })"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -74,7 +74,7 @@
       <el-button
         :disabled="submitStatus"
         @click="handleCancel"
-        v-if="hasBtnShow(config.footerConfig.cancelBtnShow)"
+        v-if="hasBtnShow(config.footerConfig.cancelBtnShow, { type, formRef })"
       >
         <template #icon>
           <el-icon><component :is="'xb-icon-close'" /></el-icon>

@@ -63,6 +63,7 @@ const useTable = (props) => {
         const idValueKey = config.edit.idValueKey;
         idKey && (formData[idKey] = type == 'copy' ? '' : data[idValueKey]);
 
+
       })
 
     }
