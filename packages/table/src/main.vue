@@ -80,6 +80,10 @@
         />
         <!-- 自内容 -->
         <template v-for="item in config.columns" :key="item">
+
+          <el-table-column type="expand" v-if="item.contentType=='expand'"> </el-table-column>
+          <el-table-column type="index" v-if="item.contentType=='index'"> </el-table-column>
+        <template v-else>
           <el-table-column
             :prop="item.prop"
             :label="item.label"
@@ -113,6 +117,8 @@
               </template>
             </template>
           </el-table-column>
+          </template>
+
         </template>
         <!-- 列表项操作 -->
         <el-table-column

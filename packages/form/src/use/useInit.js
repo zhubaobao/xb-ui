@@ -1,6 +1,5 @@
 
 import { provide, ref } from 'vue';
-import { FormSymbol } from 'main/utils/context';
 const useInit = (props) => {
   // tabs 字段映射,用于校验时跳转到对应的tab
   const tabsFormItemKeys = ref({});
