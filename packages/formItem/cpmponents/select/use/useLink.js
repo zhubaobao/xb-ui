@@ -12,9 +12,6 @@ const useLink = (props, cb) => {
         () => props.formData[item],
         (newVal) => {
           cb(newVal, item, linkOptionsCb);
-        },
-        {
-          immediate: true
         }
       );
     });

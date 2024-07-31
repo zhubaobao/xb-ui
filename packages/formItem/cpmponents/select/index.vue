@@ -151,11 +151,15 @@ export default defineComponent({
         if (Array.isArray(val) && val.length > 0) handleValueChange(val[0].id);
       });
     }
-
+    // 是否是第一次加载
+    let isFristLoad = true;
     // 关联表单 key 和 val, cb 为改变值后触发的回调
     const linkOptionsCb = (val, key, cb) => {
-      searchVal.value = "";
-      handleValueChange("");
+      if (!isFristLoad) {
+        searchVal.value = "";
+        handleValueChange("");
+      }
+      isFristLoad = false;
       if (requestApi) {
         _requestParams.value = { ..._requestParams.value, [key]: val };
         getOptionsData();

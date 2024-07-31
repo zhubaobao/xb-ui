@@ -6,7 +6,7 @@
     v-model="popupShow"
     :title="config[type].title"
     @closed="handleCancel"
-    @open="handleOpen"
+    @open="config.openCb ? config.openCb(xbFormRef) : handleOpen"
     :size="config.width || 600"
     :width="config.width || 800"
     :is="
