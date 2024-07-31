@@ -80,45 +80,55 @@
         />
         <!-- 自内容 -->
         <template v-for="item in config.columns" :key="item">
-
-          <el-table-column type="expand" v-if="item.contentType=='expand'"> </el-table-column>
-          <el-table-column type="index" v-if="item.contentType=='index'"> </el-table-column>
-        <template v-else>
           <el-table-column
-            :prop="item.prop"
-            :label="item.label"
+            type="expand"
             v-bind="item.propAttrs"
-            v-if="item.show !== false"
+            v-if="item.contentType === 'expand'"
           >
-            <!-- 自定义表头 -->
-            <template v-if="item.showHeader" #header>
-              <slot :name="`${item.prop}Header`"></slot>
-            </template>
-
-            <template #default="scope">
-              <!-- 自定义模板  使用slot -->
-              <template v-if="item.contentType === 'template'">
-                <slot :name="`${item.prop}`" :scope="scope" :refresh="getData">
-                </slot>
-              </template>
-              <!-- 排序 -->
-              <template v-else-if="item.contentType === 'sort'">
-                <el-input
-                  v-model="scope.row[item.prop]"
-                  placeholder="请输入排序"
-                  @focus="handleSortFocus(scope.row, item.sortConfig || {})"
-                  @blur="handleSortBlur(scope.row, item.sortConfig || {})"
-                ></el-input>
-              </template>
-
-              <!-- 正常渲染数据列 -->
-              <template v-else>
-                {{ scope.row[item.prop] }}
-              </template>
+            <template #default="props">
+              <slot :name="`${item.prop}`" :scope="props" :refresh="getData">
+              </slot>
             </template>
           </el-table-column>
-          </template>
+          <template v-else>
+            <el-table-column
+              :prop="item.prop"
+              :label="item.label"
+              v-bind="item.propAttrs"
+              v-if="item.show !== false"
+            >
+              <!-- 自定义表头 -->
+              <template v-if="item.showHeader" #header>
+                <slot :name="`${item.prop}Header`"></slot>
+              </template>
 
+              <template #default="scope">
+                <!-- 自定义模板  使用slot -->
+                <template v-if="item.contentType === 'template'">
+                  <slot
+                    :name="`${item.prop}`"
+                    :scope="scope"
+                    :refresh="getData"
+                  >
+                  </slot>
+                </template>
+                <!-- 排序 -->
+                <template v-else-if="item.contentType === 'sort'">
+                  <el-input
+                    v-model="scope.row[item.prop]"
+                    placeholder="请输入排序"
+                    @focus="handleSortFocus(scope.row, item.sortConfig || {})"
+                    @blur="handleSortBlur(scope.row, item.sortConfig || {})"
+                  ></el-input>
+                </template>
+
+                <!-- 正常渲染数据列 -->
+                <template v-else>
+                  {{ scope.row[item.prop] }}
+                </template>
+              </template>
+            </el-table-column>
+          </template>
         </template>
         <!-- 列表项操作 -->
         <el-table-column

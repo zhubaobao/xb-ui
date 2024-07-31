@@ -9,7 +9,7 @@ const useLink = (props, cb) => {
   ) {
     linkOptionsProps.forEach((item) => {
       watch(
-        () => props.modelValue,
+        () => props.formData[item],
         (newVal) => {
           cb(newVal, item, linkOptionsCb);
         },

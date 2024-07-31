@@ -14,8 +14,8 @@ const useLink = (props, formData) => {
       linkShowProps.forEach((item) => {
         watch(
           () => formData.value[item],
-          (newVal) => {
-            showProp.value[propName] = linkShowCb(deepCopy(newVal), item, deepCopy(formData.value));
+          async (newVal) => {
+            showProp.value[propName] = await linkShowCb(deepCopy(newVal), item, deepCopy(formData.value));
           },
           {
             immediate: true,
@@ -34,9 +34,8 @@ const useLink = (props, formData) => {
       linkValueProps.forEach((item) => {
         watch(
           () => formData.value[item],
-          (newVal) => {
-
-            formData.value[propName] = linkValueCb(deepCopy(newVal), item, deepCopy(formData.value));
+          async (newVal) => {
+            formData.value[propName] =  await linkValueCb(deepCopy(newVal), item, deepCopy(formData.value));
           },
           {
             immediate: true,
