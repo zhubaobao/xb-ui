@@ -22,7 +22,6 @@
   </el-dialog>
 </template>
 <script>
-import "cropperjs/dist/cropper.css";
 import { defineComponent } from "vue";
 import useCrop from "../use/useCrop";
 
@@ -50,6 +49,7 @@ export default defineComponent({
 });
 </script>
 <style lang="less" scoped>
+@import "cropperjs/dist/cropper.css";
 .xb-cropper {
   height: 300px;
 }

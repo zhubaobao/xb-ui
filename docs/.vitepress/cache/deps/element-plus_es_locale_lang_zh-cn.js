@@ -1,4 +1,4 @@
-import "./chunk-5WWUZCGV.js";
+import "./chunk-UXIASGQL.js";
 
 // node_modules/element-plus/es/locale/lang/zh-cn.mjs
 var zhCn = {

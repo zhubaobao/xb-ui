@@ -1,4 +1,4 @@
-import "./chunk-5WWUZCGV.js";
+import "./chunk-UXIASGQL.js";
 
 // node_modules/@vue/devtools-api/lib/esm/env.js
 function getDevtoolsGlobalHook() {

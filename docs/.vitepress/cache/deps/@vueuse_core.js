@@ -33,8 +33,8 @@ import {
   version,
   watch,
   watchEffect
-} from "./chunk-NB4RFCCB.js";
-import "./chunk-5WWUZCGV.js";
+} from "./chunk-HJS2ZR7L.js";
+import "./chunk-UXIASGQL.js";
 
 // node_modules/@vueuse/core/node_modules/vue-demi/lib/index.mjs
 var isVue2 = false;
