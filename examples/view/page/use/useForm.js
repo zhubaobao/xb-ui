@@ -45,6 +45,7 @@ const useForm = () => {
       }
     },
     formItems: [
+      
       {
         type: 'XbSwitch',
         label: "是否显示排序",
