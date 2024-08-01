@@ -1,50 +1,56 @@
 {
-  "hash": "a130e259",
-  "browserHash": "15861bf5",
+  "hash": "7cf1d6b6",
+  "browserHash": "e495d383",
   "optimized": {
     "vue": {
       "src": "../../../node_modules/vue/dist/vue.runtime.esm-bundler.js",
       "file": "vue.js",
-      "fileHash": "c0b81509",
+      "fileHash": "cca575ee",
       "needsInterop": false
     },
     "vitepress > @vue/devtools-api": {
       "src": "../../../node_modules/@vue/devtools-api/lib/esm/index.js",
       "file": "vitepress___@vue_devtools-api.js",
-      "fileHash": "0a551b2b",
+      "fileHash": "c18a08dd",
       "needsInterop": false
     },
     "element-plus": {
       "src": "../../../node_modules/element-plus/es/index.mjs",
       "file": "element-plus.js",
-      "fileHash": "e8a97b40",
+      "fileHash": "69637e17",
       "needsInterop": false
     },
     "element-plus/es/locale/lang/zh-cn": {
       "src": "../../../node_modules/element-plus/es/locale/lang/zh-cn.mjs",
       "file": "element-plus_es_locale_lang_zh-cn.js",
-      "fileHash": "0d417745",
+      "fileHash": "2b7c83ee",
+      "needsInterop": false
+    },
+    "xb-admin-ui": {
+      "src": "../../../node_modules/xb-admin-ui/lib/es/xb-ui.esm.js",
+      "file": "xb-admin-ui.js",
+      "fileHash": "ffc935b0",
       "needsInterop": false
     },
     "@vueuse/core": {
       "src": "../../../node_modules/@vueuse/core/index.mjs",
       "file": "@vueuse_core.js",
-      "fileHash": "656c1e87",
+      "fileHash": "ec7f47bb",
       "needsInterop": false
     },
     "@element-plus/icons-vue": {
       "src": "../../../node_modules/@element-plus/icons-vue/dist/index.js",
       "file": "@element-plus_icons-vue.js",
-      "fileHash": "3a85c95e",
+      "fileHash": "bc9c3efb",
       "needsInterop": false
     }
   },
   "chunks": {
-    "chunk-HJS2ZR7L": {
-      "file": "chunk-HJS2ZR7L.js"
+    "chunk-NB4RFCCB": {
+      "file": "chunk-NB4RFCCB.js"
     },
-    "chunk-UXIASGQL": {
-      "file": "chunk-UXIASGQL.js"
+    "chunk-5WWUZCGV": {
+      "file": "chunk-5WWUZCGV.js"
     }
   }
 }
