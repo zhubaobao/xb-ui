@@ -5,9 +5,10 @@
     <div class="xb-table__operation">
       <!-- 操作按钮 -->
       <div class="xb-table-operation-btns">
+        <slot name="headerOperations-before" :refresh="getData"></slot>
         <el-button
           type="primary"
-          v-if="hasBtnShow(config.headerConfig.hasBack)"
+          v-if="dealConfigParams(config.headerConfig.hasBack)"
           @click="config.headerConfig.backCb"
         >
           <template #icon>
@@ -16,7 +17,7 @@
           返回</el-button
         >
         <el-button
-          v-if="hasBtnShow(config.headerConfig.hasAdd)"
+          v-if="dealConfigParams(config.headerConfig.hasAdd)"
           type="primary"
           @click="handleAdd"
         >
@@ -28,7 +29,7 @@
         <el-button
           type="danger"
           plain
-          v-if="hasBtnShow(config.headerConfig.hasDelete)"
+          v-if="dealConfigParams(config.headerConfig.hasDelete)"
           @click="handleDelete(selectedItems)"
         >
           <template #icon>
@@ -44,7 +45,7 @@
           :show-file-list="false"
           :disabled="upLoading"
           v-bind="config.importConfig.propAttrs"
-          v-if="hasBtnShow(config.headerConfig.hasImport)"
+          v-if="dealConfigParams(config.headerConfig.hasImport)"
         >
           <el-button type="primary" :loading="upLoading">
             <template #icon>
@@ -73,7 +74,7 @@
       >
         <!-- 列表序号、选择框 -->
         <el-table-column
-          v-if="hasBtnShow(config.hasSelection)"
+          v-if="dealConfigParams(config.hasSelection)"
           :selectable="config.selectable"
           type="selection"
           width="45"
@@ -150,7 +151,7 @@
               size="small"
               class="xb-operations-btn"
               text
-              v-if="hasBtnShow(config.operationConfig.hasDetails, row)"
+              v-if="dealConfigParams(config.operationConfig.hasDetails, row)"
               >详情
             </el-button>
 
@@ -159,7 +160,7 @@
               class="xb-operations-btn"
               text
               @click="handleEdit(row)"
-              v-if="hasBtnShow(config.operationConfig.hasEdit, row)"
+              v-if="dealConfigParams(config.operationConfig.hasEdit, row)"
               >编辑
             </el-button>
 
@@ -169,7 +170,7 @@
               text
               style="color: var(--el-color-danger)"
               @click="handleDelete([row])"
-              v-if="hasBtnShow(config.operationConfig.hasDelete, row)"
+              v-if="dealConfigParams(config.operationConfig.hasDelete, row)"
               >删除
             </el-button>
             <el-button
@@ -177,9 +178,16 @@
               class="xb-operations-btn"
               text
               @click="handleCopy(row)"
-              v-if="hasBtnShow(config.operationConfig.hasCopy, row)"
+              v-if="dealConfigParams(config.operationConfig.hasCopy, row)"
               >复制
             </el-button>
+            <slot
+              name="tableOperations-after"
+              :data="row"
+              :column="column"
+              :index="$index"
+              :refresh="getData"
+            ></slot>
           </template>
         </el-table-column>
         <!-- 无数据提示 -->
@@ -217,7 +225,7 @@
 <script>
 import { defineComponent } from "vue";
 // tool
-import { hasBtnShow } from "main/utils";
+import { dealConfigParams } from "main/utils";
 // use
 import useTable from "./use/useTable";
 import useSelection from "./use/useSelection";
@@ -301,7 +309,7 @@ export default defineComponent({
       handleSortFocus,
       handleSortBlur,
       // tool
-      hasBtnShow,
+      dealConfigParams,
     };
   },
 });

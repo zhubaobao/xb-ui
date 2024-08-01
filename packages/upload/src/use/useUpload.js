@@ -49,6 +49,7 @@ const useUpload = (props, ctx, config) => {
       const val = typeof res.data == 'string' ? { image: res.data } : res.data
       handleLibSubmit([val], 'upload');
     } else {
+      previewList.value.pop();
       ElMessage.error(res.msg || '上传失败')
     }
   };

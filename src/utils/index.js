@@ -170,18 +170,17 @@ export const getSlots = (currentInstance, slotNames, config, prefix = '', suffix
 }
 
 /**
- * 按钮是否显示
+ * 判断配置项是否是函数
  * @param {*} condition 条件
  * @param {*} opts 其他配置信息
  */
-export const hasBtnShow = (condition, opts) => {
+export const dealConfigParams = (condition, opts) => {
   if (typeof condition === 'function') {
     return condition(opts)
   } else {
-    return !!condition
+    return condition
   }
 }
-
 
 /*
  根据文件名称判断文件类型

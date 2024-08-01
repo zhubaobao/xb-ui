@@ -4,7 +4,7 @@
     v-bind="config.popupAttrs"
     destroy-on-close
     v-model="popupShow"
-    :title="config[type].title"
+    :title="dealConfigParams(config[type].title, xbFormRef)"
     @closed="handleCancel"
     @open="config.openCb ? config.openCb(xbFormRef) : handleOpen"
     :size="config.width || 600"
@@ -45,7 +45,7 @@
         type="primary"
         :disabled="submitStatus"
         @click="handleSave(config.save)"
-        v-if="hasBtnShow(config.footerConfig.saveBtnShow, { type, xbFormRef })"
+        v-if="dealConfigParams(config.footerConfig.saveBtnShow, { type, xbFormRef })"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -60,7 +60,7 @@
         type="primary"
         :disabled="submitStatus"
         @click="handleSubmit(config[type])"
-        v-if="hasBtnShow(config.footerConfig.submitBtnShow, { type, xbFormRef })"
+        v-if="dealConfigParams(config.footerConfig.submitBtnShow, { type, xbFormRef })"
       >
         <template #icon>
           <el-icon v-if="submitStatus"
@@ -74,13 +74,20 @@
       <el-button
         :disabled="submitStatus"
         @click="handleCancel"
-        v-if="hasBtnShow(config.footerConfig.cancelBtnShow, { type, xbFormRef })"
+        v-if="dealConfigParams(config.footerConfig.cancelBtnShow, { type, xbFormRef })"
       >
         <template #icon>
           <el-icon><component :is="'xb-icon-close'" /></el-icon>
         </template>
         {{ config.footerConfig.cancelBtnTitle }}
       </el-button>
+      <slot
+        name="formBotton-after"
+        :xbFormRef="xbFormRef"
+        :changePopupStatus="changePopupStatus"
+        :changeSubmitStatus="changeSubmitStatus"
+        :submit="handleSubmit"
+      ></slot>
     </div>
   </component>
 </template>
@@ -90,7 +97,7 @@ import { defineComponent } from "vue";
 import XbForm from "../../form/src/main.vue";
 import XbFormPage from "../../formPage/src/main.vue";
 // tool
-import { hasBtnShow } from "main/utils";
+import { dealConfigParams } from "main/utils";
 // use
 import useMergeConfig from "./use/useMergeConfig";
 import useSubmit from "./use/useSubmit";
@@ -161,7 +168,7 @@ export default defineComponent({
       handleOpen,
       changePopupStatus,
       changeSubmitStatus,
-      hasBtnShow,
+      dealConfigParams,
     };
   },
 });

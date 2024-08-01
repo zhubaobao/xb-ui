@@ -1,14 +1,45 @@
 ---
 title: CurdTable
 ---
-
 # from 表单组件
 
-## config
+以下为表单的联动示例
+## 显隐联动
+通过配置 `linkShowProps` ，`linkShowCb`来实现
+:::demo
+form/visible
+:::
+## 禁用联动
+通过配置 `linkDisabledProps` ，`linkDisabledCb`来实现
+:::demo
+form/disabled
+:::
+## 值联动
+通过配置 `linkValueProps` ，`linkValueCb`来实现
+:::demo
+form/value
+:::
+## select值联动
+通过配置 `linkOptionsProps` ，`linkOptionsCb`来实现
+:::demo
+form/select
+:::
+
+
+## API
+| 属性               | 说明                                      | Type   | 默认值   |
+| ----------------- | ----------------------------------------- | ------ | ------- |
+| config           | 表单配置信息，同submit组件的formConfig     | Array  | -     |
+| rules            | 表单验证规则                              | Object | -    |
+| submitStatus     | 提交时 disabled 状体， true 为禁用表单       | boolean | false    |
+
+
+
+## formItems 配置
 
 | 属性               | 说明                                      | Type   | 默认值   |
 | ----------------- | ----------------------------------------- | ------ | ------- |
-| type              | 表单类型:   <br>XbSelect(下拉)<br>XbInput(输入框)<br>XbDatePicker(日期选择)<br>XbRadio(单选)<br>XbSwitch(开关)<br>XbUpload(图片上传) <br>XbFormJson(联合组件) <br>XbInputNumber(数字输入框)   | string | -      |
+| type              | 表单类型:   <br>XbSelect(下拉)<br>XbInput(输入框)<br>XbDatePicker(日期选择)<br>XbRadio(单选)<br>XbSwitch(开关)<br>XbUpload(图片上传)配置详见[upload组件](upload.md) <br>XbFormJson(联合组件) <br>XbInputNumber(数字输入框)   | string | -      |
 | label             | 标签文本                                    | string | -      |
 | propName          | 表单提交key值，接口接受如果为多个字段使用-隔开如：startTiem-endTime  | string | -      |
 | defaultValue     | 默认值 | - | -|
@@ -42,26 +73,13 @@ title: CurdTable
 | requestParams | 获取下拉菜单值接口的参数，类型为XbSelect有效 | function | - |
 | valChangeCb | 下拉菜单值改变时回调  | function(val) | - |
 
-## config - 类型为XbUpload相关
-| 属性               | 说明                                      | Type   | 默认值   |
-| ----------------- | ----------------------------------------- | ------ | ------- |
-| paramsFormat      | 格式化上传文件的参数，类型为Xbupload有效        | function | -     |
-| fileKey           | 上传文件 file 接受的key值                    | string | file    |
-| valueType         | 上传返回值类型(数组/字符串), string/array      | string | string |
-| limit             | 上传文件数量                                 | number | 1      |
-| separator         | 当 valueType 为 string 是隔断字段            | string | ,       |
-| hasCrop           | 是否使用图片裁截                              | boolean | false  |
-| uploadType        | 上传图片的类型(上传/图库)， upload/library     | string | upload |
-| hasDrag           | 是否能拖拽                                   | boolean | false | 
-| width             | 上传框宽度                                   | number | 110 | 
-| height            | 上传框高度                                   | number | 110 | 
+
 
 ## config - 类型为XbFormJson相关
 | 属性               | 说明                                      | Type    | 默认值     |
 | ----------------- | ----------------------------------------- | ------  | -------   |
 | min               | 内容最小数量                                | number  | 0         |
 | max               | 内容最大数量                                | number  | Infinity  |
-| fixNum            | 固定前多少个内容不可删除, 注：小于等于min           | number  | -1        |
 | formItems         | 内容配置                                   | array   | []        |
 
 ## slots - 表单插槽
