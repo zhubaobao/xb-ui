@@ -13,7 +13,7 @@
     "prism-theme-vars": "^0.2.4",
     "sass": "^1.69.5",
     "type-fest": "^4.6.0",
-    "xb-admin-ui": "^0.0.29"
+    "xb-admin-ui": "^0.0.30"
   },
   "scripts": {
     "docs:dev": "vitepress dev",

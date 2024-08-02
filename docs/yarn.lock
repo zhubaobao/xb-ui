@@ -2237,10 +2237,10 @@ which@^2.0.1:
   dependencies:
     isexe "^2.0.0"
 
-xb-admin-ui@^0.0.29:
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/xb-admin-ui/-/xb-admin-ui-0.0.29.tgz#f969862ac963cdf8f65d60a7abbefc5cec602d27"
-  integrity sha512-+Mmyr1KWDn6tJXag5iJAI3WuLovtVaMU92BQ6fFQRbqYkun+N0NrxD3krMgTAhdl3hRvD5ISYpGUoIUVxPy+1g==
+xb-admin-ui@^0.0.30:
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/xb-admin-ui/-/xb-admin-ui-0.0.30.tgz#bcbafadec5afcb1153f2faeae34e49bc46ef6701"
+  integrity sha512-/mj01jZ5hgEuKSoItQSD1CSZzqHxq1ulo9qAH/djq/vjDqzc9amlZ3RAHvY6pb52LcrBlFj7wkoMT+9FUkhbrA==
   dependencies:
     "@vueuse/core" "^10.5.0"
     cropperjs "^1.5.13"

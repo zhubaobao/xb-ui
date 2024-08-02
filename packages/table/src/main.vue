@@ -1,6 +1,6 @@
 <template>
   <!-- 列表头部 -->
-  <el-header class="xb-table__header" v-if="config.headerConfig.show">
+  <el-header class="xb-table__header" v-if="dealConfigParams(config.headerConfig.show)">
     <!-- 列表操作 -->
     <div class="xb-table__operation">
       <!-- 操作按钮 -->
@@ -133,7 +133,7 @@
         </template>
         <!-- 列表项操作 -->
         <el-table-column
-          v-if="config.operationConfig.show"
+          v-if="dealConfigParams(config.operationConfig.show)"
           label="操作"
           align="right"
           fixed="right"
