@@ -22,7 +22,7 @@ module.exports = {
     globalObject: 'typeof self !== \'undefined\' ? self : this'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.vue', '.json', '.jsx'],
     alias: config.alias
   },
   externals: {

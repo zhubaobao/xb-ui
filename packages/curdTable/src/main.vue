@@ -37,6 +37,9 @@
     :type="formType"
     :name="name"
   >
+    <template #formBotton-after="slotScope">
+      <slot name="formBotton-after" v-bind="slotScope" :tableRef="tableRef"></slot>
+    </template>
     <template #formBotton="slotScope">
       <slot name="formBotton" v-bind="slotScope" :tableRef="tableRef"></slot>
     </template>

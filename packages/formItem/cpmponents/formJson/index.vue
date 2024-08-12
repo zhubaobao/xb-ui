@@ -112,13 +112,13 @@ export default defineComponent({
       }
     });
 
-    const list = ref([]);
+    const list = ref(props.modelValue || []);
     // 添加
     const addItem = () => {
       list.value.push(deepCopy(childVal));
     };
     // 初始化值
-    for (let i = 0; i < config.min; i++) {
+    for (let i = 0; i < config.min - props.modelValue.length; ++i) {
       addItem();
     }
     // 删除
@@ -133,17 +133,14 @@ export default defineComponent({
       { deep: true }
     );
 
-    const modelValueUnwatch = watch(
-      () => props.modelValue,
-      (val) => {
-        console.log(val, 22);
-        list.value = val || [];
-        // modelValueUnwatch();
-      },
-      {
-        immediate: true,
-      }
-    );
+
+  watch(
+    () => props.modelValue,
+    (val) => {
+      list.value =val || [];
+    },
+    { deep: true }
+  );
 
     return {
       list,

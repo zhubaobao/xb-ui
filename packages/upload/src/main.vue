@@ -1,5 +1,5 @@
 <template>
-  <div class="xb-upload">
+  <div class="xb-upload"  >
     <!-- 展示列表 -->
     <xb-file-list
       @delete="handleFileDelete"
@@ -15,22 +15,25 @@
     </xb-file-list>
     <template v-if="previewList.length !== config.limit">
       <!-- 图库选择 -->
+       
       <div
         class="xb-uploader"
         @click="handleChooseFile"
         v-if="config.uploadType == 'library'"
       >
-        <div class="el-upload el-upload--text">
-          <div
-            class="xb-upload__file-empty"
-            :style="{
-              width: (configData.width || 110) + 'px',
-              height: (configData.height || 110) + 'px',
-            }"
-          >
-            <el-icon><component :is="'xb-icon-plus'" /></el-icon>
+     
+          <div class="el-upload el-upload--text">
+            <div
+              class="xb-upload__file-empty"
+              :style="{
+                width: (configData.width || 110) + 'px',
+                height: (configData.height || 110) + 'px',
+              }"
+            >
+              <el-icon><component :is="'xb-icon-plus'" /></el-icon>
+            </div>
           </div>
-        </div>
+
       </div>
       <!-- 直接上传 -->
       <el-upload
@@ -40,8 +43,9 @@
         :show-file-list="false"
         :http-request="handleRequest"
         v-bind="config.propAttrs"
+        @paste="handlePaste"
       >
-        <slot>
+       
           <div
             class="xb-upload__file-empty"
             :style="{
@@ -51,8 +55,8 @@
           >
             <el-icon><component :is="'xb-icon-plus'" /></el-icon>
           </div>
-        </slot>
       </el-upload>
+      
     </template>
     <!-- 裁剪 -->
     <xb-crop ref="cropRef" v-if="config.hasCrop" @confirm="handleCropConfirm" />
@@ -111,7 +115,11 @@ export default defineComponent({
       cropRef,
     } = useUpload(props, ctx, config);
     const { handleChooseFile, fileLibRef } = useFileLib();
+    const handlePaste = (e) => {
+      console.log(e)
+    }
     return {
+      handlePaste,
       config,
       searchVal,
       previewList,
@@ -127,6 +135,7 @@ export default defineComponent({
     };
   },
 });
+
 </script>
 <style lang="less" scoped>
 .xb-upload {

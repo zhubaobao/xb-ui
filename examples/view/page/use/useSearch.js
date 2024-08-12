@@ -16,6 +16,7 @@ const useSearch = () => {
   ]);
   const searchConfig = {
     formAttrs: {},
+    hasExpand: true,
     formItems: [
       {
         type: "XbSelect",

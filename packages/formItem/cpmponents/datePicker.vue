@@ -36,7 +36,6 @@ export default defineComponent({
       watch(
         () => props.startValue,
         (val) => {
-          console.log(searchVal.value, "22", val);
           if (Array.isArray(searchVal.value)) {
             searchVal.value[0] = val;
           }
@@ -49,7 +48,6 @@ export default defineComponent({
           if (Array.isArray(searchVal.value)) {
             searchVal.value[1] = val;
           }
-          console.log(searchVal.value, "33", val);
         }
       );
     } else {

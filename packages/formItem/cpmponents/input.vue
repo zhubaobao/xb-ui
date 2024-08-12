@@ -4,7 +4,7 @@
     class="xb-input"
     v-model="searchVal"
     v-bind="configData.propAttrs"
-    @change="handleValueChange"
+    @input="handleValueChange"
   >
   </el-input>
 </template>

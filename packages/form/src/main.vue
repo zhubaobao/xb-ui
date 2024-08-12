@@ -16,20 +16,22 @@
     <template v-if="Array.isArray(config.tabs) && config.tabs.length">
       <el-tabs v-model="curTabName" style="width: 100%">
         <el-tab-pane
+          class="el-row"
           v-for="(tab, index) in tabs"
           :key="tab.name"
           :label="tab.label"
           :name="`tab${index}`"
         >
-          <slot name="headContent"></slot>
-          <xb-form-item
-            v-for="item in tab.formItems || []"
-            :key="item.propName"
-            :layout="config.layout"
-            :formItem="item"
-            :formData="formData"
-            :slotSuffix="slotSuffix"
-          ></xb-form-item>
+            <slot name="headContent"></slot>
+            <xb-form-item
+              v-for="item in tab.formItems || []"
+              :key="item.propName"
+              :layout="config.layout"
+              :formItem="item"
+              :formData="formData"
+              :slotSuffix="slotSuffix"
+            ></xb-form-item>
+ 
         </el-tab-pane>
       </el-tabs>
     </template>

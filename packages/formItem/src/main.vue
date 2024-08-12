@@ -39,6 +39,7 @@
           v-if="formItem.type == 'template'"
           :name="`${formItem.propName}${slotSuffix}`"
           :formData="formData"
+          
         ></slot>
         <!-- 动态组件表单内容 -->
         <component
