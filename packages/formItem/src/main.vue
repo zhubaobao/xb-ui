@@ -28,7 +28,7 @@
         <template v-for="(item, index) in slotsMap.prepend" :key="index">
           <div class="el-input-group__prepend">
             <slot
-              :name="`${formItem.propName}Prepend${slotSuffix}`"
+              :name="`${parentProp}${formItem.propName}Prepend${slotSuffix}`"
               :formData="formData"
               >{{ item.con }}</slot
             >
@@ -37,7 +37,7 @@
         <!--自定义内容 -->
         <slot
           v-if="formItem.type == 'template'"
-          :name="`${formItem.propName}${slotSuffix}`"
+          :name="`${parentProp}${formItem.propName}${slotSuffix}`"
           :formData="formData"
           
         ></slot>
@@ -49,6 +49,7 @@
           :configData="formItem"
           :formData="formData"
           :disabled="disabled"
+          :parentProp="parentProp"
           v-model="formData[formItem.propName]"
           v-model:startValue="formData[formItem.startPropName]"
           v-model:endValue="formData[formItem.endPropName]"
@@ -67,7 +68,7 @@
         <template v-for="(item, index) in slotsMap.append" :key="index">
           <div class="el-input-group__append">
             <slot
-              :name="`${formItem.propName}Append${slotSuffix}`"
+              :name="`${parentProp}${formItem.propName}Append${slotSuffix}`"
               :formData="formData"
               >{{ item.con }}</slot
             >
@@ -78,7 +79,7 @@
       <template v-for="(item, index) in slotsMap.extra" :key="index">
         <slot
           v-if="item.slot"
-          :name="`${formItem.propName}Extra${slotSuffix}`"
+          :name="`${parentProp}${formItem.propName}Extra${slotSuffix}`"
           :formData="formData"
         ></slot>
         <div class="xb-form-extra" v-else>{{ item.con }}</div>
@@ -87,7 +88,7 @@
   </div>
 </template>
 <script>
-import { defineComponent, getCurrentInstance, ref } from "vue";
+import { defineComponent, getCurrentInstance } from "vue";
 import { getSlots } from "main/utils";
 // component
 import XbInput from "../cpmponents/input";

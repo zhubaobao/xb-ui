@@ -1,4 +1,4 @@
-import { getCurrentInstance } from "vue";
+import { getCurrentInstance, ref } from "vue";
 const useForm = () => {
   const currentInstance = getCurrentInstance();
   let count = 0;
@@ -12,6 +12,25 @@ const useForm = () => {
     // "https://static.yoshop.xany6.com/10001/20210313/074646782cfec5e7d327148c3fe61dce.jpg",
     // "https://static.yoshop.xany6.com/20190610153602a29925572.png"
   ]
+  const options = ref([]);
+  setTimeout(() => {
+    options.value = [
+      {
+        name: "选项1",
+        id: 1,
+      },
+      {
+        name: "选项2",
+        id: "2",
+      },
+      {
+        name: "选项3",
+        id: "3",
+      },
+    ];
+  }, 1000);
+
+
   const formConfig = {
     popupType: 'page',
     formAttrs: {
@@ -51,6 +70,12 @@ const useForm = () => {
         label: "是否显示排序",
         propName: "isSort",
         defaultValue: false,
+      },
+      {
+        type: 'XbRadio',
+        label: "显示类型",
+        defaultValue: 1,
+        options: options,
       },
       {
         type: "XbDatePicker",
@@ -117,9 +142,23 @@ const useForm = () => {
         max: 4,
         formItems: [
           {
-            type: "XbInput",
+            type: "XbFormJson",
             label: "input",
             propName: "a",
+            formItems: [
+              {
+                type: "XbInput",
+                label: "input",
+                propName: "a",
+                formItemPropAttrs: {
+                  rules: {
+                    required: true,
+                    message: 'Please input Activity name',
+                    trigger: 'blur'
+                  }
+                }
+              }
+            ]
           },
           {
             type: "XbInput",

@@ -12,7 +12,7 @@
           :key="ele"
           :layout="config.layout"
           :formItem="ele"
-          :parentProp="`${config.propName}.${index}.`"
+          :parentProp="`${parentProp}${config.propName}.${index}.`"
           :formData="list[index]"
           :slotSuffix="config.propName + index + 'XbJ'"
         ></xb-form-item>
@@ -71,6 +71,10 @@ export default defineComponent({
     formData: {
       type: Object,
       default: () => ({}),
+    },
+    parentProp: {
+      type: String,
+      default: "",
     },
   },
   emits: ["update:modelValue"],
